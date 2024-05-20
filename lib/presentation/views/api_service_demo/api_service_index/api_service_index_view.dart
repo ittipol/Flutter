@@ -109,6 +109,37 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           ),
                         ),
                       ),
+                      // Container(
+                      //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.all(Radius.circular(32.r)),
+                      //     border: Border.all(color: Colors.black, width: 1),
+                      //     color: Theme.of(context).colorScheme.primary.withAlpha(500)
+                      //   ),
+                      //   child: FittedBox(
+                      //     alignment: Alignment.center,
+                      //     fit: BoxFit.fill,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       children: [
+                      //         Image(
+                      //           image: AssetImage(""),
+                      //           width: 12.w,
+                      //           height: 16.w,
+                      //         ),
+                      //         SizedBox(width: 8.w),
+                      //         Text(
+                      //           "Search",
+                      //           style: TextStyle(
+                      //             color: Colors.white,
+                      //             fontSize: 16.sp
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: 8.h),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -176,18 +207,16 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                         )
                                       ],
                                     ),
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    child: Container(
-                                      width: MediaQuery.sizeOf(context).width * 0.92,
-                                      height: 30.h,
+                                  ),                                  
+                                  Container(
+                                    width: MediaQuery.sizeOf(context).width,
+                                    height: 30.h,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 2, color: Colors.transparent),
+                                      color: Colors.transparent
+                                    ),
+                                    child: Padding(
                                       padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(width: 2, color: Colors.transparent),
-                                        color: Colors.transparent
-                                      ),
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -210,7 +239,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                         ],
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             );
@@ -222,57 +251,66 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            onTap: () {                              
-                              _delayedTab(() {
-                                if(offset - limit < 0) {
-                                  return;
-                                }
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              onTap: () {                              
+                                _delayedTab(() {
+                                  if(offset - limit < 0) {
+                                    return;
+                                  }
 
-                                offset -= limit;
-                                _getPokemonIndex();
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,                            
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                                color: (offset - limit < 0) ?Colors.grey.shade200 : Colors.blue.shade600
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
-                              child: Text(
-                                "Prev",
-                                style: TextStyle(
-                                  color: (offset - limit < 0) ? Colors.black87 : Colors.white
+                                  offset -= limit;
+                                  _getPokemonIndex();
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,                            
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                  color: (offset - limit < 0) ?Colors.grey.shade200 : Colors.blue.shade600
                                 ),
-                              ),
-                            )
+                                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
+                                child: Text(
+                                  "Previous",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: (offset - limit < 0) ? Colors.black87 : Colors.white
+                                  ),
+                                ),
+                              )
+                            ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              _delayedTab(() {
-                                if(offset + limit > (state.pokemon?.count ?? 0)) {
-                                  return;
-                                }
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              onTap: () {
+                                _delayedTab(() {
+                                  if(offset + limit > (state.pokemon?.count ?? 0)) {
+                                    return;
+                                  }
 
-                                offset += limit;
-                                _getPokemonIndex();
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,                            
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                                color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.grey.shade200 :Colors.blue.shade600
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
-                              child: Text(
-                                "Next",
-                                style: TextStyle(
-                                  color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.black87 : Colors.white
+                                  offset += limit;
+                                  _getPokemonIndex();
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,                            
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                  color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.grey.shade200 :Colors.blue.shade600
                                 ),
-                              ),
-                            )
+                                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
+                                child: Text(
+                                  "Next",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.black87 : Colors.white
+                                  ),
+                                ),
+                              )
+                            ),
                           )
                         ],
                       ),

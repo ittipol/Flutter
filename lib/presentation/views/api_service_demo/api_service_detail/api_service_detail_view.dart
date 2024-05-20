@@ -87,7 +87,9 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
             children: [
               Container(
                 constraints: BoxConstraints(
-                  minHeight: 200.h
+                  minHeight: 200.h,
+                  maxHeight: 200.h,
+                  maxWidth: double.infinity
                 ),
                 child: _image(state),
               ),
@@ -195,11 +197,13 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
 
     if(image.isEmpty) {
       return Container(
-        height: 200.h,
+        height: double.infinity,
+        width: double.infinity,
         color: Colors.grey.shade200,
         child: Center(
           child: Text(
             "Image not found",
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 16.sp,
               color: Colors.black87
@@ -211,7 +215,8 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
 
     return Image.network(
       image,
-      height: 200.h,
+      height: double.infinity,
+      width: double.infinity
     );
   }
 
