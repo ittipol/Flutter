@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/data/data_sources/remote/data_sources/pokemon_remote_datasource.dart';
 import 'package:flutter_demo/data/models/pokemon_detail_model.dart';

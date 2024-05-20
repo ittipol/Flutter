@@ -17,16 +17,9 @@ class WebViewDemoView extends ConsumerStatefulWidget {
 class _WebViewDemoView  extends ConsumerState<WebViewDemoView> {
 
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {       
-      // var connected = await _checkConection("https://riverpod.dev/");
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {    
 
-    return LoanWebView(
+    return const WebView(
       url: "https://riverpod.dev/",
     );
   }

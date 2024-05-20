@@ -19,7 +19,7 @@ flutter run --dart-define=SOME_VAR=SOME_VALUE --dart-define=OTHER_VAR=OTHER_VALU
 flutter run --release
 ```
 
-### Difference between `flutter run` and `flutter build` command?
+### Difference between `flutter run` and `flutter build` command
 You need to use `flutter build` command with one of following parameters: apk, appbundle, ios. This will produce an application to deploy or publish on AppStore, PlayStore, or some other distribution channels like Firebase.
 
 ## Dart

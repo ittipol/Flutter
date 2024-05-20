@@ -7,13 +7,13 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 // import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
-class LoanWebView extends ConsumerStatefulWidget {
+class WebView extends ConsumerStatefulWidget {
 
   final String url;
   final void Function()? onTabBackBtn;
   final bool displayProgressBar;
   
-  const LoanWebView({  
+  const WebView({  
     required this.url,
     this.displayProgressBar = true,
     this.onTabBackBtn,
@@ -21,10 +21,10 @@ class LoanWebView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoanWebView();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WebView();
 }
 
-class _LoanWebView  extends ConsumerState<LoanWebView> {
+class _WebView  extends ConsumerState<WebView> {
 
   WebViewController _webViewcontroller = WebViewController();
 
@@ -55,7 +55,7 @@ class _LoanWebView  extends ConsumerState<LoanWebView> {
         onNavigationRequest: (NavigationRequest request) {
           
           if(isPdf(request.url)) {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => PdfWebView(pdfUrl: request.url)));
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pdfUrl: request.url)));
             return NavigationDecision.prevent;
           }
 
