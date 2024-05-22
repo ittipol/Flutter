@@ -26,6 +26,7 @@ class MyApp extends ConsumerWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: appTheme(),
+          debugShowCheckedModeBanner: false,
           initialRoute: RouteName.home,
           onGenerateRoute: AppRouter.generateRoute,    
           navigatorObservers: [RouteHistoryObserver()],      

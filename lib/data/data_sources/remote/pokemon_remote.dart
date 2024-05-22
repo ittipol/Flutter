@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/data/data_sources/remote/data_sources/pokemon_remote_datasource.dart';
 import 'package:flutter_demo/data/models/pokemon_detail_model.dart';
@@ -17,14 +18,16 @@ class PokemonRemote implements PokemonRemoteDataSources {
     
     try {
       var urlPath = "/api/v2/pokemon";
-      
-      final dioResponse = await dio.get(
-        urlPath,
-        queryParameters: {
-          "offset": offset,
-          "limit": limit
-        }
-      );
+
+      final dioResponse = await compute((message) async {
+        return await dio.get(
+          message,
+          queryParameters: {
+            "offset": offset,
+            "limit": limit
+          }
+        );
+      }, urlPath);    
 
       var model = PokemonModel.fromJson(dioResponse.data);
       var data = PokemonEntity.fromModel(model);
@@ -35,17 +38,18 @@ class PokemonRemote implements PokemonRemoteDataSources {
     } on Exception catch (error) {
       return ResultError(exception: error);
     }
-
   }
 
   @override
   Future<Result<PokemonDetailEntity>> getPokemonDetail({required String name}) async {
     try {
       var urlPath = "/api/v2/pokemon/$name";
-      
-      final dioResponse = await dio.get(
-        urlPath
-      );
+
+      final dioResponse = await compute((message) async {
+        return await dio.get(
+          message
+        );  
+      },urlPath);          
 
       var model = PokemonDetailModel.fromJson(dioResponse.data);
       var data = PokemonDetailEntity.fromModel(model);

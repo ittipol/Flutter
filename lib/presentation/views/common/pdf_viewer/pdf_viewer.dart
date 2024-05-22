@@ -1,4 +1,5 @@
 import 'package:alh_pdf_view/alh_pdf_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
 import 'package:flutter_demo/utils/utils.dart';
@@ -23,8 +24,10 @@ class _PdfViewer  extends ConsumerState<PdfViewer> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {          
-      var file = await Utils.getFileFromUrl(widget.pdfUrl);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {                
+      final file = await compute((message) async {
+        return await Utils.getFileFromUrl(widget.pdfUrl);
+      },widget.pdfUrl);
     });
 
   }
