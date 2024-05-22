@@ -19,15 +19,15 @@ class PokemonRemote implements PokemonRemoteDataSources {
     try {
       var urlPath = "/api/v2/pokemon";
 
-      final dioResponse = await compute((message) async {
+      final dioResponse = await compute<List<dynamic>, Response<dynamic>>((message) async {
         return await dio.get(
-          message,
+          message[0] as String,
           queryParameters: {
-            "offset": offset,
-            "limit": limit
+            "offset": message[1] as int,
+            "limit": message[2] as int
           }
         );
-      }, urlPath);    
+      }, [urlPath, offset, limit]);    
 
       var model = PokemonModel.fromJson(dioResponse.data);
       var data = PokemonEntity.fromModel(model);
@@ -45,7 +45,7 @@ class PokemonRemote implements PokemonRemoteDataSources {
     try {
       var urlPath = "/api/v2/pokemon/$name";
 
-      final dioResponse = await compute((message) async {
+      final dioResponse = await compute<String, Response<dynamic>>((message) async {
         return await dio.get(
           message
         );  
