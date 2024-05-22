@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +37,7 @@ class _HomeView  extends ConsumerState<HomeView> {
                 border: Border(
                   bottom: BorderSide(
                     width: 2.r,
-                    color: Theme.of(context).colorScheme.primary
+                    color: AppColor.primary
                   )
                 )
               ),
@@ -79,7 +80,7 @@ class _HomeView  extends ConsumerState<HomeView> {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withAlpha(500),
+        color: AppColor.primary,
         borderRadius: BorderRadius.all(Radius.circular(32.r))
       ),
       child: Row(

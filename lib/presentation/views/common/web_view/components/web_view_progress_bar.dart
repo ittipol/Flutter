@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/presentation/views/common/web_view/web_view_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,7 +64,7 @@ class _WebViewProgressBar  extends ConsumerState<WebViewProgressBar> with Ticker
     return LinearProgressIndicator(
       value: _animationController.value,
       backgroundColor: Colors.transparent,
-      color: Theme.of(context).colorScheme.primary.withAlpha(204)
+      color: AppColor.primary.percentAlpha(95)
     );
 
   }  

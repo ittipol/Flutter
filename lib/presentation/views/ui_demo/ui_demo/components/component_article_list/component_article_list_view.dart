@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/domain/entities/component_detail_entity.dart';
 import 'package:flutter_demo/gen/assets.gen.dart';
@@ -43,7 +44,7 @@ class _ComponentDetailListView  extends ConsumerState<ComponentDetailListView> {
               Container(
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(width: 1.w, color: Theme.of(context).colorScheme.primary.withAlpha(100))
+                    bottom: BorderSide(width: 1.w, color: AppColor.primary.percentAlpha(50))
                   )
                 ),
                 alignment: Alignment.centerLeft,

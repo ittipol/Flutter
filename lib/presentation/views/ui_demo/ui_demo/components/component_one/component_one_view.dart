@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/domain/entities/component_one_entity.dart';
 import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_one/component_one_provider.dart';
@@ -54,12 +55,12 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         bottomLeft: Radius.circular(24.r)
                       ),
                       border: Border(
-                        top: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
-                        left: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
-                        right: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
-                        bottom: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
+                        top: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        left: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        right: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        bottom: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
                       ),
-                      color: state.selectedButton == ComponentOneButton.verticalList ? Theme.of(context).colorScheme.primary.withAlpha(100) : Colors.white
+                      color: state.selectedButton == ComponentOneButton.verticalList ? AppColor.primary.percentAlpha(50) : Colors.white
                     ),
                     child: Text(
                       "vertical",
@@ -84,11 +85,11 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         topRight: Radius.circular(24.r),
                         bottomRight: Radius.circular(24.r)
                       ),
-                      color: state.selectedButton == ComponentOneButton.horizontalList ? Theme.of(context).colorScheme.primary.withAlpha(100) : Colors.white,
+                      color: state.selectedButton == ComponentOneButton.horizontalList ? AppColor.primary.percentAlpha(50) : Colors.white,
                       border: Border(
-                        top: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
-                        right: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
-                        bottom: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
+                        top: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        right: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        bottom: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
                       ),
                     ),
                     child: Text(
@@ -109,7 +110,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
               height: 300,
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                border: Border.all(width: 2.w, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
+                border: Border.all(width: 2.w, color: AppColor.primary.percentAlpha(80)),
                 borderRadius: BorderRadius.all(Radius.circular(16.r))
               ),
               child: ListView.separated(
@@ -124,7 +125,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                     onTap: () {
                       ModalDialogWidget().showModalDialogWithOkButton(
                         context: context,
-                        title: "Select: ${item.title} in vertical list",
+                        title: "Select ${item.title} in vertical list",
                         onTap: () {
                           if(Navigator.canPop(context)) Navigator.pop(context);
                         },
@@ -135,7 +136,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                       width: MediaQuery.sizeOf(context).width,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary.withAlpha(100),
+                        color: AppColor.primary.percentAlpha(50),
                         borderRadius: BorderRadius.all(Radius.circular(16.r)),
                       ),
                       child: Text(item.title),
@@ -152,7 +153,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                border: Border.all(width: 2.w, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
+                border: Border.all(width: 2.w, color: AppColor.primary.percentAlpha(80)),
                 borderRadius: BorderRadius.all(Radius.circular(16.r))
               ),
               child: SingleChildScrollView(
@@ -166,7 +167,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         onTap: () {
                           ModalDialogWidget().showModalDialogWithOkButton(
                             context: context,
-                            title: "Select: ${item.title} in horizontal list",
+                            title: "Select ${item.title} in horizontal list",
                             onTap: () {
                               if(Navigator.canPop(context)) Navigator.pop(context);
                             },
@@ -176,7 +177,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(16.r)),
-                            color: Theme.of(context).colorScheme.primary.withAlpha(100),
+                            color: AppColor.primary.percentAlpha(50),
                           ),
                           width: 60.w,
                           padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),

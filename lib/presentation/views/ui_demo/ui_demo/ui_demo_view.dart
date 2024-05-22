@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_article_list/component_article_list_view.dart';
@@ -40,7 +41,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> {
                       width: MediaQuery.sizeOf(context).width,
                       margin: EdgeInsets.symmetric(horizontal: 5.w),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary.withAlpha(200)
+                        color: AppColor.primary.percentAlpha(20)
                       ),
                       child: Center(
                         child: Text(
@@ -48,7 +49,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> {
                           style: TextStyle(
                             fontSize: 24.sp,
                             overflow: TextOverflow.ellipsis,
-                            color: Colors.white
+                            color: Colors.black
                           )
                         ),
                       )
@@ -61,7 +62,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> {
             Container(
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(width: 1.w, color: Theme.of(context).colorScheme.primary.withAlpha(100))
+                  bottom: BorderSide(width: 1.w, color: AppColor.primary.percentAlpha(50))
                 )
               ),
               child: Text(
@@ -231,7 +232,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> {
       height: 30.h,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: AppColor.primary,
         borderRadius: BorderRadius.all(Radius.circular(32.r))
       ),
       child: Text(
