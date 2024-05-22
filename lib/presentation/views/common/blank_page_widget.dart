@@ -47,36 +47,42 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
                 SizedBox(height: 16.h),
                 Visibility(
                   visible: widget.displayBackBtn,
-                  child: GestureDetector(
-                    onTap: () {                      
-                      if (widget.onTabBackBtn != null) {
-                        widget.onTabBackBtn?.call();
-                      } else {
-                        _delayedTab(() {
-                          if(Navigator.canPop(context)) Navigator.pop(context);
-                        });
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 24.w,
-                      height: 24.w,
-                      margin: EdgeInsets.only(left: 16.w, bottom: 4.w),                      
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        shape: BoxShape.circle
-                      ),
-                      child: Text(
-                        "<",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [                      
+                      GestureDetector(
+                        onTap: () {                      
+                          if (widget.onTabBackBtn != null) {
+                            widget.onTabBackBtn?.call();
+                          } else {
+                            _delayedTab(() {
+                              if(Navigator.canPop(context)) Navigator.pop(context);
+                            });
+                          }
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 24.w,
+                          height: 24.w,
+                          margin: EdgeInsets.only(left: 16.w, bottom: 4.w),                      
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            shape: BoxShape.circle
+                          ),
+                          child: Text(
+                            "<",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700
+                            ),
+                          )
                         ),
-                      )
-                    ),
-                  ),
+                      ),
+                      SizedBox(height: 8.h)
+                    ]
+                  )
                 ),
-                SizedBox(height: 8.h),
                 Expanded(
                   child: widget.body ?? Container(),
                 )

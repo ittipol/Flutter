@@ -1,5 +1,5 @@
 enum ComponentOneButton {
-  verticallyList(0),
+  verticalList(0),
   horizontalList(1);
 
   const ComponentOneButton(this.value);
@@ -14,7 +14,7 @@ class ComponentOneState{
   final ComponentOneButton selectedButton;
   
   ComponentOneState({
-    this.selectedButton = ComponentOneButton.verticallyList
+    this.selectedButton = ComponentOneButton.verticalList
   });
 
   copyWith({ComponentOneButton? selectedButton}) => ComponentOneState(

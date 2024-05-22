@@ -3,29 +3,170 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ModalDialogWidget {
 
-  Future<T?> showModalDialog<T>({required BuildContext context, required Widget body}) {
+  Future<T?> showModalDialog<T>({
+    required BuildContext context, 
+    required Widget body, 
+    double? width, 
+    double? height, 
+    bool useInsetPadding = false,
+    bool useBorderRadius = true
+  }) {
     return showDialog<T?>(
       context: context,
       barrierDismissible: false,
       useSafeArea: true,
       builder: (BuildContext context) => AlertDialog(
         contentPadding: EdgeInsets.zero,
-        insetPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),         
+        insetPadding: useInsetPadding ? EdgeInsets.symmetric(horizontal: 16.w) : EdgeInsets.zero,
         content: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8.r))
+            borderRadius: useBorderRadius ? BorderRadius.all(Radius.circular(8.r)) : null
           ),
           padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+          width: width,
+          height: height,
           child: body,
         )
       ),
     );
   }
 
-  Future<T?> showModalDialogWithOkButton<T>({required BuildContext context, required String title, void Function()? onTap}) {
+  Future<T?> showModalDialogFullScreen<T>({
+    required BuildContext context, 
+    Widget? body, 
+    bool displayBackBtn = false
+  }) {
     return showModalDialog(
       context: context,
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
+      useBorderRadius: false,
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Visibility(
+              visible: displayBackBtn,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [                
+                  Container(
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,                    
+                    child: GestureDetector(
+                      onTap: () {                      
+                        if(Navigator.canPop(context)) Navigator.pop(context);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 24.w,
+                        height: 24.w,               
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle
+                        ),
+                        child: Text(
+                          "x",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.h)
+                ]
+              )
+            ),
+            Expanded(
+              child: body ?? Container(),
+            )
+          ],
+        )
+      )
+    );
+  }
+
+  Future<T?> showFixedScreenModalDialog<T>({
+    required BuildContext context, 
+    Widget? body, 
+    bool displayBackBtn = false,
+    required double width, 
+    required double height,
+    bool useBorderRadius = true
+  }) {
+    return showModalDialog(
+      context: context,
+      width: width,
+      height: height,
+      useBorderRadius: useBorderRadius,
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Visibility(
+              visible: displayBackBtn,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [                
+                  Container(
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,                    
+                    child: GestureDetector(
+                      onTap: () {                      
+                        if(Navigator.canPop(context)) Navigator.pop(context);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 24.w,
+                        height: 24.w,               
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          shape: BoxShape.circle
+                        ),
+                        child: Text(
+                          "x",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.h)
+                ]
+              )
+            ),
+            body ?? Container(),
+          ],
+        )
+      )
+    );
+  }
+
+  Future<T?> showModalDialogWithOkButton<T>({
+    required BuildContext context, 
+    required String title, 
+    Widget? body,
+    void Function()? onTap, 
+    bool fullScreenWidth = false,
+    bool useInsetPadding = false
+  }) {
+    return showModalDialog(
+      context: context,
+      width: fullScreenWidth ? MediaQuery.sizeOf(context).width : null,
+      useInsetPadding: useInsetPadding,
       body: Container(
         color: Colors.white,
         child: Column(
@@ -39,6 +180,10 @@ class ModalDialogWidget {
               style: TextStyle(
                 fontSize: 16.sp
               ),
+            ),
+            Visibility(
+              visible: body != null,
+              child: body ?? Container(),
             ),
             SizedBox(height: 16.h),
             GestureDetector(
@@ -60,19 +205,24 @@ class ModalDialogWidget {
               ),
             )
           ],
-        ),
+        )
       )
     );
   }
 
   Future<T?> showModalDialogWithOkCancelButton<T>({
     required BuildContext context, 
-    required String title, 
+    required String title,
+    Widget? body,
     void Function()? onTapOk,
     void Function()? onTapCancel,
+    bool fullScreenWidth = false,
+    bool useInsetPadding = false
   }) {
     return showModalDialog(
       context: context,
+      width: fullScreenWidth ? MediaQuery.sizeOf(context).width : null,
+      useInsetPadding: useInsetPadding,
       body: Container(
         color: Colors.white,
         child: Column(
@@ -86,6 +236,10 @@ class ModalDialogWidget {
               style: TextStyle(
                 fontSize: 16.sp
               ),
+            ),
+            Visibility(
+              visible: body != null,
+              child: body ?? Container(),
             ),
             SizedBox(height: 16.h),
             Row(
@@ -106,7 +260,7 @@ class ModalDialogWidget {
                       child: const Text(
                         "Cancel",
                         style: TextStyle(
-                          color: Colors.white
+                          color: Colors.black
                         ),
                       ),
                     ),

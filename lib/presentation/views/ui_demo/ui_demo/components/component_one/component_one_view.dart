@@ -43,7 +43,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    ref.read(componentOneProvider.notifier).buttonSelect(ComponentOneButton.verticallyList);
+                    ref.read(componentOneProvider.notifier).buttonSelect(ComponentOneButton.verticalList);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
@@ -59,7 +59,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         right: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
                         bottom: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary.withAlpha(200)),
                       ),
-                      color: state.selectedButton == ComponentOneButton.verticallyList ? Theme.of(context).colorScheme.primary.withAlpha(100) : Colors.white
+                      color: state.selectedButton == ComponentOneButton.verticalList ? Theme.of(context).colorScheme.primary.withAlpha(100) : Colors.white
                     ),
                     child: Text(
                       "vertical",
@@ -104,7 +104,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
           ),
           SizedBox(height: 16.h),
           Visibility(
-            visible: state.selectedButton == ComponentOneButton.verticallyList,
+            visible: state.selectedButton == ComponentOneButton.verticalList,
             child: Container(
               height: 300,
               padding: EdgeInsets.all(16.w),
@@ -118,14 +118,13 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                 itemCount: list.length,
                 separatorBuilder: (context, index) => SizedBox(height: 8.h),
                 itemBuilder: (context, index) {
-
                   var item = list[index];
 
                   return GestureDetector(
                     onTap: () {
                       ModalDialogWidget().showModalDialogWithOkButton(
                         context: context,
-                        title: "Select: ${item.title}",
+                        title: "Select: ${item.title} in vertical list",
                         onTap: () {
                           if(Navigator.canPop(context)) Navigator.pop(context);
                         },
@@ -167,7 +166,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         onTap: () {
                           ModalDialogWidget().showModalDialogWithOkButton(
                             context: context,
-                            title: "Select: ${item.title}",
+                            title: "Select: ${item.title} in horizontal list",
                             onTap: () {
                               if(Navigator.canPop(context)) Navigator.pop(context);
                             },

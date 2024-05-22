@@ -62,7 +62,6 @@ class _ComponentDetailListView  extends ConsumerState<ComponentDetailListView> {
                 itemCount: list.length,
                 separatorBuilder: (context, index) => SizedBox(height: 8.h),
                 itemBuilder: (context, index) {
-
                   var item = list[index];
 
                   return GestureDetector(
