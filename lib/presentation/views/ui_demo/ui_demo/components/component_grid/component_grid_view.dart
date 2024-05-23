@@ -7,17 +7,17 @@ import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ComponentArticleListView extends ConsumerStatefulWidget {
+class ComponentGridView extends ConsumerStatefulWidget {
 
-  const ComponentArticleListView({
+  const ComponentGridView({
     super.key
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ComponentArticleListView();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ComponentGridView();
 }
 
-class _ComponentArticleListView  extends ConsumerState<ComponentArticleListView> {  
+class _ComponentGridView  extends ConsumerState<ComponentGridView> {  
 
   @override
   Widget build(BuildContext context) {    
@@ -48,20 +48,24 @@ class _ComponentArticleListView  extends ConsumerState<ComponentArticleListView>
                 ),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "List",
+                  "Grid",
                   style: TextStyle(
                     fontSize: 24.sp
                   ),
                 ),
               ),
               SizedBox(height: 4.h),
-              ListView.separated(
-                shrinkWrap: true,
-                clipBehavior: Clip.none,
-                physics: const NeverScrollableScrollPhysics(),
+              GridView.builder(        
                 itemCount: list.length,
-                separatorBuilder: (context, index) => SizedBox(height: 8.h),
-                itemBuilder: (context, index) {
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 9/16,
+                  mainAxisSpacing: 8.h,
+                  crossAxisSpacing: 8.w,
+                ),
+                itemBuilder: (BuildContext context, int index) {
                   var item = list[index];
 
                   return GestureDetector(
@@ -70,45 +74,68 @@ class _ComponentArticleListView  extends ConsumerState<ComponentArticleListView>
                         id: index,
                         title: item.title,
                         image: item.image,
-                        tag: "article_list_img_tag_$index"
+                        tag: "grid_img_tag_$index"
                       ));
                     },
                     child: Container(
-                      color: Colors.transparent,
-                      child: Row(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            blurRadius: 5,
+                            offset: const Offset(3, 3)
+                          )
+                        ]
+                      ),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,              
                         children: [
-                          Expanded(
-                            flex: 1,
+                          Container(
+                            width: double.infinity,
+                            height: 100.h,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8.r),
+                                topRight: Radius.circular(8.r)
+                              )
+                            ),
                             child: Hero(
-                              tag: "article_list_img_tag_$index", 
-                              child: Image(image: AssetImage(item.image))
+                              tag: "grid_img_tag_$index", 
+                              child: Image(
+                                image: AssetImage(item.image),
+                                height: double.infinity,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
                             ),
                           ),
-                          SizedBox(width: 8.w),
-                          Expanded(
-                            flex: 1,
+                          SizedBox(height: 8.w),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                            width: double.infinity,
                             child: Text(
                               item.title,
-                              overflow: TextOverflow.ellipsis,
                               maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16.sp
-                              )
+                              ),
                             )
                           )
                         ],
                       ),
                     ),
                   );
-                },
+                }
               )
-            ],
+            ]
           )
         )
-      ],
+      ]
     );
   }
-
 }

@@ -6,4 +6,5 @@ abstract class RouteName {
   static const uiDemoView = "/uiDemoView";
   static const uiDemoArticleView = "/uiDemoArticleView";
   static const webViewDemoView = "/webViewDemoView";
+  static const sliverAppBarView = "/sliverAppBarView";
 }

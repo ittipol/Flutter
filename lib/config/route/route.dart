@@ -4,6 +4,7 @@ import 'package:flutter_demo/presentation/views/api_service_demo/api_service_det
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_view.dart';
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
+import 'package:flutter_demo/presentation/views/sliver_app_bar/sliver_app_bar_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/ui_demo_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_article_view.dart';
 import 'package:flutter_demo/presentation/views/web_view_demo/web_view_demo/web_view_demo_view.dart';
@@ -28,6 +29,8 @@ class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.uiDemoArticleView), builder: (_) => UiDemoArticleView(args: args));
       case RouteName.webViewDemoView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.webViewDemoView), builder: (_) => const WebViewDemoView());
+      case RouteName.sliverAppBarView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.sliverAppBarView), builder: (_) => const SliverAppBarView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

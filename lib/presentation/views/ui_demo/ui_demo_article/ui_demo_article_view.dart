@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,11 +8,13 @@ class UiDemoArticleViewArgs {
   final int id;
   final String image;
   final String title;
+  final String tag;
 
   UiDemoArticleViewArgs({
     required this.id,
     required this.image,
-    required this.title
+    required this.title,
+    required this.tag
   });
 
 }
@@ -39,7 +41,7 @@ class _UiDemoArticleView  extends ConsumerState<UiDemoArticleView> {
       body: Column(
         children: [
           Hero(
-            tag: "img_tag_${widget.args.id}", 
+            tag: widget.args.tag, 
             child: Image(image: AssetImage(widget.args.image))
           ),
           Expanded(

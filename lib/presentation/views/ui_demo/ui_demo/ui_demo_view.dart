@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_article_list/component_article_list_view.dart';
+import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_grid/component_grid_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_one/component_one_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +25,28 @@ class _UiDemoView  extends ConsumerState<UiDemoView> {
   Widget build(BuildContext context) {    
 
     return BlankPageWidget(
+      displayBackBtn: false,
+      appBar: AppBar(
+        title: const Text('App Bar'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: BackButton(
+          onPressed: () {
+            if(Navigator.canPop(context)) Navigator.pop(context);
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         clipBehavior: Clip.antiAlias,
         physics: const ClampingScrollPhysics(),
@@ -213,13 +236,17 @@ class _UiDemoView  extends ConsumerState<UiDemoView> {
               },              
               child: _button(text: "Show Fixed screen modal dialog"),
             ),
-
-            SizedBox(height: 8.h),
-            Divider(thickness: 12.h, color: Colors.grey.shade100),
-            SizedBox(height: 8.h),
+            SizedBox(height: 16.h),
+            const Divider(
+              thickness: 1,
+              color: AppColor.primary,
+            ),
+            SizedBox(height: 16.h),
             const ComponentOneView(),
             SizedBox(height: 16.h),
-            const ComponentDetailListView()
+            const ComponentArticleListView(),
+            SizedBox(height: 16.h),
+            const ComponentGridView()
           ],
         ),
       )

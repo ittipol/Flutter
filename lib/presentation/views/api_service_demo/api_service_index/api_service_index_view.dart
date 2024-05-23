@@ -5,7 +5,7 @@ import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail/api_service_detail_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_provider.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_state.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,13 +98,10 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                 )
                               ),
                               SizedBox(width: 8.w),
-                              Text(
-                                ">",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp
-                                ),
-                              )
+                              const Icon(
+                                Icons.chevron_right,
+                                color: Colors.white,
+                              ),
                             ],
                           ),
                         ),
@@ -207,7 +204,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                         )
                                       ],
                                     ),
-                                  ),                                  
+                                  ),
                                   Container(
                                     width: MediaQuery.sizeOf(context).width,
                                     height: 30.h,
@@ -229,13 +226,10 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                             ),
                                           ),
                                           SizedBox(width: 8.w),
-                                          Text(
-                                            ">",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16.sp
-                                            ),
-                                          )
+                                          const Icon(
+                                            Icons.chevron_right,
+                                            color: Colors.white,
+                                          ),
                                         ],
                                       ),
                                     ),

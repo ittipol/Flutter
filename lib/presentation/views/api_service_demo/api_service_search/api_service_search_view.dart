@@ -6,7 +6,7 @@ import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_provider.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_state.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

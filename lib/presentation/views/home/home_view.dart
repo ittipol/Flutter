@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -67,6 +67,13 @@ class _HomeView  extends ConsumerState<HomeView> {
                 Navigator.pushNamed(context, RouteName.webViewDemoView);
               },
               child: _button(text: "Demo webview")
+            ),
+            SizedBox(height: 16.h),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, RouteName.sliverAppBarView);
+              },
+              child: _button(text: "Sliver App Bar")
             )
           ],
         ),
@@ -96,13 +103,10 @@ class _HomeView  extends ConsumerState<HomeView> {
             )
           ),
           SizedBox(width: 8.w),
-          Text(
-            ">",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.sp
-            ),
-          )
+          const Icon(
+            Icons.chevron_right,
+            color: Colors.white,
+          ),
         ],
       ),
     );
