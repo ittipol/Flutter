@@ -23,8 +23,9 @@ flutter run --release
 You need to use `flutter build` command with one of following parameters: apk, appbundle, ios. This will produce an application to deploy or publish on AppStore, PlayStore, or some other distribution channels like Firebase.
 
 ## Document
-- https://dart.dev/effective-dart/usage
 - https://docs.flutter.dev/
+- https://dart.dev/effective-dart/usage
+- https://dart.dev/language/class-modifiers
 
 ## Material Design
 - Components (https://m3.material.io/components)

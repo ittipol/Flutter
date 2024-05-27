@@ -49,6 +49,7 @@ dependencies:
   path: ^1.9.0
   carousel_slider: ^4.2.1
   alh_pdf_view: ^2.0.0
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:

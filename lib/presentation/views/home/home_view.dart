@@ -55,8 +55,9 @@ class _HomeView  extends ConsumerState<HomeView> {
                   )
                 ),
               ),
-              SwitchListTile(
+              SwitchListTile(                
                 title: const Text("Dark mode"),
+                contentPadding: EdgeInsets.zero,
                 value: isDarkMode,
                 onChanged: (value) {
 
@@ -72,6 +73,7 @@ class _HomeView  extends ConsumerState<HomeView> {
                 },
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
+              SizedBox(height: 8.h),
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, RouteName.apiServiceIndexView);

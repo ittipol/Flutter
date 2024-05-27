@@ -63,8 +63,8 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
       appBar: AppBar(
         title: const Text('App Bar'),
         centerTitle: true,
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        // foregroundColor: Colors.black,
+        // backgroundColor: Colors.white,
         elevation: 8,
         shadowColor: Colors.black,      
         leading: BackButton(

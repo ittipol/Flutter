@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
 
-sealed class LoaderOverlay {
+final class LoaderOverlay {
 
   static bool _isShow = false;
 

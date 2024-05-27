@@ -1,13 +1,11 @@
 import 'dart:ui';
 
 abstract final class AppColor {
-
   static const int _primaryColorValue = 0xff1565C0;
   static const CustomColor primary = CustomColor(_primaryColorValue);
-
 }
 
-class CustomColor extends Color {
+final class CustomColor extends Color {
   const CustomColor(super.value);
 
   // Color get color => this;

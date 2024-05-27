@@ -5,14 +5,20 @@ import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/config/theme/theme_provider.dart';
 import 'package:flutter_demo/utils/local_storage_utils.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   debugPrint("--------------------- ENV ======> [ ${AppConfig.env} ]");
 
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await LocalStorageUtils.clearKeychainValues();
+
+  Future.delayed(const Duration(seconds: 2), () {
+    FlutterNativeSplash.remove();
+  });
 
   runApp(const ProviderScope(
     child: MyApp(),
@@ -31,7 +37,7 @@ class MyApp extends ConsumerWidget {
       designSize: const Size(360, 640),
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Flutter Demo',           
           theme: theme,
           // theme: lightMode,
           // darkTheme: darkMode,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-sealed class AppTheme {
+final class AppTheme {
 
   static final ThemeData lightMode = ThemeData(
     brightness: Brightness.light,
@@ -12,8 +11,14 @@ sealed class AppTheme {
       secondary: Colors.blue.shade700,    
     ),
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: const AppBarTheme(
-      systemOverlayStyle: SystemUiOverlayStyle.light
+    appBarTheme: AppBarTheme(
+      // systemOverlayStyle: SystemUiOverlayStyle(
+      //   statusBarColor: Colors.white,
+      //   statusBarIconBrightness: Brightness.dark,
+      //   statusBarBrightness: Brightness.light,
+      // )
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.blue.shade800,
     )
   );
 
@@ -26,8 +31,14 @@ sealed class AppTheme {
       secondary: Colors.grey.shade700
     ),
     scaffoldBackgroundColor: Colors.black,
-    appBarTheme: const AppBarTheme(
-      systemOverlayStyle: SystemUiOverlayStyle.light
+    appBarTheme: AppBarTheme(
+      // systemOverlayStyle: SystemUiOverlayStyle(
+      //   statusBarColor: Colors.black,
+      //   statusBarIconBrightness: Brightness.light,
+      //   statusBarBrightness: Brightness.dark
+      // )
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade900,
     )
   );
 }

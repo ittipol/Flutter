@@ -10,7 +10,7 @@ import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/ui_demo_view.dar
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_article_view.dart';
 import 'package:flutter_demo/presentation/views/web_view_demo/web_view_demo/web_view_demo_view.dart';
 
-class AppRouter {
+final class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     debugPrint(">>>>>>>>>>>>>>> [onGenerateRoute] Route name ${settings.name}");
     switch (settings.name) {

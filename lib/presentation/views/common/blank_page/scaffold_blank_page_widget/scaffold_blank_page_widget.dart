@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_demo/presentation/views/home/home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
@@ -47,13 +49,41 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
     );
   }
 
-  Widget _safeArea({required bool useSafeArea, required Widget body}) {
+  Widget _safeArea({required bool useSafeArea, required Widget body}) {    
 
     if(useSafeArea) {
-      return SafeArea(child: body);
+      return SafeArea(
+        child: _annotatedRegion(body)
+      );
     }
 
-    return body;
+    return _annotatedRegion(body);
+  }
+
+  Widget _annotatedRegion(Widget body) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: _statusBarColor(),
+      child: body,
+    );
+  }
+
+  SystemUiOverlayStyle _statusBarColor() {
+
+    var darkMode = ref.read(darkModeSelectProvider.notifier).state;
+
+    const light = SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    );
+
+    const dark = SystemUiOverlayStyle(
+      statusBarColor: Colors.black,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark
+    );
+
+    return darkMode ? dark : light;
   }
 
   void _hideKeyboard(BuildContext context) {

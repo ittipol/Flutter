@@ -1,4 +1,4 @@
-abstract class RouteName {
+final class RouteName {
   static const home = '/';
   static const apiServiceIndexView = "/apiServiceIndexView";
   static const apiServiceSearchView = "/apiServiceSearchView";
