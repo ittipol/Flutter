@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
+import 'package:flutter_demo/config/theme/app_theme.dart';
+import 'package:flutter_demo/config/theme/theme_provider.dart';
 import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/home/home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,66 +22,95 @@ class _HomeView  extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
 
+    final isDarkMode = ref.watch(darkModeSelectProvider);
+
     return BlankPageWidget(
       displayBackBtn: false,
-      body: Container(
-        width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: MediaQuery.sizeOf(context).width,
-              margin: EdgeInsets.only(bottom: 24.h),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 2.r,
-                    color: AppColor.primary
+      body: SingleChildScrollView(
+        clipBehavior: Clip.antiAlias,
+        physics: const ClampingScrollPhysics(),
+        child: Container(
+          width: MediaQuery.sizeOf(context).width,
+          margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                margin: EdgeInsets.only(bottom: 24.h),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 2.r,
+                      color: Theme.of(context).colorScheme.secondary
+                    )
                   )
-                )
+                ),
+                child: Text(
+                  "Flutter",
+                  style: TextStyle(
+                    fontSize: 24.sp
+                  )
+                ),
               ),
-              child: Text(
-                "Flutter Demo",
-                style: TextStyle(
-                  fontSize: 24.sp
-                )
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.apiServiceIndexView);
-              },
-              child: _button(text: "Demo API Service")
-            ),
-            SizedBox(height: 16.h),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.uiDemoView);
-              },
-              child: _button(text: "Demo UI widget")
-            ),
-            SizedBox(height: 16.h),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.webViewDemoView);
-              },
-              child: _button(text: "Demo webview")
-            ),
-            SizedBox(height: 16.h),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.sliverAppBarView);
-              },
-              child: _button(text: "Sliver App Bar")
-            )
-          ],
-        ),
-      ),
-    );
+              SwitchListTile(
+                title: const Text("Dark mode"),
+                value: isDarkMode,
+                onChanged: (value) {
 
+                  ref.read(darkModeSelectProvider.notifier).state = value;
+
+                  if(value) {
+                    ref.read(themeProvider.notifier).state = AppTheme.darkMode;
+                  }else {
+                    ref.read(themeProvider.notifier).state = AppTheme.lightMode;
+                  }
+
+                  
+                },
+                controlAffinity: ListTileControlAffinity.trailing,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.apiServiceIndexView);
+                },
+                child: _button(text: "API Services")
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.localStorageDemoView);
+                },
+                child: _button(text: "Local storage")
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.uiDemoView);
+                },
+                child: _button(text: "UI widget")
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.webViewDemoView);
+                },
+                child: _button(text: "WebView")
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.sliverAppBarView);
+                },
+                child: _button(text: "Sliver App Bar")
+              )
+            ]
+          )
+        )
+      )      
+    );
   }
 
   Widget _button({required String text}) {
@@ -87,7 +118,7 @@ class _HomeView  extends ConsumerState<HomeView> {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
-        color: AppColor.primary,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.all(Radius.circular(32.r))
       ),
       child: Row(

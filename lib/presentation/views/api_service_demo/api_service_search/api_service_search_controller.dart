@@ -33,9 +33,7 @@ class ApiServiceSearchController extends StateNotifier<ApiServiceSearchState> {
     }else {
       state = state.copyWith(status: ApiServiceSearchStateStatus.failure);
     }
-
-    
-    
+        
     return result;
   }
 

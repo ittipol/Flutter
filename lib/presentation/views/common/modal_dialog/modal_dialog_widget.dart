@@ -15,20 +15,30 @@ class ModalDialogWidget {
       context: context,
       barrierDismissible: false,
       useSafeArea: true,
-      builder: (BuildContext context) => AlertDialog(
-        contentPadding: EdgeInsets.zero,
-        insetPadding: useInsetPadding ? EdgeInsets.symmetric(horizontal: 16.w) : EdgeInsets.zero,
-        content: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: useBorderRadius ? BorderRadius.all(Radius.circular(8.r)) : null
-          ),
-          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-          width: width,
-          height: height,
-          child: body,
-        )
-      ),
+      builder: (BuildContext context) {
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {
+            if (didPop) {
+              return;
+            }
+          },
+          child: AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            insetPadding: useInsetPadding ? EdgeInsets.symmetric(horizontal: 16.w) : EdgeInsets.zero,
+            content: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: useBorderRadius ? BorderRadius.all(Radius.circular(8.r)) : null
+              ),
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+              width: width,
+              height: height,
+              child: body,
+            )
+          )
+        );
+      }
     );
   }
 
@@ -70,13 +80,11 @@ class ModalDialogWidget {
                           color: Colors.grey.shade300,
                           shape: BoxShape.circle
                         ),
-                        child: Text(
-                          "x",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700
-                          ),
-                        )
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.black,
+                          size: 16.sp,
+                        ),
                       ),
                     ),
                   ),
@@ -134,13 +142,11 @@ class ModalDialogWidget {
                           color: Colors.grey.shade300,
                           shape: BoxShape.circle
                         ),
-                        child: Text(
-                          "x",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700
-                          ),
-                        )
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.black,
+                          size: 16.sp,
+                        ),
                       ),
                     ),
                   ),
@@ -178,7 +184,8 @@ class ModalDialogWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.sp
+                fontSize: 16.sp,
+                color: Colors.black
               ),
             ),
             Visibility(
@@ -234,7 +241,8 @@ class ModalDialogWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.sp
+                fontSize: 16.sp,
+                color: Colors.black
               ),
             ),
             Visibility(

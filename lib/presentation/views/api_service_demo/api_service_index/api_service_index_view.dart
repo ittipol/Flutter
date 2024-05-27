@@ -221,7 +221,8 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                               item.name ?? "",
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                fontSize: 16.sp
+                                                fontSize: 16.sp,
+                                                color: Colors.black
                                               ),
                                             ),
                                           ),

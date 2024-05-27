@@ -193,11 +193,18 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
             visible: state.status == ApiServiceSearchStateStatus.failure,
             child: Expanded(
               child: Center(
-                child: Text(
-                  "Not found",
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    color: Colors.black87
+                child: Container(                  
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(32.r)),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
+                  child: Text(
+                    "Not found",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Colors.black87
+                    ),
                   ),
                 ),
               )

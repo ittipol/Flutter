@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/domain/entities/component_one_entity.dart';
 import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
-import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_one/component_one_provider.dart';
-import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_one/component_one_state.dart';
+import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_button_group_and_list/component_button_group_and_list_provider.dart';
+import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_button_group_and_list/component_button_group_and_list_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ComponentOneView extends ConsumerStatefulWidget {
+class ComponentButtonGroupAndListView extends ConsumerStatefulWidget {
 
-  const ComponentOneView({
+  const ComponentButtonGroupAndListView({
     super.key
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ComponentOneView();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ComponentButtonGroupAndListView();
 }
 
-class _ComponentOneView  extends ConsumerState<ComponentOneView> {
+class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGroupAndListView> {
 
   @override
   Widget build(BuildContext context) {
 
-    final state = ref.watch(componentOneProvider);
+    final state = ref.watch(componentButtonGroupAndListProvider);
 
     List<ComponentOneItemEntity> list = List.empty(growable: true);
 
@@ -44,7 +44,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    ref.read(componentOneProvider.notifier).buttonSelect(ComponentOneButton.verticalList);
+                    ref.read(componentButtonGroupAndListProvider.notifier).buttonSelect(ComponentButtonGroupAndListButton.verticalList);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
@@ -55,17 +55,18 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         bottomLeft: Radius.circular(24.r)
                       ),
                       border: Border(
-                        top: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
-                        left: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
-                        right: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
-                        bottom: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        top: BorderSide(width: 1, color: Colors.blue.shade800),
+                        left: BorderSide(width: 1, color: Colors.blue.shade800),
+                        right: BorderSide(width: 1, color: Colors.blue.shade800),
+                        bottom: BorderSide(width: 1, color: Colors.blue.shade800),
                       ),
-                      color: state.selectedButton == ComponentOneButton.verticalList ? AppColor.primary.percentAlpha(50) : Colors.white
+                      color: state.selectedButton == ComponentButtonGroupAndListButton.verticalList ? Colors.blue.shade800 : Colors.grey.shade400
                     ),
                     child: Text(
                       "vertical",
                       style: TextStyle(
-                        fontSize: 16.sp
+                        fontSize: 16.sp,
+                        color: Colors.white
                       ),
                     ),
                   ),
@@ -75,7 +76,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    ref.read(componentOneProvider.notifier).buttonSelect(ComponentOneButton.horizontalList);
+                    ref.read(componentButtonGroupAndListProvider.notifier).buttonSelect(ComponentButtonGroupAndListButton.horizontalList);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
@@ -85,18 +86,19 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                         topRight: Radius.circular(24.r),
                         bottomRight: Radius.circular(24.r)
                       ),
-                      color: state.selectedButton == ComponentOneButton.horizontalList ? AppColor.primary.percentAlpha(50) : Colors.white,
+                      color: state.selectedButton == ComponentButtonGroupAndListButton.horizontalList ? Colors.blue.shade800 : Colors.grey.shade400,
                       border: Border(
-                        top: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
-                        right: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
-                        bottom: BorderSide(width: 1, color: AppColor.primary.percentAlpha(80)),
+                        top: BorderSide(width: 1, color: Colors.blue.shade800),
+                        right: BorderSide(width: 1, color: Colors.blue.shade800),
+                        bottom: BorderSide(width: 1, color: Colors.blue.shade800),
                       ),
                     ),
                     child: Text(
                       "Horizon",
                       style: TextStyle(
-                        fontSize: 16.sp
-                      ),
+                        fontSize: 16.sp,
+                        color: Colors.white
+                      )
                     ),
                   ),
                 ),
@@ -105,12 +107,12 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
           ),
           SizedBox(height: 16.h),
           Visibility(
-            visible: state.selectedButton == ComponentOneButton.verticalList,
+            visible: state.selectedButton == ComponentButtonGroupAndListButton.verticalList,
             child: Container(
               height: 300,
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                border: Border.all(width: 2.w, color: AppColor.primary.percentAlpha(80)),
+                border: Border.all(width: 2.w, color: Colors.blue.shade800),
                 borderRadius: BorderRadius.all(Radius.circular(16.r))
               ),
               child: ListView.separated(
@@ -136,10 +138,16 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                       width: MediaQuery.sizeOf(context).width,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: AppColor.primary.percentAlpha(50),
+                        color: Colors.blue.shade800,
                         borderRadius: BorderRadius.all(Radius.circular(16.r)),
                       ),
-                      child: Text(item.title),
+                      child: Text(
+                        item.title,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: Colors.white
+                        ),
+                      ),
                     )
                   );
                 },
@@ -147,13 +155,13 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
             ),
           ),
           Visibility(
-            visible: state.selectedButton == ComponentOneButton.horizontalList,
+            visible: state.selectedButton == ComponentButtonGroupAndListButton.horizontalList,
             child: Container(
               alignment: Alignment.centerLeft,
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                border: Border.all(width: 2.w, color: AppColor.primary.percentAlpha(80)),
+                border: Border.all(width: 2.w, color: Colors.blue.shade800),
                 borderRadius: BorderRadius.all(Radius.circular(16.r))
               ),
               child: SingleChildScrollView(
@@ -177,7 +185,7 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(16.r)),
-                            color: AppColor.primary.percentAlpha(50),
+                            color: Colors.blue.shade800,
                           ),
                           width: 60.w,
                           padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
@@ -185,7 +193,8 @@ class _ComponentOneView  extends ConsumerState<ComponentOneView> {
                             item.title,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 16.sp
+                              fontSize: 16.sp,
+                              color: Colors.white
                             ),
                           ),
                         ),

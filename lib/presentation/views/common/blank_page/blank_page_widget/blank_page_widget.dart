@@ -36,13 +36,13 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 16.h),
           Visibility(
             visible: widget.displayBackBtn,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [                      
+              children: [     
+                SizedBox(height: 8.h),                 
                 GestureDetector(
                   onTap: () {                      
                     if (widget.onTabBackBtn != null) {
@@ -59,7 +59,7 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
                     height: 24.w,
                     margin: EdgeInsets.only(left: 16.w, bottom: 4.w),                      
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
+                      color: Theme.of(context).colorScheme.onBackground,
                       shape: BoxShape.circle
                     ),
                     child: const Icon(Icons.chevron_left),

@@ -65,13 +65,15 @@ class _ComponentArticleListView  extends ConsumerState<ComponentArticleListView>
                   var item = list[index];
 
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, RouteName.uiDemoArticleView, arguments: UiDemoArticleViewArgs(
+                    onTap: () async {
+                      debugPrint("#########-------------- Before pushNamed [ ${RouteName.uiDemoArticleView} ]");
+                      await Navigator.pushNamed(context, RouteName.uiDemoArticleView, arguments: UiDemoArticleViewArgs(
                         id: index,
                         title: item.title,
                         image: item.image,
                         tag: "article_list_img_tag_$index"
                       ));
+                      debugPrint("#########-------------- After pushNamed [ ${RouteName.uiDemoArticleView} ]");
                     },
                     child: Container(
                       color: Colors.transparent,

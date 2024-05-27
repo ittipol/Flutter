@@ -69,13 +69,15 @@ class _ComponentGridView  extends ConsumerState<ComponentGridView> {
                   var item = list[index];
 
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, RouteName.uiDemoArticleView, arguments: UiDemoArticleViewArgs(
+                    onTap: () async {
+                      debugPrint("#########-------------- Before pushNamed [ ${RouteName.uiDemoArticleView} ]");
+                      await Navigator.pushNamed(context, RouteName.uiDemoArticleView, arguments: UiDemoArticleViewArgs(
                         id: index,
                         title: item.title,
                         image: item.image,
                         tag: "grid_img_tag_$index"
                       ));
+                      debugPrint("#########-------------- After pushNamed [ ${RouteName.uiDemoArticleView} ]");
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -122,7 +124,8 @@ class _ComponentGridView  extends ConsumerState<ComponentGridView> {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 16.sp
+                                fontSize: 16.sp,
+                                color: Colors.black
                               ),
                             )
                           )

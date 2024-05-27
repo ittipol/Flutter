@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
@@ -33,6 +34,16 @@ class Utils {
   static bool isUrl(String url) {
     var regex = RegExp(r"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$");
     return regex.hasMatch(url);
+  }
+
+  static R jsonDeserialize<R,T>(String source, R Function(T) callBack) {
+    dynamic obj = {};
+
+    if(source.isNotEmpty) {
+      obj = jsonDecode(source);
+    }
+
+    return callBack.call(obj);
   }
 
 }

@@ -1,5 +1,7 @@
 sealed class Result<T> {
   const Result();
+
+  bool get isCompleted => this is ResultSuccess<T> ? true : false; 
 }
 
 class ResultSuccess<T> extends Result<T> {

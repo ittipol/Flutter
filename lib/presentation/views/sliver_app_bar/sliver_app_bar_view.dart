@@ -25,11 +25,11 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
   @override
   void initState() {
     super.initState();
-  
-    WidgetsBinding.instance.addPostFrameCallback((_) async {            
-      
-    });
-        
+    
+    _scrollController.addListener(() { 
+      // debugPrint(_scrollController.position.maxScrollExtent.toString());
+      debugPrint(_scrollController.position.pixels.toString());
+    });        
   }
 
   @override
@@ -55,24 +55,23 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
 
     return ScaffoldBlankPageWidget(
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           SliverAppBar(
-            expandedHeight: 200.h,
-            centerTitle: true,
+            expandedHeight: 200.0,            
             backgroundColor: AppColor.primary,
-            pinned: true,
-            floating: true,
-            snap: true,
+            pinned: true,            
+            // floating: true,
+            // snap: true,
+            stretch: true,
+            elevation: 0,
             leading: GestureDetector(
               onTap: () {
                 if(Navigator.canPop(context)) Navigator.pop(context);
               },
               child: Container(
                 alignment: Alignment.center,
-                width: 24.w,
-                height: 24.w,
                 color: Colors.transparent,
-                margin: EdgeInsets.only(left: 16.w, bottom: 4.w),                      
                 child: Icon(
                   Icons.chevron_left,
                   color: Colors.white,
@@ -80,42 +79,62 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
                 )
               )
             ),
+            centerTitle: true,
             title: const Text(
-              "Flutter Demo",
+              "Sliver App Bar",
               style: TextStyle(
                 color: Colors.white
               ),
             ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(Assets.images.detail.path),
-                    fit: BoxFit.cover
-                  )
-                ),
-              )
+            flexibleSpace: FlexibleSpaceBar(              
+              background: Image(
+                image: AssetImage(Assets.images.detail.path),
+                fit: BoxFit.cover,
+              ),
+              stretchModes: const [
+                StretchMode.zoomBackground,
+                // StretchMode.fadeTitle,
+                // StretchMode.zoomBackground
+              ]
             ),
-            // bottom: AppBar(
-            //   title: const Text('AppBar Demo'),
-            // ),
+            // bottom: const PreferredSize(
+            //   preferredSize: Size.fromHeight(10),
+            //   child: SizedBox(),
+            // )
           ),
+          // SliverAppBar(
+          //   backgroundColor: Colors.white,
+          //   elevation: 0,
+          //   pinned: true,
+          //   leading: Container(),
+          //   flexibleSpace: Container(
+          //     padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //     child: TextField(
+
+          //     )
+          //   )
+          // ),
           // SliverPersistentHeader(
           //   delegate: ,
           //   pinned: false,
           // ),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                color: AppColor.primary.percentAlpha(70),
-              ),
-              height: 200.h,              
-              child: const Center(
-                child: Text("Text"),
-              ),
-            ),
+          SliverFillRemaining(
+            child: Center(
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.grey.shade200,
+                child: Center(
+                    child: Text(
+                    "Text",
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      color: Colors.black
+                    )
+                  )
+                )
+              )
+            )
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -125,11 +144,30 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
                 color: AppColor.primary.percentAlpha(70),
               ),
               height: 200.h,              
-              child: const Center(
-                child: Text("Text"),
-              ),
-            ),
+              child: Center(
+                  child: Text(
+                  "Text",
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    color: Colors.white
+                  )
+                )
+              )
+            )
           ),
+          // SliverToBoxAdapter(
+          //   child: Container(
+          //     margin: EdgeInsets.all(16.w),
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.all(Radius.circular(8.r)),
+          //       color: AppColor.primary.percentAlpha(70),
+          //     ),
+          //     height: 200.h,              
+          //     child: const Center(
+          //       child: Text("Text"),
+          //     ),
+          //   ),
+          // ),
           SliverList(            
             delegate: SliverChildBuilderDelegate((context, int index) {              
                 var item = list[index];

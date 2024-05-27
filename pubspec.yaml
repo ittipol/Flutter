@@ -39,6 +39,7 @@ dependencies:
   riverpod_annotation: ^2.3.5
   flutter_screenutil: ^5.9.1
   built_collection: ^5.1.1
+  shared_preferences: ^2.2.3
   flutter_secure_storage: ^9.2.1
   webview_flutter: ^4.7.0
   webview_flutter_android: ^3.16.1
