@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/scaffold_blank_page_widget/scaffold_blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/scaffold_blank_page_widget/scaffold_blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,14 +8,14 @@ class BlankPageWidget extends ConsumerStatefulWidget {
   final AppBar? appBar;
   final Widget? body;
   final bool resizeToAvoidBottomInset;
-  final bool displayBackBtn;
+  final bool showBackBtn;
   final void Function()? onTabBackBtn;
 
   const BlankPageWidget({
     this.appBar,
     this.body,
     this.resizeToAvoidBottomInset = false,
-    this.displayBackBtn = true,
+    this.showBackBtn = true,
     this.onTabBackBtn,
     super.key
   });
@@ -37,7 +37,7 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Visibility(
-            visible: widget.displayBackBtn,
+            visible: widget.showBackBtn,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

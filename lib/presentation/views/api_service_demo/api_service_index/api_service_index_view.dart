@@ -5,8 +5,8 @@ import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail/api_service_detail_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_provider.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_state.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -83,7 +83,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary.withAlpha(500),
-                            borderRadius: BorderRadius.all(Radius.circular(32.r))
+                            borderRadius: const BorderRadius.all(Radius.circular(32))
                           ),
                           child: Row(
                             children: [
@@ -109,7 +109,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                       // Container(
                       //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.all(Radius.circular(32.r)),
+                      //     borderRadius: const BorderRadius.all(Radius.circular(32)),
                       //     border: Border.all(color: Colors.black, width: 1),
                       //     color: Theme.of(context).colorScheme.primary.withAlpha(500)
                       //   ),
@@ -172,7 +172,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(width: 2, color: Colors.black87),
-                                      borderRadius: BorderRadius.all(Radius.circular(24.r)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(24)),
                                     ),
                                     width: MediaQuery.sizeOf(context).width,
                                     height: 30.h,
@@ -181,11 +181,11 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                         Expanded(
                                           flex: 1,
                                           child: Container(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(24.r),
-                                                bottomLeft: Radius.circular(24.r)
+                                                topLeft: Radius.circular(24),
+                                                bottomLeft: Radius.circular(24)
                                               )
                                             ),
                                           ),
@@ -195,9 +195,9 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: Colors.redAccent.shade700,
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(24.r),
-                                                bottomRight: Radius.circular(24.r)
+                                              borderRadius: const BorderRadius.only(
+                                                topRight: Radius.circular(24),
+                                                bottomRight: Radius.circular(24)
                                               )
                                             ),
                                           ),
@@ -262,7 +262,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                               child: Container(
                                 alignment: Alignment.center,                            
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                                   color: (offset - limit < 0) ?Colors.grey.shade200 : Colors.blue.shade600
                                 ),
                                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
@@ -293,7 +293,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                               child: Container(
                                 alignment: Alignment.center,                            
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                                   color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.grey.shade200 :Colors.blue.shade600
                                 ),
                                 padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),

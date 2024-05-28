@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/domain/entities/component_one_entity.dart';
-import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
+import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_button_group_and_list/component_button_group_and_list_provider.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_button_group_and_list/component_button_group_and_list_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,9 +49,9 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24.r),
-                        bottomLeft: Radius.circular(24.r)
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        bottomLeft: Radius.circular(24)
                       ),
                       border: Border(
                         top: BorderSide(width: 1, color: Colors.blue.shade800),
@@ -82,9 +81,9 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(24.r),
-                        bottomRight: Radius.circular(24.r)
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(24),
+                        bottomRight: Radius.circular(24)
                       ),
                       color: state.selectedButton == ComponentButtonGroupAndListButton.horizontalList ? Colors.blue.shade800 : Colors.grey.shade400,
                       border: Border(
@@ -113,7 +112,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
                 border: Border.all(width: 2.w, color: Colors.blue.shade800),
-                borderRadius: BorderRadius.all(Radius.circular(16.r))
+                borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
               child: ListView.separated(
                 scrollDirection: Axis.vertical,
@@ -139,7 +138,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.blue.shade800,
-                        borderRadius: BorderRadius.all(Radius.circular(16.r)),
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
                       ),
                       child: Text(
                         item.title,
@@ -162,7 +161,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
                 border: Border.all(width: 2.w, color: Colors.blue.shade800),
-                borderRadius: BorderRadius.all(Radius.circular(16.r))
+                borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -184,7 +183,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                         child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(16.r)),
+                            borderRadius: const BorderRadius.all(Radius.circular(16)),
                             color: Colors.blue.shade800,
                           ),
                           width: 60.w,

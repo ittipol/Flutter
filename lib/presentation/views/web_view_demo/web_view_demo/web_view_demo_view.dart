@@ -1,4 +1,4 @@
-import 'package:flutter_demo/presentation/views/common/web_view/web_view.dart';
+import 'package:flutter_demo/presentation/common/web_view/web_view.dart';
 // import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';

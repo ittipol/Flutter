@@ -3,7 +3,7 @@ import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/domain/entities/component_detail_entity.dart';
 import 'package:flutter_demo/gen/assets.gen.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/scaffold_blank_page_widget/scaffold_blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/scaffold_blank_page_widget/scaffold_blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_article_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -140,7 +140,7 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
             child: Container(
               margin: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
                 color: AppColor.primary.percentAlpha(70),
               ),
               height: 200.h,              
@@ -159,7 +159,7 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
           //   child: Container(
           //     margin: EdgeInsets.all(16.w),
           //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.all(Radius.circular(8.r)),
+          //       borderRadius: const BorderRadius.all(Radius.circular(8)),
           //       color: AppColor.primary.percentAlpha(70),
           //     ),
           //     height: 200.h,              

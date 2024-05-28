@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/home/home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,7 +42,9 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
         },
         child: Scaffold(
           appBar: widget.appBar,
-          body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
+          body: LoaderOverlayBlankPageWidget(
+            body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
+          ),
           bottomNavigationBar: widget.bottomNavigationBar,
           resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
         ),

@@ -3,7 +3,7 @@ import 'package:flutter_demo/config/app/app_config.dart';
 import 'package:flutter_demo/config/observer/route_history_observer.dart';
 import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
-import 'package:flutter_demo/config/theme/theme_provider.dart';
+import 'package:flutter_demo/provider/theme_provider.dart';
 import 'package:flutter_demo/utils/local_storage_utils.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

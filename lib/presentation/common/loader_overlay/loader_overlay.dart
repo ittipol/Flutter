@@ -21,7 +21,7 @@ final class LoaderOverlay {
 
     showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: false,      
       useSafeArea: false,      
       builder: (context) {
         return PopScope(
@@ -38,7 +38,7 @@ final class LoaderOverlay {
                 strokeWidth: 3,
                 color: AppColor.primary
               )
-            ),
+            )
           )
         );
       }
@@ -51,5 +51,4 @@ final class LoaderOverlay {
       _isShow = false;
     }
   }
-
 }

@@ -81,7 +81,7 @@ class _ComponentGridView  extends ConsumerState<ComponentGridView> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -99,10 +99,10 @@ class _ComponentGridView  extends ConsumerState<ComponentGridView> {
                             width: double.infinity,
                             height: 100.h,
                             clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8.r),
-                                topRight: Radius.circular(8.r)
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8)
                               )
                             ),
                             child: Hero(

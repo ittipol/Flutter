@@ -1,4 +1,4 @@
-import 'package:flutter_demo/presentation/views/common/web_view/web_view_state.dart';
+import 'package:flutter_demo/presentation/common/web_view/web_view_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WebViewController extends StateNotifier<WebViewState> {

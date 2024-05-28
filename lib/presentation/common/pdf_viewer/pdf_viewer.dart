@@ -1,7 +1,7 @@
 import 'package:alh_pdf_view/alh_pdf_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/utils/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/views/common/web_view/components/web_view_progress_bar.dart';
-import 'package:flutter_demo/presentation/views/common/web_view/web_view_provider.dart';
+import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/web_view/components/web_view_progress_bar.dart';
+import 'package:flutter_demo/presentation/common/web_view/web_view_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';

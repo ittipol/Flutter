@@ -29,7 +29,7 @@ class ModalDialogWidget {
             content: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: useBorderRadius ? BorderRadius.all(Radius.circular(8.r)) : null
+                borderRadius: useBorderRadius ? const BorderRadius.all(Radius.circular(8)) : null
               ),
               padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
               width: width,
@@ -45,7 +45,7 @@ class ModalDialogWidget {
   Future<T?> showModalDialogFullScreen<T>({
     required BuildContext context, 
     Widget? body, 
-    bool displayBackBtn = false
+    bool showBackBtn = false
   }) {
     return showModalDialog(
       context: context,
@@ -60,7 +60,7 @@ class ModalDialogWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Visibility(
-              visible: displayBackBtn,
+              visible: showBackBtn,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +104,7 @@ class ModalDialogWidget {
   Future<T?> showFixedScreenModalDialog<T>({
     required BuildContext context, 
     Widget? body, 
-    bool displayBackBtn = false,
+    bool showBackBtn = false,
     required double width, 
     required double height,
     bool useBorderRadius = true
@@ -122,7 +122,7 @@ class ModalDialogWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Visibility(
-              visible: displayBackBtn,
+              visible: showBackBtn,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +199,7 @@ class ModalDialogWidget {
                 alignment: Alignment.center,                            
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Colors.blue.shade600),
-                  borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                   color: Colors.blue.shade600
                 ),
                 padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -261,7 +261,7 @@ class ModalDialogWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.black45),
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
                         color: Colors.white
                       ),
                       padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -282,7 +282,7 @@ class ModalDialogWidget {
                       alignment: Alignment.center,                            
                       decoration: BoxDecoration(
                         border: Border.all(width: 1, color: Colors.blue.shade600),
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
                         color: Colors.blue.shade600
                       ),
                       padding: EdgeInsets.symmetric(vertical: 8.h),

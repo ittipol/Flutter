@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/config/theme/app_theme.dart';
-import 'package:flutter_demo/config/theme/theme_provider.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
+import 'package:flutter_demo/provider/theme_provider.dart';
+import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/home/home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,7 @@ class _HomeView  extends ConsumerState<HomeView> {
     final isDarkMode = ref.watch(darkModeSelectProvider);
 
     return BlankPageWidget(
-      displayBackBtn: false,
+      showBackBtn: false,
       body: SingleChildScrollView(
         clipBehavior: Clip.antiAlias,
         physics: const ClampingScrollPhysics(),
@@ -67,9 +68,7 @@ class _HomeView  extends ConsumerState<HomeView> {
                     ref.read(themeProvider.notifier).state = AppTheme.darkMode;
                   }else {
                     ref.read(themeProvider.notifier).state = AppTheme.lightMode;
-                  }
-
-                  
+                  }                  
                 },
                 controlAffinity: ListTileControlAffinity.trailing,
               ),
@@ -82,8 +81,12 @@ class _HomeView  extends ConsumerState<HomeView> {
               ),
               SizedBox(height: 16.h),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, RouteName.localStorageDemoView);
+                onTap: () async {
+                  ref.read(isShowLoaderOverlayProvider.notifier).show();
+
+                  await Future.delayed(const Duration(seconds: 2), () {
+                    Navigator.pushNamed(context, RouteName.localStorageDemoView);
+                  });
                 },
                 child: _button(text: "Local storage")
               ),
@@ -121,7 +124,7 @@ class _HomeView  extends ConsumerState<HomeView> {
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.all(Radius.circular(32.r))
+        borderRadius: const BorderRadius.all(Radius.circular(32))
       ),
       child: Row(
         children: [

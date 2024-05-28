@@ -8,7 +8,9 @@ final class AppTheme {
       onBackground: Colors.grey.shade300,
       background: Colors.white,
       primary: Colors.blue.shade800,
-      secondary: Colors.blue.shade700,    
+      secondary: Colors.blue.shade700,
+      tertiary: Colors.blue.shade600,
+      onSurface: Colors.black
     ),
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
@@ -28,7 +30,9 @@ final class AppTheme {
       onBackground: Colors.grey.shade700,
       background: Colors.grey.shade900,
       primary: Colors.grey.shade800,
-      secondary: Colors.grey.shade700
+      secondary: Colors.grey.shade700,
+      tertiary: Colors.grey.shade600,
+      onSurface: Colors.white
     ),
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: AppBarTheme(

@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_article_list/component_article_list_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_grid/component_grid_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_button_group_and_list/component_button_group_and_list_view.dart';
@@ -59,12 +59,10 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
   Widget build(BuildContext context) {    
 
     return BlankPageWidget(
-      displayBackBtn: false,
+      showBackBtn: false,
       appBar: AppBar(
         title: const Text('App Bar'),
         centerTitle: true,
-        // foregroundColor: Colors.black,
-        // backgroundColor: Colors.white,
         elevation: 8,
         shadowColor: Colors.black,      
         leading: BackButton(
@@ -248,7 +246,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 onTap: () {
                   ModalDialogWidget().showModalDialogFullScreen(
                     context: context,
-                    displayBackBtn: true,
+                    showBackBtn: true,
                     body: Text(
                       "Full screen modal dialog",
                       style: TextStyle(
@@ -272,7 +270,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 onTap: () {
                   ModalDialogWidget().showFixedScreenModalDialog(
                     context: context,
-                    displayBackBtn: true,
+                    showBackBtn: true,
                     body: Text(
                       "Fixed screen modal dialog",
                       overflow: TextOverflow.ellipsis,
@@ -310,9 +308,9 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       height: 30.h,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColor.primary,
-        borderRadius: BorderRadius.all(Radius.circular(32.r))
+        borderRadius: BorderRadius.all(Radius.circular(32))
       ),
       child: Text(
         text,

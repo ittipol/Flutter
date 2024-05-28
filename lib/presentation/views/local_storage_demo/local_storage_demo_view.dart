@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/presentation/views/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/views/common/loader_overlay/loader_overlay.dart';
-import 'package:flutter_demo/presentation/views/common/modal_dialog/modal_dialog_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
+import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,10 +25,10 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      LoaderOverlay.show(context);
+      ref.read(isShowLoaderOverlayProvider.notifier).show();
       await ref.read(localStorageDemoProvider.notifier).getData();
       await Future.delayed(const Duration(seconds: 1), () {
-        LoaderOverlay.hide(context);
+        ref.read(isShowLoaderOverlayProvider.notifier).hide();
       });
     });     
   }
@@ -47,7 +47,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
     return BlankPageWidget(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
-        color: Colors.white,
+        // color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,14 +56,31 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
               "Stored text",
               style: TextStyle(
                 fontSize: 24.sp,
-                color: Colors.black
+                color: Theme.of(context).colorScheme.onSurface
               ),
             ),
-            Text(
-              (state.name == null || state.name == "") ? "No stored text" : state.name ?? "",
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: (state.name == null || state.name == "") ? Colors.red :Colors.black
+            SizedBox(height: 4.h),
+            Container(
+              constraints: const BoxConstraints(
+                maxHeight: 200
+              ),
+              width: MediaQuery.sizeOf(context).width,
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),              
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: const BorderRadius.all(Radius.circular(4))
+              ),
+              child: SingleChildScrollView(
+                clipBehavior: Clip.antiAlias,
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                child: Text(
+                  (state.name == null || state.name == "") ? "No stored text" : state.name ?? "",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: (state.name == null || state.name == "") ? Colors.red : Colors.black
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 16.h),
@@ -82,10 +99,16 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                         },
                         onTapOk: () async {
                           if(Navigator.canPop(context)) Navigator.pop(context);
-                          LoaderOverlay.show(context);
+                          ref.read(isShowLoaderOverlayProvider.notifier).show();
                           await ref.read(localStorageDemoProvider.notifier).deleteData();
                           await Future.delayed(const Duration(seconds: 1), () {
-                            LoaderOverlay.hide(context);                            
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text("Stored text deleted"),
+                              behavior: SnackBarBehavior.floating,                              
+                              dismissDirection: DismissDirection.horizontal,
+                              duration: Duration(seconds: 4)
+                            ));
+                            ref.read(isShowLoaderOverlayProvider.notifier).hide();
                           });
                         },
                         useInsetPadding: true,
@@ -95,7 +118,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
                         color: Colors.red.shade500
                       ),
                       padding: EdgeInsets.symmetric(vertical: 8.h),
@@ -125,12 +148,30 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                         },
                         onTapOk: () async {
                           if(Navigator.canPop(context)) Navigator.pop(context);
-                          LoaderOverlay.show(context);
-                          await ref.read(localStorageDemoProvider.notifier).saveData(_textController.text);
-                          await Future.delayed(const Duration(seconds: 1), () {
-                            LoaderOverlay.hide(context);                            
-                            _textController.text = "";
-                          });
+
+                          if(_textController.text.isEmpty) {
+
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text("No input text"),
+                              behavior: SnackBarBehavior.floating,                              
+                              dismissDirection: DismissDirection.horizontal,
+                              duration: Duration(seconds: 4)
+                            ));
+
+                          }else {
+                            ref.read(isShowLoaderOverlayProvider.notifier).show();
+                            await ref.read(localStorageDemoProvider.notifier).saveData(_textController.text);
+                            await Future.delayed(const Duration(seconds: 1), () {
+                              _textController.text = "";
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text("Stored text saved"),
+                                behavior: SnackBarBehavior.floating,                              
+                                dismissDirection: DismissDirection.horizontal,
+                                duration: Duration(seconds: 4)
+                              ));
+                              ref.read(isShowLoaderOverlayProvider.notifier).hide();
+                            });
+                          }                          
                         },
                         useInsetPadding: true,
                         fullScreenWidth: true
@@ -139,7 +180,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                     child: Container(
                       alignment: Alignment.center,                            
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
                         color: Colors.green.shade500
                       ),
                       padding: EdgeInsets.symmetric(vertical: 8.h),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/presentation/views/common/web_view/web_view_provider.dart';
+import 'package:flutter_demo/presentation/common/web_view/web_view_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WebViewProgressBar extends ConsumerStatefulWidget {
