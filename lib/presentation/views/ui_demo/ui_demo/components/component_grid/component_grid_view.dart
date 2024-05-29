@@ -25,13 +25,9 @@ class _ComponentGridView  extends ConsumerState<ComponentGridView> {
     List<ComponentDetailEntity> list = List.empty(growable: true);
     list.add(ComponentDetailEntity(title: "What's new in Flutter", image: Assets.images.detail.path));
     list.add(ComponentDetailEntity(title: "Flutter Clean Architecture", image: Assets.images.detail.path));
-    list.add(ComponentDetailEntity(title: "Flutter State Management", image: Assets.images.detail.path));
-    list.add(ComponentDetailEntity(title: "Flutter Developer Complete Roadmap 2024", image: Assets.images.detail.path));
     list.add(ComponentDetailEntity(title: "Tailwind CSS Tutorial ", image: Assets.images.detail.path));
     list.add(ComponentDetailEntity(title: "Every React Concept Explained in 12 Minutes", image: Assets.images.detail.path));
     list.add(ComponentDetailEntity(title: "What’s new in DevTools", image: Assets.images.detail.path));
-    list.add(ComponentDetailEntity(title: "Installing the package", image: Assets.images.detail.path));
-    list.add(ComponentDetailEntity(title: "Biggest New Features", image: Assets.images.detail.path));
     list.add(ComponentDetailEntity(title: "Next-Gen Graphics Tech Demo", image: Assets.images.detail.path));
 
     return Column(

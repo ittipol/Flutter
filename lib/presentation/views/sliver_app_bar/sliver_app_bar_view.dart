@@ -80,11 +80,9 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
               )
             ),
             centerTitle: true,
-            title: const Text(
+            title: Text(
               "Sliver App Bar",
-              style: TextStyle(
-                color: Colors.white
-              ),
+              style: const TextStyle().copyWith(fontSize: 16.sp, color: Colors.white),
             ),
             flexibleSpace: FlexibleSpaceBar(              
               background: Image(

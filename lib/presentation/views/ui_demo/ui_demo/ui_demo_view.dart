@@ -8,6 +8,7 @@ import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/compo
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_button_group_and_list/component_button_group_and_list_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class UiDemoView extends ConsumerStatefulWidget {
 
@@ -61,7 +62,10 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
     return BlankPageWidget(
       showBackBtn: false,
       appBar: AppBar(
-        title: const Text('App Bar'),
+        title: Text(
+          "APP BAR",
+          style: const TextStyle().copyWith(fontSize: 16.sp),
+        ),
         centerTitle: true,
         elevation: 8,
         shadowColor: Colors.black,      
@@ -295,11 +299,77 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               SizedBox(height: 16.h),
               const ComponentArticleListView(),
               SizedBox(height: 16.h),
-              const ComponentGridView()
-            ],
-          ),
+              const ComponentGridView(),              
+
+              Slidable(
+                // Specify a key if the Slidable is dismissible.
+                // key: const ValueKey(0),
+                startActionPane: ActionPane(
+                  motion: const StretchMotion(),
+                  // dismissible: DismissiblePane(onDismissed: () {}),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) {                        
+                      },
+                      backgroundColor: const Color(0xFFFE4A49),
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                    SlidableAction(
+                      onPressed: (context) {                        
+                      },
+                      backgroundColor: const Color(0xFF21B7CA),
+                      foregroundColor: Colors.white,
+                      icon: Icons.share,
+                      label: 'Share',
+                    )
+                  ]
+                ),
+                endActionPane: ActionPane(
+                  motion: const StretchMotion(),
+                  children: [
+                    SlidableAction(
+                      // flex: 2,
+                      onPressed: (context) {                        
+                      },
+                      backgroundColor: const Color(0xFF7BC043),
+                      foregroundColor: Colors.white,
+                      icon: Icons.archive,
+                      label: 'Archive',
+                    ),
+                    SlidableAction(
+                      onPressed: (context) {                        
+                      },
+                      backgroundColor: const Color(0xFF0392CF),
+                      foregroundColor: Colors.white,
+                      icon: Icons.save,
+                      label: 'Save',
+                    ),
+                  ],
+                ),
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: const ListTile(                    
+                    title: Text(
+                      "Slide me",
+                      style: TextStyle(
+                        color: Colors.black
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_right_alt,
+                      color: Colors.black,
+                    ),
+                  )
+                )
+              )
+            ]
+          )
         )
-      )      
+      )
     );
   }
 

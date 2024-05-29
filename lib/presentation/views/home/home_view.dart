@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
-import 'package:flutter_demo/config/theme/app_theme.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
-import 'package:flutter_demo/provider/theme_provider.dart';
+import 'package:flutter_demo/presentation/views/home/components/selecting_theme_switch/selecting_theme_switch_view.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/views/home/home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeView extends ConsumerStatefulWidget {
 
@@ -23,7 +22,10 @@ class _HomeView  extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkMode = ref.watch(darkModeSelectProvider);
+    // var screenSize = MediaQuery.of(context).size;
+    // var screenWidth = screenSize.width;
+    // var screenHeight = screenSize.height;
+    // var clientHeight = screenHeight - kToolbarHeight;
 
     return BlankPageWidget(
       showBackBtn: false,
@@ -56,22 +58,73 @@ class _HomeView  extends ConsumerState<HomeView> {
                   )
                 ),
               ),
-              SwitchListTile(                
-                title: const Text("Dark mode"),
-                contentPadding: EdgeInsets.zero,
-                value: isDarkMode,
-                onChanged: (value) {
+              // ResponsiveBuilder(
+              //   builder: (context, sizingInformation) {
+              //     // Check the sizing information here and return your UI
+              //     if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
+              //       return Container(color:Colors.blue);
+              //     }
 
-                  ref.read(darkModeSelectProvider.notifier).state = value;
+              //     if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
+              //       return Container(color:Colors.red);
+              //     }
 
-                  if(value) {
-                    ref.read(themeProvider.notifier).state = AppTheme.darkMode;
-                  }else {
-                    ref.read(themeProvider.notifier).state = AppTheme.lightMode;
-                  }                  
+              //     if (sizingInformation.deviceScreenType == DeviceScreenType.watch) {
+              //       return Container(color:Colors.yellow);
+              //     }
+
+              //     return Container(color:Colors.purple);                  
+              //   }
+              // ),
+              ScreenTypeLayout.builder(
+                mobile: (context) {
+
+                  return OrientationLayoutBuilder(
+                    portrait: (context) => Container(
+                      padding: EdgeInsets.all(8.w),
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.all(Radius.circular(16))
+                      ),
+                      child: const Text(
+                        "Mobile Portrait",
+                        style: TextStyle(
+                          color: Colors.white
+                        )
+                      )
+                    ),
+                    landscape: (context) => Container(
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade800,
+                        borderRadius: const BorderRadius.all(Radius.circular(16))
+                      ),
+                      child: const Text(
+                        "Mobile Landscape",
+                        style: TextStyle(
+                          color: Colors.white
+                        )
+                      )
+                    )
+                  );
                 },
-                controlAffinity: ListTileControlAffinity.trailing,
+                tablet: (context) {
+                  return Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: const BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.all(Radius.circular(16))
+                    ),
+                    child: const Text(
+                      "Tablet",
+                      style: TextStyle(
+                        color: Colors.white
+                      )
+                    )
+                  );
+                }
               ),
+              const SelectingThemeSwitchView(),
               SizedBox(height: 8.h),
               GestureDetector(
                 onTap: () {

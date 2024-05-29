@@ -5,6 +5,8 @@ import 'package:flutter_demo/presentation/views/api_service_demo/api_service_ind
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_view.dart';
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_view.dart';
+import 'package:flutter_demo/presentation/views/on_boarding_screen/on_boarding_screen_view.dart';
+import 'package:flutter_demo/presentation/views/screen_capture/screen_capture_view.dart';
 import 'package:flutter_demo/presentation/views/sliver_app_bar/sliver_app_bar_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/ui_demo_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_article_view.dart';
@@ -34,13 +36,33 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.sliverAppBarView), builder: (_) => const SliverAppBarView());
       case RouteName.localStorageDemoView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.localStorageDemoView), builder: (_) => const LocalStorageDemoView());
+      case RouteName.screenCaptureView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.screenCaptureView), builder: (_) => const ScreenCaptureView());
+      case RouteName.onBoardingScreenView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.onBoardingScreenView), builder: (_) => const OnBoardingScreenView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
             body: Container(),
           ),
         );
+    }    
+  }
+
+  static List<Route<dynamic>> onGenerateInitialRoutes(String initialRoute) {
+    switch (initialRoute) {
+      case RouteName.home:
+        return [
+          MaterialPageRoute(settings: const RouteSettings(name: RouteName.home), builder: (_) => const HomeView())
+        ];
+      case RouteName.onBoardingScreenView:
+        return [
+          MaterialPageRoute(settings: const RouteSettings(name: RouteName.onBoardingScreenView), builder: (_) => const OnBoardingScreenView())
+        ];
+      default:
     }
+
+    return [];
   }
 
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_demo/config/app/app_config.dart';
 import 'package:flutter_demo/config/observer/route_history_observer.dart';
 import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
+import 'package:flutter_demo/setting/app_theme_setting.dart';
 import 'package:flutter_demo/provider/theme_provider.dart';
+import 'package:flutter_demo/setting/on_boarding_screen_setting.dart';
 import 'package:flutter_demo/utils/local_storage_utils.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,17 +19,34 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await LocalStorageUtils.clearKeychainValues();
 
+  await AppThemeSetting.init();
+
+  final showOnBoardingScreen = await OnBoardingScreenSetting.showOnBoardingScreen;
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   Future.delayed(const Duration(seconds: 2), () {
     FlutterNativeSplash.remove();
   });
 
-  runApp(const ProviderScope(
-    child: MyApp(),
+  runApp(ProviderScope(
+    child: MyApp(
+      showOnBoardingScreen: showOnBoardingScreen,
+    ),
   ));
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+
+  final bool showOnBoardingScreen;
+
+  const MyApp({
+    required this.showOnBoardingScreen,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {    
@@ -34,16 +54,17 @@ class MyApp extends ConsumerWidget {
     final theme = ref.watch(themeProvider);
 
     return ScreenUtilInit(
-      designSize: const Size(360, 640),
+      designSize: const Size(360, 690),
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
-          title: 'Flutter Demo',           
+          title: 'Flutter',           
           theme: theme,
           // theme: lightMode,
           // darkTheme: darkMode,
           // themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteName.home,
+          initialRoute: showOnBoardingScreen ? RouteName.onBoardingScreenView : RouteName.home,
+          onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
           onGenerateRoute: AppRouter.generateRoute,    
           navigatorObservers: [RouteHistoryObserver()],      
         );

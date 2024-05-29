@@ -7,5 +7,7 @@ final class RouteName {
   static const uiDemoArticleView = "/uiDemoArticleView";
   static const webViewDemoView = "/webViewDemoView";
   static const sliverAppBarView = "/sliverAppBarView";
-  static const localStorageDemoView = "/localStorageDemoView";  
+  static const localStorageDemoView = "/localStorageDemoView";
+  static const screenCaptureView = "/screenCaptureView";
+  static const onBoardingScreenView = "/onBoardingScreenView";  
 }

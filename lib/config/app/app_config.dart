@@ -1,3 +1,3 @@
 final class AppConfig {
-  static const env = String.fromEnvironment("ENV", defaultValue: "uat"); 
+  static const env = String.fromEnvironment("ENV", defaultValue: "uat");  
 }
