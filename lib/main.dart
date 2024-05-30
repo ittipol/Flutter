@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/app/app_config.dart';
-import 'package:flutter_demo/config/observer/route_history_observer.dart';
 import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
+import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
+import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
 import 'package:flutter_demo/setting/app_theme_setting.dart';
 import 'package:flutter_demo/provider/theme_provider.dart';
 import 'package:flutter_demo/setting/on_boarding_screen_setting.dart';
 import 'package:flutter_demo/utils/local_storage_utils.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   debugPrint("--------------------- ENV ======> [ ${AppConfig.env} ]");
@@ -40,7 +41,6 @@ void main() async {
 }
 
 class MyApp extends ConsumerWidget {
-
   final bool showOnBoardingScreen;
 
   const MyApp({
@@ -53,22 +53,54 @@ class MyApp extends ConsumerWidget {
 
     final theme = ref.watch(themeProvider);
 
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
-          title: 'Flutter',           
-          theme: theme,
-          // theme: lightMode,
-          // darkTheme: darkMode,
-          // themeMode: ThemeMode.system,
-          debugShowCheckedModeBanner: false,
-          initialRoute: showOnBoardingScreen ? RouteName.onBoardingScreenView : RouteName.home,
-          onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
-          onGenerateRoute: AppRouter.generateRoute,    
-          navigatorObservers: [RouteHistoryObserver()],      
-        );
-      }
+    return ResponsiveLayoutBuilder(
+      desktop: _desktopBuild(theme),
+      tablet: _tabletBuild(theme),
+      mobile: _mobileBuild(theme),
+      watch: _watchBuild(theme),
+      notMatch: const MaterialAppBlankWidget(),
+    );
+  }  
+
+  MaterialAppBlankWidget _desktopBuild(ThemeData theme) {
+    return MaterialAppBlankWidget(
+      theme: theme,
+      home: const Center(
+        child: Text(
+          "Desktop",
+          style: TextStyle(
+            fontSize: 32,
+            color: AppColor.primary
+          )
+        )
+      )
+    );
+  }
+
+  MaterialAppBlankWidget _tabletBuild(ThemeData theme) {
+    return MaterialAppBlankWidget(
+      theme: theme,
+      initialRoute: showOnBoardingScreen ? RouteName.onBoardingScreenView : RouteName.home,
+      onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
+      onGenerateRoute: AppRouter.generateRoute,
+      width: 768,
+      height: 1280,
+    );
+  }
+
+  MaterialAppBlankWidget _mobileBuild(ThemeData theme) {
+    return MaterialAppBlankWidget(
+      theme: theme,
+      initialRoute: showOnBoardingScreen ? RouteName.onBoardingScreenView : RouteName.home,
+      onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
+      onGenerateRoute: AppRouter.generateRoute
+    );
+  }
+
+  MaterialAppBlankWidget _watchBuild(ThemeData theme) {
+    return MaterialAppBlankWidget(
+      theme: theme,
+      home: Container()
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:flutter_demo/presentation/views/home/components/selecting_theme_
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeView extends ConsumerStatefulWidget {
 
@@ -54,75 +53,9 @@ class _HomeView  extends ConsumerState<HomeView> {
                 child: Text(
                   "Flutter",
                   style: TextStyle(
-                    fontSize: 24.sp
+                    fontSize: 24.spMin
                   )
                 ),
-              ),
-              // ResponsiveBuilder(
-              //   builder: (context, sizingInformation) {
-              //     // Check the sizing information here and return your UI
-              //     if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-              //       return Container(color:Colors.blue);
-              //     }
-
-              //     if (sizingInformation.deviceScreenType == DeviceScreenType.tablet) {
-              //       return Container(color:Colors.red);
-              //     }
-
-              //     if (sizingInformation.deviceScreenType == DeviceScreenType.watch) {
-              //       return Container(color:Colors.yellow);
-              //     }
-
-              //     return Container(color:Colors.purple);                  
-              //   }
-              // ),
-              ScreenTypeLayout.builder(
-                mobile: (context) {
-
-                  return OrientationLayoutBuilder(
-                    portrait: (context) => Container(
-                      padding: EdgeInsets.all(8.w),
-                      decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(16))
-                      ),
-                      child: const Text(
-                        "Mobile Portrait",
-                        style: TextStyle(
-                          color: Colors.white
-                        )
-                      )
-                    ),
-                    landscape: (context) => Container(
-                      padding: EdgeInsets.all(8.w),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade800,
-                        borderRadius: const BorderRadius.all(Radius.circular(16))
-                      ),
-                      child: const Text(
-                        "Mobile Landscape",
-                        style: TextStyle(
-                          color: Colors.white
-                        )
-                      )
-                    )
-                  );
-                },
-                tablet: (context) {
-                  return Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: const BoxDecoration(
-                      color: Colors.purple,
-                      borderRadius: BorderRadius.all(Radius.circular(16))
-                    ),
-                    child: const Text(
-                      "Tablet",
-                      style: TextStyle(
-                        color: Colors.white
-                      )
-                    )
-                  );
-                }
               ),
               const SelectingThemeSwitchView(),
               SizedBox(height: 8.h),
@@ -153,6 +86,13 @@ class _HomeView  extends ConsumerState<HomeView> {
               SizedBox(height: 16.h),
               GestureDetector(
                 onTap: () {
+                  Navigator.pushNamed(context, RouteName.responsiveDesignView);
+                },
+                child: _button(text: "Responsive Design")
+              ),
+              SizedBox(height: 16.h),
+              GestureDetector(
+                onTap: () {
                   Navigator.pushNamed(context, RouteName.webViewDemoView);
                 },
                 child: _button(text: "WebView")
@@ -167,7 +107,7 @@ class _HomeView  extends ConsumerState<HomeView> {
             ]
           )
         )
-      )      
+      )
     );
   }
 
@@ -186,7 +126,7 @@ class _HomeView  extends ConsumerState<HomeView> {
               text,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 16.spMin,
                 color: Colors.white
               ),
             )

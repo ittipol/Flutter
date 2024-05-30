@@ -57,7 +57,7 @@ class _ComponentGridView  extends ConsumerState<ComponentGridView> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 9/16,
+                  childAspectRatio: 9/16, // Horizontal/Vertical
                   mainAxisSpacing: 8.h,
                   crossAxisSpacing: 8.w,
                 ),

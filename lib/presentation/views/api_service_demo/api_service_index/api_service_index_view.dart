@@ -270,7 +270,8 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   "Previous",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: (offset - limit < 0) ? Colors.black87 : Colors.white
+                                    color: (offset - limit < 0) ? Colors.black87 : Colors.white,
+                                    fontSize: 16.spMin
                                   ),
                                 ),
                               )
@@ -301,7 +302,8 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   "Next",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.black87 : Colors.white
+                                    color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.black87 : Colors.white,
+                                    fontSize: 16.spMin
                                   ),
                                 ),
                               )

@@ -9,5 +9,6 @@ final class RouteName {
   static const sliverAppBarView = "/sliverAppBarView";
   static const localStorageDemoView = "/localStorageDemoView";
   static const screenCaptureView = "/screenCaptureView";
-  static const onBoardingScreenView = "/onBoardingScreenView";  
+  static const onBoardingScreenView = "/onBoardingScreenView";
+  static const responsiveDesignView = "/responsiveDesignView";  
 }
