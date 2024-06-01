@@ -49,7 +49,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
             child: Text(
               "Pokemon index",
               style: TextStyle(
-                fontSize: 24.sp
+                fontSize: 24.spMin
               )
             )
           ),
@@ -92,7 +92,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   "Search",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontSize: 16.sp,
+                                    fontSize: 16.spMin,
                                     color: Colors.white
                                   ),
                                 )
@@ -130,7 +130,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                       //           "Search",
                       //           style: TextStyle(
                       //             color: Colors.white,
-                      //             fontSize: 16.sp
+                      //             fontSize: 16.spMin
                       //           ),
                       //         ),
                       //       ],
@@ -143,7 +143,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                         child: Text(
                           _paginationCounter(state),
                           style: TextStyle(
-                            fontSize: 16.sp
+                            fontSize: 16.spMin
                           ),
                         ),
                       ),
@@ -221,7 +221,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                               item.name ?? "",
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                fontSize: 16.sp,
+                                                fontSize: 16.spMin,
                                                 color: Colors.black
                                               ),
                                             ),

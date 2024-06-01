@@ -4,6 +4,7 @@ import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/app/app_config.dart';
 import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
+import 'package:flutter_demo/config/route/tablet/tablet_route.dart';
 import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
 import 'package:flutter_demo/setting/app_theme_setting.dart';
@@ -25,6 +26,8 @@ void main() async {
   final showOnBoardingScreen = await OnBoardingScreenSetting.showOnBoardingScreen;
 
   SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
@@ -54,25 +57,41 @@ class MyApp extends ConsumerWidget {
     final theme = ref.watch(themeProvider);
 
     return ResponsiveLayoutBuilder(
-      desktop: _desktopBuild(theme),
-      tablet: _tabletBuild(theme),
-      mobile: _mobileBuild(theme),
-      watch: _watchBuild(theme),
-      notMatch: const MaterialAppBlankWidget(),
+      desktopAll: (ctx) {
+        return _desktopBuild(theme);
+      },
+      tabletAll: (ctx) {
+        return _tabletBuild(theme);
+      },
+      mobileAll: (ctx) {
+        return _mobileBuild(theme);
+      },
+      watchAll: (ctx) {
+        return _watchBuild(theme);
+      },
+      webAppAll: (ctx) {
+        return _webAppBuild(theme);
+      },
+      notMatchAll: (ctx) {
+        return const MaterialAppBlankWidget();
+      },
     );
   }  
 
   MaterialAppBlankWidget _desktopBuild(ThemeData theme) {
     return MaterialAppBlankWidget(
       theme: theme,
-      home: const Center(
-        child: Text(
-          "Desktop",
-          style: TextStyle(
-            fontSize: 32,
-            color: AppColor.primary
+      home: Container(
+        color: Colors.black,
+        child: const Center(
+          child: Text(
+            "Desktop",
+            style: TextStyle(
+              fontSize: 32,
+              color: AppColor.primary
+            )
           )
-        )
+        ),
       )
     );
   }
@@ -80,9 +99,9 @@ class MyApp extends ConsumerWidget {
   MaterialAppBlankWidget _tabletBuild(ThemeData theme) {
     return MaterialAppBlankWidget(
       theme: theme,
-      initialRoute: showOnBoardingScreen ? RouteName.onBoardingScreenView : RouteName.home,
-      onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
-      onGenerateRoute: AppRouter.generateRoute,
+      initialRoute: RouteName.home,
+      onGenerateInitialRoutes: TabletAppRouter.onGenerateInitialRoutes,
+      onGenerateRoute: TabletAppRouter.generateRoute,
       width: 768,
       height: 1280,
     );
@@ -101,6 +120,15 @@ class MyApp extends ConsumerWidget {
     return MaterialAppBlankWidget(
       theme: theme,
       home: Container()
+    );
+  }
+
+  MaterialAppBlankWidget _webAppBuild(ThemeData theme) {
+    return MaterialAppBlankWidget(
+      theme: theme,
+      initialRoute: showOnBoardingScreen ? RouteName.onBoardingScreenView : RouteName.home,
+      onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
+      onGenerateRoute: AppRouter.generateRoute
     );
   }
 }

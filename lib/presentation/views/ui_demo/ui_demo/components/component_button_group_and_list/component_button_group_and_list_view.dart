@@ -64,7 +64,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     child: Text(
                       "vertical",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         color: Colors.white
                       ),
                     ),
@@ -95,7 +95,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     child: Text(
                       "Horizon",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.spMin,
                         color: Colors.white
                       )
                     ),
@@ -143,7 +143,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                       child: Text(
                         item.title,
                         style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 16.spMin,
                           color: Colors.white
                         ),
                       ),
@@ -192,7 +192,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                             item.title,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 16.spMin,
                               color: Colors.white
                             ),
                           ),

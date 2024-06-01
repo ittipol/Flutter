@@ -55,7 +55,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
             Text(
               "Stored text",
               style: TextStyle(
-                fontSize: 24.sp,
+                fontSize: 24.spMin,
                 color: Theme.of(context).colorScheme.onSurface
               ),
             ),
@@ -77,7 +77,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                 child: Text(
                   (state.name == null || state.name == "") ? "No stored text" : state.name ?? "",
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 16.spMin,
                     color: (state.name == null || state.name == "") ? Colors.red : Colors.black
                   ),
                 ),

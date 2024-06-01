@@ -59,7 +59,7 @@ class _UiDemoArticleView  extends ConsumerState<UiDemoArticleView> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
-                          fontSize: 16.sp
+                          fontSize: 16.spMin
                         ),
                       ),
                     ),
@@ -67,7 +67,7 @@ class _UiDemoArticleView  extends ConsumerState<UiDemoArticleView> {
                     Text(
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id donec ultrices tincidunt arcu non. Sed enim ut sem viverra aliquet eget sit. Ac tincidunt vitae semper quis lectus nulla at volutpat diam. Elementum sagittis vitae et leo duis. Nulla pellentesque dignissim enim sit amet venenatis. Dignissim cras tincidunt lobortis feugiat vivamus at. Ut pharetra sit amet aliquam id. Pretium nibh ipsum consequat nisl vel pretium lectus quam. Erat imperdiet sed euismod nisi porta. Est ultricies integer quis auctor. Dignissim suspendisse in est ante. Turpis in eu mi bibendum neque egestas congue quisque egestas. Elit at imperdiet dui accumsan sit. Faucibus ornare suspendisse sed nisi lacus sed. Maecenas pharetra convallis posuere morbi leo. Lectus proin nibh nisl condimentum id venenatis a. Ut tellus elementum sagittis vitae et leo duis ut diam. Cras sed felis eget velit.",
                       style: TextStyle(
-                        fontSize: 12.sp
+                        fontSize: 12.spMin
                       ),
                     )
                   ],

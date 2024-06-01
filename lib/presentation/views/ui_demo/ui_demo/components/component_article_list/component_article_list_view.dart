@@ -46,7 +46,7 @@ class _ComponentArticleListView  extends ConsumerState<ComponentArticleListView>
                 child: Text(
                   "List",
                   style: TextStyle(
-                    fontSize: 24.sp
+                    fontSize: 24.spMin
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class _ComponentArticleListView  extends ConsumerState<ComponentArticleListView>
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: TextStyle(
-                                fontSize: 16.sp
+                                fontSize: 16.spMin
                               )
                             )
                           )

@@ -64,7 +64,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
       appBar: AppBar(
         title: Text(
           "APP BAR",
-          style: const TextStyle().copyWith(fontSize: 16.sp),
+          style: const TextStyle().copyWith(fontSize: 16.spMin),
         ),
         centerTitle: true,
         elevation: 8,
@@ -103,7 +103,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               SizedBox(height: 16.h),
               CarouselSlider(
                 options: CarouselOptions(
-                  height: 400.h,
+                  height: 400.r,
                   // viewportFraction: 1
                 ),
                 items: [1,2,3,4,5].map((i) {
@@ -119,7 +119,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                           child: Text(
                             "Title $i",
                             style: TextStyle(
-                              fontSize: 24.sp,
+                              fontSize: 24.spMin,
                               overflow: TextOverflow.ellipsis,
                               color: Colors.white
                             )
@@ -140,7 +140,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 child: Text(
                   "Modal dialog",
                   style: TextStyle(
-                    fontSize: 24.sp
+                    fontSize: 24.spMin
                   )
                 )
               ),
@@ -148,7 +148,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               Text(
                 "Modal dialog with one button",
                 style: TextStyle(
-                  fontSize: 16.sp
+                  fontSize: 16.spMin
                 )
               ),
               SizedBox(height: 4.h),
@@ -176,7 +176,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                           "(fullScreenWidth = true and useInsetPadding = true)",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 16.spMin,
                             color: Colors.black
                           )
                         ),
@@ -195,7 +195,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               Text(
                 "Modal dialog with two buttons",
                 style: TextStyle(
-                  fontSize: 16.sp
+                  fontSize: 16.spMin
                 )
               ),
               SizedBox(height: 4.h),
@@ -223,7 +223,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                           "(fullScreenWidth = true and useInsetPadding = true)",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 16.spMin,
                             color: Colors.black
                           )
                         ),
@@ -242,7 +242,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               Text(
                 "Full screen modal dialog",
                 style: TextStyle(
-                  fontSize: 16.sp
+                  fontSize: 16.spMin
                 )
               ),
               SizedBox(height: 4.h),
@@ -254,7 +254,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     body: Text(
                       "Full screen modal dialog",
                       style: TextStyle(
-                        fontSize: 24.sp,
+                        fontSize: 24.spMin,
                         color: Colors.black
                       )
                     )
@@ -266,7 +266,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               Text(
                 "Fixed screen modal dialog",
                 style: TextStyle(
-                  fontSize: 16.sp
+                  fontSize: 16.spMin
                 )
               ),
               SizedBox(height: 4.h),
@@ -279,7 +279,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                       "Fixed screen modal dialog",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 24.sp,
+                        fontSize: 24.spMin,
                         color: Colors.black
                       )
                     ),
@@ -386,7 +386,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
         text,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          fontSize: 16.sp,
+          fontSize: 16.spMin,
           color: Colors.white
         ),
       ),

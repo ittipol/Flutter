@@ -15,7 +15,7 @@ import 'package:flutter_demo/presentation/views/web_view_demo/web_view_demo/web_
 
 final class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    debugPrint(">>>>>>>>>>>>>>> [onGenerateRoute] Route name ${settings.name}");
+    debugPrint(">>>>>>>>>>>>>>> [Mobile] [onGenerateRoute] Route name ${settings.name}");
     switch (settings.name) {
       case RouteName.home:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.home), builder: (_) => const HomeView());

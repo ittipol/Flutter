@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
+import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
+import 'package:flutter_demo/setting/app_screen_setting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,20 +21,28 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Future.delayed(const Duration(seconds: 2), () {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+      });
+    });
+    
   }
 
   @override
   dispose(){    
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    if(AppScreenSetting.isMobile) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
     super.dispose();
   }
   
@@ -63,9 +72,9 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
               )
             ),
           ),
-          ResponsiveLayout(
+          ResponsiveLayoutBuilder(
             mobilePortrait: (ctx) {
-              debugPrint("mobilePortrait ${MediaQuery.sizeOf(context).width}");
+              debugPrint("====> mobilePortrait ${MediaQuery.sizeOf(context).width}");
               return Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
@@ -82,7 +91,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
               );
             },
             mobileLandscape: (ctx) {
-              debugPrint("mobileLandscape ${MediaQuery.sizeOf(context).width}");
+              debugPrint("====> mobileLandscape ${MediaQuery.sizeOf(context).width}");
               return Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -132,6 +141,22 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
                 )
               );
             },
+            webAppAll: (ctx) {
+              return Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.indigoAccent.shade700,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))
+                ),
+                child: Text(
+                  "Website",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.spMin
+                  )
+                )
+              );
+            },
           ),
           const SizedBox(height: 24),
           Expanded(
@@ -140,14 +165,26 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
               physics: const ClampingScrollPhysics(),
               child: Column(
                 children: [                  
-                  Text(
-                    "Rotate your device",
-                    style: TextStyle(
-                      fontSize: 16.spMin
-                    ),
+                  ResponsiveLayoutBuilder(
+                    mobileAll: (p0) {
+                      return Text(
+                        "Rotate your device",
+                        style: TextStyle(
+                          fontSize: 16.spMin
+                        ),
+                      );  
+                    },
+                    tabletAll: (p0) {
+                      return Text(
+                        "Rotate your device",
+                        style: TextStyle(
+                          fontSize: 16.spMin
+                        ),
+                      );  
+                    },
                   ),
                   const SizedBox(height: 16),
-                  ResponsiveLayout(
+                  ResponsiveLayoutBuilder(
                     mobilePortrait: (ctx) {
                       return _grid(itemCount: 20, crossAxisCount: 2, childAspectRatio: 9/16);
                     },

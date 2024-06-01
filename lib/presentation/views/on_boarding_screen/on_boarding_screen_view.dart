@@ -64,7 +64,7 @@ class _OnBoardingScreenView  extends ConsumerState<OnBoardingScreenView> {
                       Text(
                         "Flutter",
                         style: TextStyle(
-                          fontSize: 24.sp,
+                          fontSize: 24.spMin,
                           color: Colors.white
                         )
                       )
@@ -87,7 +87,7 @@ class _OnBoardingScreenView  extends ConsumerState<OnBoardingScreenView> {
                         "There are many widgets you can test and play with it",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 24.sp,
+                          fontSize: 24.spMin,
                           color: Colors.black
                         )
                       )

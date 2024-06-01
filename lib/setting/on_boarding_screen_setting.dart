@@ -7,7 +7,7 @@ class OnBoardingScreenSetting {
   static Future<bool> _showOnBoardingScreen() async {
     final prefs = await SharedPreferences.getInstance();
     
-    if (prefs.getBool('show_on_boarding_screen') ?? true) {                
+    if (prefs.getBool('show_on_boarding_screen') ?? true) {
       return true;
     }
 

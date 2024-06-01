@@ -100,7 +100,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
                   widget.args.name,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 24.sp
+                    fontSize: 24.spMin
                   ),
                 ),
               ),
@@ -117,7 +117,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16.sp
+                          fontSize: 16.spMin
                         )
                       ),
                     ),
@@ -128,7 +128,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16.sp
+                          fontSize: 16.spMin
                         )
                       ),
                     )
@@ -154,7 +154,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
                       "Type:",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 16.sp
+                        fontSize: 16.spMin
                       )
                     ),
                     SizedBox(width: 16.w),
@@ -175,7 +175,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
                             item.type?.name ?? "",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 16.sp
+                              fontSize: 16.spMin
                             )
                           );
                         },
@@ -205,7 +205,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
             "Image not found",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 16.spMin,
               color: Colors.black87
             ),
           ),

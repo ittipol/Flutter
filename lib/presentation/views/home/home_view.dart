@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
+import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
 import 'package:flutter_demo/presentation/views/home/components/selecting_theme_switch/selecting_theme_switch_view.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,8 +32,22 @@ class _HomeView  extends ConsumerState<HomeView> {
       body: SingleChildScrollView(
         clipBehavior: Clip.antiAlias,
         physics: const ClampingScrollPhysics(),
-        child: Container(
-          width: MediaQuery.sizeOf(context).width,
+        child: ResponsiveLayout(
+          desktop: (ctx) {
+            return _buttonList(context: ctx, width: MediaQuery.sizeOf(ctx).width * 0.7);
+          },
+          mobile: (ctx) {
+            return _buttonList(context: ctx, width: MediaQuery.sizeOf(ctx).width);
+          },
+        )
+      )
+    );
+  }
+
+  Widget _buttonList({required BuildContext context, required double width}) {
+    return Center(
+      child: Container(
+          width: width,
           margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -69,7 +84,7 @@ class _HomeView  extends ConsumerState<HomeView> {
               GestureDetector(
                 onTap: () async {
                   ref.read(isShowLoaderOverlayProvider.notifier).show();
-
+      
                   await Future.delayed(const Duration(seconds: 2), () {
                     Navigator.pushNamed(context, RouteName.localStorageDemoView);
                   });
@@ -106,14 +121,13 @@ class _HomeView  extends ConsumerState<HomeView> {
               )
             ]
           )
-        )
-      )
+        ),
     );
   }
 
   Widget _button({required String text}) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 8.r),
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,

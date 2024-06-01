@@ -1,0 +1,20 @@
+services:
+  flutter_web:
+    build:
+      args:
+        user: test_user
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    container_name: flutter_web
+    # volumes:
+    #   - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 5000:80
+      # - 5000:5000
+    # volumes:
+    #   - app-volume:/var/www
+    # command: tail -F /dev/null    
+
+# volumes:
+#   app-volume: 
