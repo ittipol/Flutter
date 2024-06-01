@@ -30,7 +30,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
     }
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     ref.read(componentButtonGroupAndListProvider.notifier).buttonSelect(ComponentButtonGroupAndListButton.verticalList);
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                    padding: EdgeInsets.symmetric(vertical: 8.r, horizontal: 16.r),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
@@ -78,7 +78,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     ref.read(componentButtonGroupAndListProvider.notifier).buttonSelect(ComponentButtonGroupAndListButton.horizontalList);
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                    padding: EdgeInsets.symmetric(vertical: 8.r, horizontal: 16.r),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
@@ -109,16 +109,16 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
             visible: state.selectedButton == ComponentButtonGroupAndListButton.verticalList,
             child: Container(
               height: 300,
-              padding: EdgeInsets.all(16.w),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
-                border: Border.all(width: 2.w, color: Colors.blue.shade800),
+                border: Border.all(width: 2.r, color: Colors.blue.shade800),
                 borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
               child: ListView.separated(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: list.length,
-                separatorBuilder: (context, index) => SizedBox(height: 8.h),
+                separatorBuilder: (context, index) => SizedBox(height: 8.r),
                 itemBuilder: (context, index) {
                   var item = list[index];
 
@@ -133,7 +133,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8.w),
+                      padding: EdgeInsets.all(8.r),
                       width: MediaQuery.sizeOf(context).width,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -158,9 +158,9 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
             child: Container(
               alignment: Alignment.centerLeft,
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(16.w),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
-                border: Border.all(width: 2.w, color: Colors.blue.shade800),
+                border: Border.all(width: 2.r, color: Colors.blue.shade800),
                 borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
               child: SingleChildScrollView(
@@ -186,8 +186,8 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                             borderRadius: const BorderRadius.all(Radius.circular(16)),
                             color: Colors.blue.shade800,
                           ),
-                          width: 60.w,
-                          padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
+                          width: 60.r,
+                          padding: EdgeInsets.symmetric(vertical: 4.r, horizontal: 16.r),
                           child: Text(
                             item.title,
                             overflow: TextOverflow.ellipsis,
@@ -198,7 +198,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                           ),
                         ),
                       ),
-                      SizedBox(width: 8.h)
+                      SizedBox(width: 8.r)
                     ]
                   ],
                 )

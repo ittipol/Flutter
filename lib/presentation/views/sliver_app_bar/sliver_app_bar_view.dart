@@ -75,14 +75,14 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
                 child: Icon(
                   Icons.chevron_left,
                   color: Colors.white,
-                  size: 24.sp,
+                  size: 24.spMin,
                 )
               )
             ),
             centerTitle: true,
             title: Text(
               "Sliver App Bar",
-              style: const TextStyle().copyWith(fontSize: 16.sp, color: Colors.white),
+              style: const TextStyle().copyWith(fontSize: 16.spMin, color: Colors.white),
             ),
             flexibleSpace: FlexibleSpaceBar(              
               background: Image(
@@ -126,7 +126,7 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
                     child: Text(
                     "Text",
                     style: TextStyle(
-                      fontSize: 24.sp,
+                      fontSize: 24.spMin,
                       color: Colors.black
                     )
                   )
@@ -146,7 +146,7 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
                   child: Text(
                   "Text",
                   style: TextStyle(
-                    fontSize: 24.sp,
+                    fontSize: 24.spMin,
                     color: Colors.white
                   )
                 )
@@ -205,7 +205,7 @@ class _SliverAppBarView  extends ConsumerState<SliverAppBarView> {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
-                                  fontSize: 16.sp
+                                  fontSize: 16.spMin
                                 )
                               )
                             )

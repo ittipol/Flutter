@@ -63,7 +63,9 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      debugPrint("------------ =====> AppScreenSetting.isMobile [ ${AppScreenSetting.isMobile} ]");
       if(AppScreenSetting.isMobile) {
+        debugPrint("##################################### =====> isMobile ====> Lock screen");
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,

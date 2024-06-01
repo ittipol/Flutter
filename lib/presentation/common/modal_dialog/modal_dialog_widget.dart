@@ -25,13 +25,13 @@ class ModalDialogWidget {
           },
           child: AlertDialog(
             contentPadding: EdgeInsets.zero,
-            insetPadding: useInsetPadding ? EdgeInsets.symmetric(horizontal: 16.w) : EdgeInsets.zero,
+            insetPadding: useInsetPadding ? EdgeInsets.symmetric(horizontal: 16.r) : EdgeInsets.zero,
             content: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: useBorderRadius ? const BorderRadius.all(Radius.circular(8)) : null
               ),
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+              padding: EdgeInsets.symmetric(vertical: 16.r, horizontal: 16.r),
               width: width,
               height: height,
               child: body,
@@ -74,8 +74,8 @@ class ModalDialogWidget {
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        width: 24.w,
-                        height: 24.w,               
+                        width: 24.r,
+                        height: 24.r,               
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
                           shape: BoxShape.circle
@@ -83,7 +83,7 @@ class ModalDialogWidget {
                         child: Icon(
                           Icons.close,
                           color: Colors.black,
-                          size: 16.sp,
+                          size: 16.spMin,
                         ),
                       ),
                     ),
@@ -136,8 +136,8 @@ class ModalDialogWidget {
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        width: 24.w,
-                        height: 24.w,               
+                        width: 24.r,
+                        height: 24.r,               
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
                           shape: BoxShape.circle
@@ -145,7 +145,7 @@ class ModalDialogWidget {
                         child: Icon(
                           Icons.close,
                           color: Colors.black,
-                          size: 16.sp,
+                          size: 16.spMin,
                         ),
                       ),
                     ),
@@ -184,7 +184,7 @@ class ModalDialogWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 16.spMin,
                 color: Colors.black
               ),
             ),
@@ -241,7 +241,7 @@ class ModalDialogWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 16.spMin,
                 color: Colors.black
               ),
             ),
@@ -251,8 +251,7 @@ class ModalDialogWidget {
             ),
             SizedBox(height: 16.h),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
                   child: GestureDetector(
@@ -274,7 +273,7 @@ class ModalDialogWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 8.w),
+                SizedBox(width: 8.r),
                 Expanded(
                   child: GestureDetector(
                     onTap: onTapOk,

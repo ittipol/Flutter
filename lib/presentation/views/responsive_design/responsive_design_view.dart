@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
 import 'package:flutter_demo/setting/app_screen_setting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +49,12 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
   
   @override
   Widget build(BuildContext context) {    
+
+    // var screenSize = MediaQuery.of(context).size;
+    // var screenWidth = screenSize.width;
+    // var screenHeight = screenSize.height;
+    // var clientHeight = screenHeight - kToolbarHeight;
+    
     return BlankPageWidget(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -166,21 +173,29 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
               child: Column(
                 children: [                  
                   ResponsiveLayoutBuilder(
-                    mobileAll: (p0) {
+                    mobileAll: (ctx) {
                       return Text(
                         "Rotate your device",
                         style: TextStyle(
                           fontSize: 16.spMin
                         ),
-                      );  
+                      );
                     },
-                    tabletAll: (p0) {
+                    tabletAll: (ctx) {
                       return Text(
                         "Rotate your device",
                         style: TextStyle(
                           fontSize: 16.spMin
                         ),
-                      );  
+                      );
+                    },
+                    webAppAll: (ctx) {
+                      return Text(
+                        "Resize your screen",
+                        style: TextStyle(
+                          fontSize: 16.spMin
+                        ),
+                      );
                     },
                   ),
                   const SizedBox(height: 16),
@@ -196,7 +211,29 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
                     },
                     tabletLandscape: (ctx) {
                       return _grid(itemCount: 24,crossAxisCount: 3, childAspectRatio: 16/9);
-                    }
+                    },
+                    webAppAll: (ctx) {
+                      return ResponsiveLayout(
+                        desktop: (ctx) {
+                          return _desktopContainer(
+                            width: MediaQuery.sizeOf(context).width * 0.7,
+                            color: Colors.green.shade100
+                          );
+                        },
+                        tablet: (ctx) {
+                          return _desktopContainer(
+                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            color: Colors.orange.shade100
+                          );
+                        },
+                        mobile: (ctx) {
+                          return _desktopContainer(
+                            width: MediaQuery.sizeOf(context).width,
+                            color: Colors.blue.shade100
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
@@ -204,6 +241,14 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
           )
         ]
       )
+    );
+  }
+
+  Widget _desktopContainer({required double? width, required Color color}) {
+    return Container(
+      width: width,
+      height: 300.r,
+      color: color,
     );
   }
 

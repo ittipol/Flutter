@@ -3,6 +3,7 @@ import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/bl
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_provider.dart';
+import 'package:flutter_demo/setting/app_screen_setting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -47,7 +48,6 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
     return BlankPageWidget(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
-        // color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +112,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                           });
                         },
                         useInsetPadding: true,
-                        fullScreenWidth: true
+                        fullScreenWidth: AppScreenSetting.isDesktop ? false : true
                       );
                     },
                     child: Container(
@@ -174,7 +174,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                           }                          
                         },
                         useInsetPadding: true,
-                        fullScreenWidth: true
+                        fullScreenWidth: AppScreenSetting.isDesktop ? false : true
                       );
                     },
                     child: Container(
