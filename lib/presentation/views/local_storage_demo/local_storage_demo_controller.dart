@@ -1,5 +1,5 @@
 import 'package:flutter_demo/config/network/result.dart';
-import 'package:flutter_demo/domain/entities/local_storagea/data_storage_entity.dart';
+import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
 import 'package:flutter_demo/domain/repositories/data_storage_repository.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

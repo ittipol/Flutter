@@ -32,8 +32,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
           DeviceOrientation.portraitDown,
         ]);
       });
-    });
-    
+    });    
   }
 
   @override

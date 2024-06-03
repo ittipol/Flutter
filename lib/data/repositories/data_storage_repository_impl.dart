@@ -1,6 +1,6 @@
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/data/data_sources/local/data_sources/data_storage_local_data_source.dart';
-import 'package:flutter_demo/domain/entities/local_storagea/data_storage_entity.dart';
+import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
 import 'package:flutter_demo/domain/repositories/data_storage_repository.dart';
 
 class DataStorageRepositoryImpl implements DataStorageRepository {

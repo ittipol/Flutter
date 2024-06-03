@@ -4,19 +4,27 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/core/errors/local_storage_exception.dart';
 import 'package:flutter_demo/data/data_sources/local/data_sources/data_storage_local_data_source.dart';
-import 'package:flutter_demo/domain/entities/local_storagea/data_storage_entity.dart';
+import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
 import 'package:flutter_demo/utils/utils.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DataStorageLocal implements DataStorageLocalDataSources {
 
-  final String _storageKey = 'local_storage_key';
+  final FlutterSecureStorage storage;
+  final String _storageKey = 'local_storage_key';  
+
+  DataStorageLocal({
+    this.storage = const FlutterSecureStorage(
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      )
+    )
+  });
 
   @override
   Future<Result<DataStorageEntity>> getData() async {
 
-    try {      
-      const storage = FlutterSecureStorage();
+    try {            
       var data = await storage.read(key: _storageKey) ?? "";
 
       if(data.isEmpty) {
@@ -44,9 +52,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
 
   @override
   Future<Result<bool>> saveData(DataStorageEntity value) async {
-    try{
-      const storage = FlutterSecureStorage();
-
+    try{      
       var json = await compute((message) async {    
         return jsonEncode(message);        
       }, value);
@@ -63,8 +69,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
 
   @override
   Future<Result<bool>> deleteData() async {
-    try{
-      const storage = FlutterSecureStorage();
+    try{      
       await storage.delete(key: _storageKey);
       
       return const ResultSuccess<bool>(data: true);

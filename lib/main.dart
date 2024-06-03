@@ -19,8 +19,8 @@ void main() async {
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await LocalStorageUtils.clearKeychainValues();
 
+  await LocalStorageUtils.clearKeychainValues();
   await AppThemeSetting.init();
 
   final showOnBoardingScreen = await OnBoardingScreenSetting.showOnBoardingScreen;

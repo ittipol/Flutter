@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/domain/entities/menu_entity.dart';
+import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
@@ -28,6 +29,7 @@ class _HomeView  extends ConsumerState<HomeView> {
     MenuEntity(title: "Responsive Design", link: RouteName.responsiveDesignView, icon: Icons.design_services),
     MenuEntity(title: "WebView", link: RouteName.webViewDemoView, icon: Icons.web),
     MenuEntity(title: "Sliver App Bar", link: RouteName.sliverAppBarView, icon: Icons.phone_android),
+    // MenuEntity(title: "Platform Channel", link: RouteName.platformChannelView, icon: Icons.data_object),
   ];
 
   @override
@@ -35,52 +37,65 @@ class _HomeView  extends ConsumerState<HomeView> {
 
     return BlankPageWidget(
       showBackBtn: false,
-      body: SingleChildScrollView(
-        clipBehavior: Clip.antiAlias,
-        physics: const ClampingScrollPhysics(),
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.only(bottom: 24.h),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 2.r,
-                      color: Theme.of(context).colorScheme.secondary
+      body: Container(
+        decoration: BoxDecoration(
+          // gradient: LinearGradient(
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          //   colors: [Color(0xFFFFDEE9), Color(0xFFB5FFFC)]
+          // )
+          color: Theme.of(context).colorScheme.background
+        ),
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height,
+        child: SingleChildScrollView(
+          clipBehavior: Clip.antiAlias,
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),            
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  margin: EdgeInsets.only(bottom: 24.h),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 2.r,
+                        color: Theme.of(context).colorScheme.secondary
+                      )
                     )
-                  )
+                  ),
+                  child: Text(
+                    "Flutter",
+                    style: TextStyle(
+                      fontSize: 24.spMin
+                      // color: Theme.of(context)
+                    )
+                  ),
                 ),
-                child: Text(
-                  "Flutter",
-                  style: TextStyle(
-                    fontSize: 24.spMin
-                  )
-                ),
-              ),
-              const SelectingThemeSwitchView(),
-              SizedBox(height: 8.h),
-              ResponsiveLayoutBuilder(
-                mobileAll: (context) {
-                  return _buttonGrid(context: context, width: MediaQuery.sizeOf(context).width);
-                },
-                webAppAll: (context) {
-                  return ResponsiveLayout(
-                    desktop: (context) {
-                      return _buttonList(context: context, width: MediaQuery.sizeOf(context).width * 0.7);
-                    },
-                    mobile: (context) {
-                      return _buttonList(context: context, width: MediaQuery.sizeOf(context).width);
-                    }
-                  );
-                }
-              )
-            ],
-          ),
-        )
+                const SelectingThemeSwitchView(),
+                SizedBox(height: 8.h),
+                ResponsiveLayoutBuilder(
+                  mobileAll: (context) {
+                    return _buttonGrid(context: context, width: MediaQuery.sizeOf(context).width);
+                  },
+                  webAppAll: (context) {
+                    return ResponsiveLayout(
+                      desktop: (context) {
+                        return _buttonList(context: context, width: MediaQuery.sizeOf(context).width * 0.7);
+                      },
+                      mobile: (context) {
+                        return _buttonList(context: context, width: MediaQuery.sizeOf(context).width);
+                      }
+                    );
+                  }
+                )
+              ],
+            ),
+          )
+        ),
       )
     );
   }
@@ -91,10 +106,10 @@ class _HomeView  extends ConsumerState<HomeView> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 1, // Horizontal/Vertical
-        mainAxisSpacing: 8.h,
-        crossAxisSpacing: 8.w,
+        crossAxisCount: 2,
+        childAspectRatio: 16/9, // Horizontal/Vertical
+        mainAxisSpacing: 8.r,
+        crossAxisSpacing: 8.r,
       ),
       itemBuilder: (BuildContext context, int index) {
         var menu = menuList[index];
@@ -103,7 +118,7 @@ class _HomeView  extends ConsumerState<HomeView> {
           onTap: () async {
 
             if(menu.loaderOverlay) {
-              ref.read(isShowLoaderOverlayProvider.notifier).show();
+              ref.showLoaderOverlay();
       
               await Future.delayed(const Duration(seconds: 2), () {
                 Navigator.pushNamed(context, menu.link);
@@ -119,7 +134,7 @@ class _HomeView  extends ConsumerState<HomeView> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.shade300,
+                  color: Theme.of(context).colorScheme.shadow,
                   blurRadius: 5,
                   offset: const Offset(3, 3)
                 )
@@ -129,13 +144,14 @@ class _HomeView  extends ConsumerState<HomeView> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,              
               children: [
-                const Spacer(),
+                // const Spacer(),
+                SizedBox(height: 24.r),
                 Icon(
                   menu.icon ?? Icons.phone_android,
                   color: Colors.black,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  padding: EdgeInsets.symmetric(horizontal: 8.r),
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: Text(

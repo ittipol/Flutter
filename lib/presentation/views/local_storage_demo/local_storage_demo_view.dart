@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
@@ -26,10 +27,10 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.read(isShowLoaderOverlayProvider.notifier).show();
+      ref.showLoaderOverlay();
       await ref.read(localStorageDemoProvider.notifier).getData();
-      await Future.delayed(const Duration(seconds: 1), () {
-        ref.read(isShowLoaderOverlayProvider.notifier).hide();
+      await Future.delayed(const Duration(seconds: 2), () {
+        ref.hideLoaderOverlay();
       });
     });     
   }

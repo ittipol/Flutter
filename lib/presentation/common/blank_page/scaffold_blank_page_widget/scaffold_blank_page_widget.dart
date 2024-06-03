@@ -32,21 +32,27 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
+        debugPrint("==============>>>>> didPop [ $didPop ]");
         if (didPop) {
           return;
         }
+
+        // bool value = await someFunction();
+        // if (value) {
+        //   if(Navigator.canPop(context)) Navigator.pop(context);
+        // }
       },
       child: GestureDetector(
         onTap: (){
           _hideKeyboard(context);
         },
-        child: Scaffold(
-          appBar: widget.appBar,
-          body: LoaderOverlayBlankPageWidget(
+        child: LoaderOverlayBlankPageWidget(
+          body: Scaffold(
+            appBar: widget.appBar,
             body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
+            bottomNavigationBar: widget.bottomNavigationBar,
+            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
           ),
-          bottomNavigationBar: widget.bottomNavigationBar,
-          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
         ),
       ),
     );

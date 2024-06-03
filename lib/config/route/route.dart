@@ -6,6 +6,7 @@ import 'package:flutter_demo/presentation/views/api_service_demo/api_service_sea
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_view.dart';
 import 'package:flutter_demo/presentation/views/on_boarding_screen/on_boarding_screen_view.dart';
+import 'package:flutter_demo/presentation/views/platform_channel/platform_channel_view.dart';
 import 'package:flutter_demo/presentation/views/responsive_design/responsive_design_view.dart';
 import 'package:flutter_demo/presentation/views/screen_capture/screen_capture_view.dart';
 import 'package:flutter_demo/presentation/views/sliver_app_bar/sliver_app_bar_view.dart';
@@ -43,6 +44,8 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.onBoardingScreenView), builder: (_) => const OnBoardingScreenView());
       case RouteName.responsiveDesignView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.responsiveDesignView), builder: (_) => const ResponsiveDesignView());
+      case RouteName.platformChannelView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.platformChannelView), builder: (_) => const PlatformChannelView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

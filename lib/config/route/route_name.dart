@@ -10,5 +10,6 @@ final class RouteName {
   static const localStorageDemoView = "/localStorageDemoView";
   static const screenCaptureView = "/screenCaptureView";
   static const onBoardingScreenView = "/onBoardingScreenView";
-  static const responsiveDesignView = "/responsiveDesignView";  
+  static const responsiveDesignView = "/responsiveDesignView";
+  static const platformChannelView = "/platformChannelView";  
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/setting/app_theme_setting.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final class AppTheme {
 
@@ -12,7 +11,8 @@ final class AppTheme {
       primary: Colors.blue.shade800,
       secondary: Colors.blue.shade700,
       tertiary: Colors.blue.shade600,
-      onSurface: Colors.black
+      onSurface: Colors.black,
+      shadow: Colors.grey.shade300
     ),
     textTheme: const TextTheme(
       titleSmall: TextStyle(
@@ -48,7 +48,8 @@ final class AppTheme {
       primary: Colors.grey.shade800,
       secondary: Colors.grey.shade700,
       tertiary: Colors.grey.shade600,
-      onSurface: Colors.white
+      onSurface: Colors.white,
+      shadow: Colors.white70
     ),    
     textTheme: const TextTheme(      
       titleSmall: TextStyle(

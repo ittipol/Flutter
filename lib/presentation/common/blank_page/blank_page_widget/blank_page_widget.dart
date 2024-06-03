@@ -57,7 +57,7 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
                     alignment: Alignment.center,
                     width: 32,
                     height: 32,
-                    margin: EdgeInsets.only(left: 16.w, bottom: 4.w),                      
+                    margin: EdgeInsets.only(left: 16.r),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.onBackground,
                       shape: BoxShape.circle

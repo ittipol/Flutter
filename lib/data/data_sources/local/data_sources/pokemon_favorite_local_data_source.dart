@@ -1,5 +1,5 @@
 import 'package:flutter_demo/config/network/result.dart';
-import 'package:flutter_demo/domain/entities/local_storagea/pokemon_favorite_entity.dart';
+import 'package:flutter_demo/domain/entities/local_storage/pokemon_favorite_entity.dart';
 
 abstract class PokemonFavoriteLocalDataSources{
   Future<Result<List<PokemonFavoriteEntity>>> getData();
