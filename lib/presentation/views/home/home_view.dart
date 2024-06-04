@@ -144,8 +144,7 @@ class _HomeView  extends ConsumerState<HomeView> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,              
               children: [
-                // const Spacer(),
-                SizedBox(height: 24.r),
+                const Spacer(),
                 Icon(
                   menu.icon ?? Icons.phone_android,
                   color: Colors.black,

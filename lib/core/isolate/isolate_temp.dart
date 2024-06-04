@@ -5,18 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class CreationEvent {
-  final RootIsolateToken isolateToken;
-  final SendPort sendPort;
+class DeletetionEvent {}
 
-  CreationEvent(this.isolateToken, this.sendPort);
+class ReadEvent<T> {
+  final T data;
+  const ReadEvent(this.data);
 }
 
-class DeletionEvent {}
-
-class ReadEvent {
-  final String key;
-  const ReadEvent(this.key);
+class IsolateSuccess<T> {
+  final T data;
+  const IsolateSuccess(this.data);
 }
 
 class ReadResult {
@@ -51,13 +49,13 @@ class IsolateIO {
       }
     });
 
-    _isolate = await Isolate.spawn(
-      (CreationEvent data) {
-        final worker = IsolateWorker(data.isolateToken, data.sendPort);
-        worker.listen();
-      },
-      CreationEvent(rootIsolateToken, fromBG.sendPort),
-    );
+    // _isolate = await Isolate.spawn(
+    //   (CreationEvent data) {
+    //     final worker = IsolateWorker2(data.isolateToken, data.sendPort);
+    //     worker.listen();
+    //   },
+    //   CreationEvent(rootIsolateToken, fromBG.sendPort),
+    // );
   }
 
   Future<String?> readFromStorage(String key) async {
@@ -78,7 +76,7 @@ class IsolateIO {
   void stop() async {
     if (_toBgPort.isCompleted) {
       final port = await _toBgPort.future;
-      port.send(DeletionEvent());
+      port.send(DeletetionEvent());
     }
     _fromBgListener?.cancel();
     _isolate?.kill(priority: Isolate.immediate);
@@ -87,16 +85,14 @@ class IsolateIO {
   static final i = IsolateIO._();
 }
 
-// ======================================
-
-class IsolateWorker {
+class IsolateWorker2 {
   final RootIsolateToken rootIsolateToken;
   final SendPort toMain;
   final FlutterSecureStorage storage;
 
   StreamSubscription? subs;
 
-  IsolateWorker(
+  IsolateWorker2(
     this.rootIsolateToken,
     this.toMain, {
     this.storage = const FlutterSecureStorage(
@@ -116,19 +112,17 @@ class IsolateWorker {
   }
 
   void onMessage(dynamic message) async {
-    if (message is DeletionEvent) {
+    if (message is DeletetionEvent) {
       subs?.cancel();
       return;
     }
 
     if (message is ReadEvent) {
-      final rawJson = await storage.read(key: message.key);
-      toMain.send(ReadResult(message.key, rawJson));
+      final rawJson = await storage.read(key: message.data);
+      toMain.send(ReadResult(message.data, rawJson));
     }
   }
 }
-
-// ======================================
 
 class View extends StatefulWidget {
   const View({super.key});
@@ -163,4 +157,8 @@ class _ViewState extends State<View> {
       child: Text(username),
     );
   }
+}
+
+class CompleterString {
+  static Completer<String>? completer;
 }
