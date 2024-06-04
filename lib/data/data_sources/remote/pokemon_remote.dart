@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_demo/config/network/result.dart';
-import 'package:flutter_demo/data/data_sources/remote/data_sources/pokemon_remote_datasource.dart';
+import 'package:flutter_demo/core/isolate/isolate_builder.dart';
+import 'package:flutter_demo/data/data_sources/remote/data_sources/pokemon_remote_data_source.dart';
 import 'package:flutter_demo/data/models/pokemon_detail_model.dart';
 import 'package:flutter_demo/data/models/pokemon_model.dart';
 import 'package:flutter_demo/domain/entities/pokemon_detail_entity.dart';
@@ -17,9 +17,10 @@ class PokemonRemote implements PokemonRemoteDataSources {
   Future<Result<PokemonEntity>> getPokemonIndex({required int offset, required int limit}) async {
     
     try {
-      var urlPath = "/api/v2/pokemon";
+      var urlPath = "/api/v2/pokemon";   
 
-      final dioResponse = await compute<List<dynamic>, Response<dynamic>>((message) async {
+      var isolate = IsolateBuilder();
+      final dioResponse = await isolate.compute<Response<dynamic>, List<dynamic>>((message) async {
         return await dio.get(
           message[0] as String,
           queryParameters: {
@@ -27,7 +28,7 @@ class PokemonRemote implements PokemonRemoteDataSources {
             "limit": message[2] as int
           }
         );
-      }, [urlPath, offset, limit]);    
+      }, [urlPath, offset, limit]);
 
       var model = PokemonModel.fromJson(dioResponse.data);
       var data = PokemonEntity.fromModel(model);
@@ -45,11 +46,10 @@ class PokemonRemote implements PokemonRemoteDataSources {
     try {
       var urlPath = "/api/v2/pokemon/$name";
 
-      final dioResponse = await compute<String, Response<dynamic>>((message) async {
-        return await dio.get(
-          message
-        );  
-      },urlPath);          
+      var isolate = IsolateBuilder();
+      final dioResponse = await isolate.compute<Response<dynamic>, String>((message) async {
+        return await dio.get(message);  
+      }, urlPath);     
 
       var model = PokemonDetailModel.fromJson(dioResponse.data);
       var data = PokemonDetailEntity.fromModel(model);

@@ -29,7 +29,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.showLoaderOverlay();
       await ref.read(localStorageDemoProvider.notifier).getData();
-      await Future.delayed(const Duration(seconds: 2), () {
+      await Future.delayed(const Duration(seconds: 1), () {
         ref.hideLoaderOverlay();
       });
     });     

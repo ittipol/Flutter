@@ -77,66 +77,39 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           Navigator.pushNamed(context, RouteName.apiServiceSearchView);
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          width: MediaQuery.sizeOf(context).width * 0.5,
-                          height: 30.h,
-                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 8.r),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary.withAlpha(500),
-                            borderRadius: const BorderRadius.all(Radius.circular(32))
+                            borderRadius: const BorderRadius.all(Radius.circular(32)),
+                            border: Border.all(color: Colors.grey.shade400, width: 1),
+                            color: Colors.white
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  "Search",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 16.spMin,
-                                    color: Colors.white
+                          child: FittedBox(
+                            alignment: Alignment.center,
+                            fit: BoxFit.fill,
+                            child: SizedBox(
+                              width: 200.r,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.search,
+                                    color: Colors.black
                                   ),
-                                )
+                                  SizedBox(width: 8.r),
+                                  Text(
+                                    "Search",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.spMin
+                                    )
+                                  )
+                                ]
                               ),
-                              SizedBox(width: 8.w),
-                              const Icon(
-                                Icons.chevron_right,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ),
+                            )
+                          )
+                        )
                       ),
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: const BorderRadius.all(Radius.circular(32)),
-                      //     border: Border.all(color: Colors.black, width: 1),
-                      //     color: Theme.of(context).colorScheme.primary.withAlpha(500)
-                      //   ),
-                      //   child: FittedBox(
-                      //     alignment: Alignment.center,
-                      //     fit: BoxFit.fill,
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       children: [
-                      //         Image(
-                      //           image: AssetImage(""),
-                      //           width: 12.w,
-                      //           height: 16.w,
-                      //         ),
-                      //         SizedBox(width: 8.w),
-                      //         Text(
-                      //           "Search",
-                      //           style: TextStyle(
-                      //             color: Colors.white,
-                      //             fontSize: 16.spMin
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(height: 8.h),
                       Container(
                         alignment: Alignment.centerLeft,

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_demo/core/isolate/isolate_temp.dart';
+import 'package:flutter_demo/core/isolate/deletion_event.dart';
+import 'package:flutter_demo/core/isolate/read_event.dart';
+import 'package:flutter_demo/core/isolate/read_result.dart';
 
 class IsolateWorker {
   final RootIsolateToken rootIsolateToken;
@@ -18,25 +20,20 @@ class IsolateWorker {
     BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
   }
 
-  void listen({required void Function(ReadEvent, SendPort) onData}) {
+  void listen<R, T>({required FutureOr<R> Function(T)? onData}) {
     ReceivePort fromMain = ReceivePort();
     toMain.send(fromMain.sendPort);
-    subs = fromMain.listen((event) {
-      if (event is ReadEvent) {
-        onData(event, toMain);
+    subs = fromMain.listen((event) async {
+      if (event is ReadEvent<T>) {
+        final data = await onData!(event.data);
+        toMain.send(ReadResult(data));
+        return;
       }
+
+      if (event is DeletionEvent) {
+        subs?.cancel();
+        return;
+      }      
     });
   }
-
-  // void onProcess(dynamic message) async {
-  //   if (message is DeletionEvent) {
-  //     subs?.cancel();
-  //     return;
-  //   }
-
-  //   if (message is ReadEvent) {
-  //     final rawJson = await storage.read(key: message.key);
-  //     toMain.send(ReadResult(message.key, rawJson));
-  //   }
-  // }
 }
