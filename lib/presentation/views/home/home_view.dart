@@ -30,6 +30,7 @@ class _HomeView  extends ConsumerState<HomeView> {
     MenuEntity(title: "WebView", link: RouteName.webViewDemoView, icon: Icons.web),
     MenuEntity(title: "Sliver App Bar", link: RouteName.sliverAppBarView, icon: Icons.phone_android),
     // MenuEntity(title: "Platform Channel", link: RouteName.platformChannelView, icon: Icons.data_object),
+    MenuEntity(title: "Isolate", link: RouteName.isolateDemoView, icon: Icons.add_box),
   ];
 
   @override

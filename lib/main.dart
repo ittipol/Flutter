@@ -10,7 +10,7 @@ import 'package:flutter_demo/presentation/common/responsive_layout_builder/respo
 import 'package:flutter_demo/setting/app_theme_setting.dart';
 import 'package:flutter_demo/provider/theme_provider.dart';
 import 'package:flutter_demo/setting/on_boarding_screen_setting.dart';
-import 'package:flutter_demo/utils/local_storage_utils.dart';
+import 'package:flutter_demo/helper/local_storage_helper.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +20,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  await LocalStorageUtils.clearKeychainValues();
+  await LocalStorageHelper.clearKeychainValues();
   await AppThemeSetting.init();
 
   final showOnBoardingScreen = await OnBoardingScreenSetting.showOnBoardingScreen;

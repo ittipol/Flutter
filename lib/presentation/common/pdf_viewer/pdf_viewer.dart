@@ -2,7 +2,7 @@ import 'package:alh_pdf_view/alh_pdf_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/utils/utils.dart';
+import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PdfViewer extends ConsumerStatefulWidget {
@@ -26,7 +26,7 @@ class _PdfViewer  extends ConsumerState<PdfViewer> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {                
       final file = await compute((message) async {
-        return await Utils.getFileFromUrl(widget.pdfUrl);
+        return await Helper.getFileFromUrl(widget.pdfUrl);
       },widget.pdfUrl);
     });
 

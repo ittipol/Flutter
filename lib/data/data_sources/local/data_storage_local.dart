@@ -6,7 +6,7 @@ import 'package:flutter_demo/core/errors/local_storage_exception.dart';
 import 'package:flutter_demo/core/isolate/isolate_builder.dart';
 import 'package:flutter_demo/data/data_sources/local/data_sources/data_storage_local_data_source.dart';
 import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
-import 'package:flutter_demo/utils/utils.dart';
+import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DataStorageLocal implements DataStorageLocalDataSources {
@@ -26,7 +26,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
   Future<Result<DataStorageEntity>> getData() async {
 
     try {      
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
 
       var json = await isolate.compute((message) async {
         return await storage.read(key: message) ?? "";
@@ -40,7 +40,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
       }
 
       return await isolate.compute((message) async {
-        var entity = Utils.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(message, (json) {
+        var entity = Helper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(message, (json) {
           return DataStorageEntity.fromJson(json);
         });
 
@@ -59,7 +59,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
   Future<Result<bool>> saveData(DataStorageEntity value) async {
     try{  
 
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       return await isolate.compute((message) async {
         var json = jsonEncode(message[1] as DataStorageEntity);
 
@@ -79,7 +79,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
   Future<Result<bool>> deleteData() async {
     try{      
 
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       return await isolate.compute((message) async {
         await storage.delete(key: message);
         return const ResultSuccess<bool>(data: true);

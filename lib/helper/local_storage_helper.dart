@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalStorageUtils {
+class LocalStorageHelper {
 
   static Future<void> clearKeychainValues() async {
     final prefs = await SharedPreferences.getInstance();

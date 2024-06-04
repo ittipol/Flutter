@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/core/errors/local_storage_exception.dart';
 import 'package:flutter_demo/core/isolate/isolate_builder.dart';
 import 'package:flutter_demo/data/data_sources/local/data_sources/pokemon_favorite_local_data_source.dart';
 import 'package:flutter_demo/domain/entities/local_storage/pokemon_favorite_entity.dart';
-import 'package:flutter_demo/utils/utils.dart';
+import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
@@ -27,7 +26,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
 
     try {            
       
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       var data = await isolate.compute((message) async {
         return await storage.read(key: _storageKey) ?? "";
       }, _storageKey);
@@ -40,7 +39,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
       }
 
       return await isolate.compute((message) async {
-        var entity = Utils.jsonDeserialize<List<PokemonFavoriteEntity>, List<dynamic>>(data, (json) {
+        var entity = Helper.jsonDeserialize<List<PokemonFavoriteEntity>, List<dynamic>>(data, (json) {
           return List<PokemonFavoriteEntity>.from(json.map((value) => PokemonFavoriteEntity.fromJson(value)));
         });
 
@@ -59,7 +58,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
   Future<Result<bool>> saveData(List<PokemonFavoriteEntity> list) async {
     try{      
 
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       var json = await isolate.compute((message) async {
         return jsonEncode(message);
       }, list);
@@ -81,7 +80,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
   Future<Result<bool>> deleteData() async {
     try{      
 
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       return await isolate.compute((message) async {
         await storage.delete(key: _storageKey);
         return const ResultSuccess<bool>(data: true);

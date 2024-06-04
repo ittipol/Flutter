@@ -11,5 +11,6 @@ final class RouteName {
   static const screenCaptureView = "/screenCaptureView";
   static const onBoardingScreenView = "/onBoardingScreenView";
   static const responsiveDesignView = "/responsiveDesignView";
-  static const platformChannelView = "/platformChannelView";  
+  static const platformChannelView = "/platformChannelView";
+  static const isolateDemoView = "/isolateDemoView";    
 }

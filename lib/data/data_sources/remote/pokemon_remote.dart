@@ -19,7 +19,7 @@ class PokemonRemote implements PokemonRemoteDataSources {
     try {
       var urlPath = "/api/v2/pokemon";   
 
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       final dioResponse = await isolate.compute<Response<dynamic>, List<dynamic>>((message) async {
         return await dio.get(
           message[0] as String,
@@ -46,7 +46,7 @@ class PokemonRemote implements PokemonRemoteDataSources {
     try {
       var urlPath = "/api/v2/pokemon/$name";
 
-      var isolate = IsolateBuilder();
+      final isolate = IsolateBuilder();
       final dioResponse = await isolate.compute<Response<dynamic>, String>((message) async {
         return await dio.get(message);  
       }, urlPath);     

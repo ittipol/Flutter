@@ -4,6 +4,7 @@ import 'package:flutter_demo/presentation/views/api_service_demo/api_service_det
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_view.dart';
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
+import 'package:flutter_demo/presentation/views/isolate_demo/isolate_demo_view.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_view.dart';
 import 'package:flutter_demo/presentation/views/on_boarding_screen/on_boarding_screen_view.dart';
 import 'package:flutter_demo/presentation/views/platform_channel/platform_channel_view.dart';
@@ -46,6 +47,8 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.responsiveDesignView), builder: (_) => const ResponsiveDesignView());
       case RouteName.platformChannelView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.platformChannelView), builder: (_) => const PlatformChannelView());
+      case RouteName.isolateDemoView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.isolateDemoView), builder: (_) => const IsolateDemoView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
