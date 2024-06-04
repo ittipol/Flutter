@@ -30,7 +30,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
       ref.showLoaderOverlay();
       await ref.read(localStorageDemoProvider.notifier).getData();
       await Future.delayed(const Duration(seconds: 1), () {
-        ref.hideLoaderOverlay();;
+        ref.hideLoaderOverlay();
       });
     });     
   }
