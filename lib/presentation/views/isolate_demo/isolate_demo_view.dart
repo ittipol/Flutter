@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
+import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/isolate_demo/isolate_demo_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +68,9 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
                   child: GestureDetector(
                     onTap: () {
                       _delayedTab(() {
+                        ref.showLoaderOverlay();
                         ref.read(isolateDemoProvider.notifier).fibonacci(input: sequence);
+                        ref.hideLoaderOverlay();
                       });                      
                     },
                     child: Container(
@@ -90,9 +93,11 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
                 SizedBox(width: 16.r),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () async {
-                      _delayedTab(() async {
+                    onTap: () async {                    
+                      _delayedTab(() async {                        
+                        ref.showLoaderOverlay();
                         await ref.read(isolateDemoProvider.notifier).isolateFibonacci(input: sequence);
+                        ref.hideLoaderOverlay();
                       });                      
                     },
                     child: Container(
