@@ -32,6 +32,7 @@ class IsolateWorker {
 
       if (event is DeletionEvent) {
         subs?.cancel();
+        fromMain.close();
         return;
       }      
     });

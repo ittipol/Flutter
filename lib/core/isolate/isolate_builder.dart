@@ -10,34 +10,35 @@ import 'package:flutter_demo/core/isolate/read_result.dart';
 
 class IsolateBuilder {
 
+  final _bgIsolatePort = ReceivePort();
+  final _toBgIsolateCompleter = Completer<SendPort>();
   Isolate? _isolate;
   StreamSubscription? _fromBgListener;
 
   Future<R> compute<R, T>(FutureOr<R> Function(T)? onData, T data) async {
-    final toMainPort = Completer<SendPort>();
+    
     final completer = Completer<R>();
 
-    await _start<R, T>(onData, toMainPort, completer);
+    await _start<R, T>(onData, completer);
 
-    var port = await toMainPort.future;
+    final port = await _toBgIsolateCompleter.future;
     port.send(ReadEvent(data));
 
-    var value = await completer.future;
+    final value = await completer.future;
 
-    await _stop(toMainPort);
+    await _stop();
 
     return value;
   }
 
-  Future<void> _start<R, T>(FutureOr<R> Function(T)? onData, Completer<SendPort> toMainPort, Completer<R> completer) async {
+  Future<void> _start<R, T>(FutureOr<R> Function(T)? onData, Completer<R> completer) async {
 
-    RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
-    ReceivePort main = ReceivePort();   
+    final rootIsolateToken = RootIsolateToken.instance!;
 
-    _fromBgListener = main.listen((message) {
+    _fromBgListener = _bgIsolatePort.listen((message) {
 
       if (message is SendPort) {
-        toMainPort.complete(message);
+        _toBgIsolateCompleter.complete(message);
         return;
       }
 
@@ -58,18 +59,18 @@ class IsolateBuilder {
 
     }, CreationEvent<R, T>(
       isolateToken: rootIsolateToken,
-      sendPort: main.sendPort,
+      sendPort: _bgIsolatePort.sendPort,
       onData: onData,
-    ));    
+    ));   
   }
 
-  Future<void> _stop(Completer<SendPort> toMainPort) async {
-    if (toMainPort.isCompleted) {
-      final port = await toMainPort.future;
+  Future<void> _stop() async {
+    if (_toBgIsolateCompleter.isCompleted) {
+      final port = await _toBgIsolateCompleter.future;
       port.send(DeletionEvent());
     }
     _fromBgListener?.cancel();
     _isolate?.kill(priority: Isolate.immediate);
+    _bgIsolatePort.close();
   }
-
 }

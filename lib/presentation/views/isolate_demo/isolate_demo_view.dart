@@ -60,37 +60,36 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
               )
             ),
             SizedBox(height: 16.r),
+            GestureDetector(
+              onTap: () {
+                _delayedTab(() {
+                  ref.showLoaderOverlay();
+                  ref.read(isolateDemoProvider.notifier).fibonacci(input: sequence);
+                  ref.hideLoaderOverlay();
+                });                      
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.lightBlueAccent.shade200,
+                  borderRadius: const BorderRadius.all(Radius.circular(32))
+                ),
+                padding: EdgeInsets.all(8.r),
+                alignment: Alignment.center,
+                child: Text(
+                  "Without isolate",
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle().copyWith(
+                    fontSize: 16.r,
+                    color: Colors.black
+                  )
+                ),
+              ),
+            ),
+            SizedBox(height: 16.r),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      _delayedTab(() {
-                        ref.showLoaderOverlay();
-                        ref.read(isolateDemoProvider.notifier).fibonacci(input: sequence);
-                        ref.hideLoaderOverlay();
-                      });                      
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent.shade200,
-                        borderRadius: const BorderRadius.all(Radius.circular(32))
-                      ),
-                      padding: EdgeInsets.all(8.r),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Without isolate",
-                        style: const TextStyle().copyWith(
-                          fontSize: 16.r,
-                          color: Colors.black
-                        )
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 16.r),
+              children: [                
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {                    
@@ -108,14 +107,43 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
                       padding: EdgeInsets.all(8.r),
                       alignment: Alignment.center,
                       child: Text(
-                        "With isolate",
+                        "With isolate #1",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle().copyWith(
                           fontSize: 16.r,
                           color: Colors.black
                         )
+                      )
+                    )
+                  )
+                ),
+                SizedBox(width: 16.r),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {                    
+                      _delayedTab(() async {                        
+                        ref.showLoaderOverlay();
+                        await ref.read(isolateDemoProvider.notifier).simpleIsolateFibonacci(input: sequence);
+                        ref.hideLoaderOverlay();
+                      });                      
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent.shade200,
+                        borderRadius: const BorderRadius.all(Radius.circular(32))
                       ),
-                    ),
-                  ),
+                      padding: EdgeInsets.all(8.r),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "With isolate #2",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.r,
+                          color: Colors.black
+                        )
+                      )
+                    )
+                  )
                 )
               ],
             ),
