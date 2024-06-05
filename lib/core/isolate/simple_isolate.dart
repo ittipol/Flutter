@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 
 class SimpleIsolate {
-  static Future<T> compute<T>(T Function() function) async {
+  static Future<T> compute<T>(FutureOr<T> Function() function) async {
     final receivePort = ReceivePort();
     final rootToken = RootIsolateToken.instance!;
     
@@ -15,7 +16,7 @@ class SimpleIsolate {
         answerPort: receivePort.sendPort,
       ),
     );
-    var data = await receivePort.first;
+    final data = await receivePort.first;
 
     isolate.kill(priority: Isolate.immediate);
     receivePort.close();
@@ -32,7 +33,7 @@ class SimpleIsolate {
 
 class SimpleIsolateData<T> {
   final RootIsolateToken token;
-  final T Function() function;
+  final FutureOr<T> Function() function;
   final SendPort answerPort;
 
   SimpleIsolateData({

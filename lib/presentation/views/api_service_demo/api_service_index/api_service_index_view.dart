@@ -189,6 +189,12 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                                       child: Row(
                                         children: [
+                                          Icon(
+                                            Icons.catching_pokemon,
+                                            size: 32.spMin,
+                                            color: Colors.black
+                                          ),
+                                          SizedBox(width: 8.r),
                                           Expanded(
                                             child: Text(
                                               item.name ?? "",
@@ -199,7 +205,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: 8.w),
+                                          SizedBox(width: 8.r),
                                           const Icon(
                                             Icons.chevron_right,
                                             color: Colors.white,

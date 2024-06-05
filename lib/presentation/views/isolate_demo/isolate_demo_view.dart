@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/isolate_demo/isolate_demo_provider.dart';
@@ -16,9 +15,40 @@ class IsolateDemoView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _IsolateDemoView();
 }
 
-class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
+class _IsolateDemoView  extends ConsumerState<IsolateDemoView> with SingleTickerProviderStateMixin {
 
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  // late Animation<double> _heartbeatAnimation;
   bool loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _controller.repeat();
+    });     
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+
+    _animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(curve: Curves.fastOutSlowIn, parent: _controller));
+    // _heartbeatAnimation = Tween(begin: 180.0, end: 120.0).animate(
+    //   CurvedAnimation(
+    //     curve: Curves.linear,
+    //     parent: _controller
+    //   ),
+    // );
+  }
+
+  @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +65,47 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
             const Spacer(
               flex: 1,
             ),
-            Container(
-              padding: EdgeInsets.all(16.r),
-              child: Transform.scale(
-                scale: 2, 
-                child: const CircularProgressIndicator(
-                  strokeWidth: 3,
-                  color: AppColor.primary
-                )
+            // AnimatedBuilder(
+            //   animation: _controller,
+            //   builder: (context, child) {
+            //     const shakeCount = 10;
+            //     const shakeOffset = 5.0;
+            //     final sineValue = sin(shakeCount * 2 * pi * _controller.value);
+
+            //     return Transform.translate(
+            //       offset: Offset(sineValue * shakeOffset, 0),                  
+            //       child:  Container(
+            //         constraints: const BoxConstraints(
+            //           minHeight: 120.0,
+            //           maxHeight: 180.0
+            //         ),
+            //         child: Center(
+            //           child: Icon(
+            //             Icons.notifications_active,
+            //             size: _heartbeatAnimation.value,
+            //           ),
+            //         ),
+            //       )
+            //     );
+            //   },
+            // ),
+            RotationTransition(
+              turns: Tween(begin: 0.0, end: 1.0).animate(_controller),              
+              child: Icon(
+                Icons.cached,
+                size: 80.spMin,
+              ),
+            ),
+            RotationTransition(
+              turns: _animation,              
+              child: Icon(
+                Icons.cached,
+                size: 80.spMin,
               ),
             ),
             SizedBox(height: 16.r),
             Text(
-              "fibonacci sequence = ${sequence.toString()}",
+              "Fibonacci sequence = ${sequence.toString()}",
               style: const TextStyle().copyWith(
                 fontSize: 16.r
               )
@@ -86,6 +144,31 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
               ),
             ),
             SizedBox(height: 16.r),
+            // GestureDetector(
+            //   onTap: () async {                    
+            //     _delayedTab(() async {                        
+            //       ref.showLoaderOverlay();
+            //       await ref.read(isolateDemoProvider.notifier).isolateFibonacci(input: sequence);
+            //       ref.hideLoaderOverlay();
+            //     });                      
+            //   },
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: Colors.greenAccent.shade200,
+            //       borderRadius: const BorderRadius.all(Radius.circular(32))
+            //     ),
+            //     padding: EdgeInsets.all(8.r),
+            //     alignment: Alignment.center,
+            //     child: Text(
+            //       "With isolate",
+            //       overflow: TextOverflow.ellipsis,
+            //       style: const TextStyle().copyWith(
+            //         fontSize: 16.r,
+            //         color: Colors.black
+            //       )
+            //     )
+            //   )
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,7 +230,7 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> {
                 )
               ],
             ),
-            SizedBox(height: 16.r),
+            SizedBox(height: 32.r),
             GestureDetector(
               onTap: () async {
                 ref.read(isolateDemoProvider.notifier).update(0);

@@ -33,6 +33,7 @@ class IsolateBuilder {
 
   Future<void> _start<R, T>(FutureOr<R> Function(T)? onData, Completer<R> completer) async {
 
+    // Identify the root isolate to pass to the background isolate
     final rootIsolateToken = RootIsolateToken.instance!;
 
     _fromBgListener = _bgIsolatePort.listen((message) {
