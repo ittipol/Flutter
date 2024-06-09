@@ -5,6 +5,7 @@ import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
+import 'package:flutter_demo/presentation/common/user_avatar/user_avatar.dart';
 import 'package:flutter_demo/presentation/views/home/components/selecting_theme_switch/selecting_theme_switch_view.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +24,7 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeView  extends ConsumerState<HomeView> {
 
   List<MenuEntity> menuList = [
+    MenuEntity(title: "User auth", link: RouteName.userHomeView, icon: Icons.group),
     MenuEntity(title: "API Services", link: RouteName.apiServiceIndexView, icon: Icons.api),
     MenuEntity(title: "Local storage", link: RouteName.localStorageDemoView, loaderOverlay: true, icon: Icons.storage),
     MenuEntity(title: "UI widget", link: RouteName.uiDemoView, icon: Icons.phone_android),
@@ -30,7 +32,7 @@ class _HomeView  extends ConsumerState<HomeView> {
     MenuEntity(title: "WebView", link: RouteName.webViewDemoView, icon: Icons.web),
     MenuEntity(title: "Sliver App Bar", link: RouteName.sliverAppBarView, icon: Icons.phone_android),
     // MenuEntity(title: "Platform Channel", link: RouteName.platformChannelView, icon: Icons.data_object),
-    MenuEntity(title: "Isolate", link: RouteName.isolateDemoView, icon: Icons.add_box),
+    MenuEntity(title: "Isolate", link: RouteName.isolateDemoView, icon: Icons.memory),
   ];
 
   @override
@@ -58,7 +60,7 @@ class _HomeView  extends ConsumerState<HomeView> {
               children: [
                 Container(
                   width: MediaQuery.sizeOf(context).width,
-                  margin: EdgeInsets.only(bottom: 24.h),
+                  // margin: EdgeInsets.only(bottom: 24.h),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     border: Border(
@@ -76,6 +78,9 @@ class _HomeView  extends ConsumerState<HomeView> {
                     )
                   ),
                 ),
+                // SizedBox(height: 16.r),      
+                const UserAvatar(),
+                SizedBox(height: 8.r),                
                 const SelectingThemeSwitchView(),
                 SizedBox(height: 8.h),
                 ResponsiveLayoutBuilder(

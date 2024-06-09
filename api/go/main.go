@@ -109,7 +109,7 @@ func main() {
 	app.Use("/user/profile", middlewares.AuthorizeJWT)
 	app.Get("/user/profile", userHandler.Profile)
 
-	app.Use("/health", middlewares.AuthorizeJWT)
+	// app.Use("/health", middlewares.AuthorizeJWT)
 	app.Get("/health", func(c *fiber.Ctx) error {
 
 		headers := c.GetRespHeaders()

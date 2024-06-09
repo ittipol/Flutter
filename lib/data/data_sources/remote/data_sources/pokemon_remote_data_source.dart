@@ -1,6 +1,6 @@
 import 'package:flutter_demo/config/network/result.dart';
-import 'package:flutter_demo/domain/entities/pokemon_detail_entity.dart';
-import 'package:flutter_demo/domain/entities/pokemon_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_detail_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_entity.dart';
 
 abstract class PokemonRemoteDataSources {
   Future<Result<PokemonEntity>> getPokemonIndex({required int offset, required int limit});

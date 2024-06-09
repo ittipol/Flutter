@@ -1,4 +1,4 @@
-import 'package:flutter_demo/data/models/pokemon_sprites_model.dart';
+import 'package:flutter_demo/data/models/pokemon/pokemon_sprites_model.dart';
 
 class PokemonDetailSpriteEntity {
   final PokemonSpriteOtherEntity? other;

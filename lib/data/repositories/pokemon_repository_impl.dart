@@ -1,7 +1,7 @@
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/data/data_sources/remote/data_sources/pokemon_remote_data_source.dart';
-import 'package:flutter_demo/domain/entities/pokemon_detail_entity.dart';
-import 'package:flutter_demo/domain/entities/pokemon_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_detail_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_entity.dart';
 import 'package:flutter_demo/domain/repositories/pokemon_repository.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {

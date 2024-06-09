@@ -25,71 +25,79 @@ class DataStorageLocal implements DataStorageLocalDataSources {
   @override
   Future<Result<DataStorageEntity>> getData() async {
 
-    try {      
-      final isolate = IsolateBuilder();
+    final isolate = IsolateBuilder();
+    return await isolate.compute((message) async {
 
-      var json = await isolate.compute((message) async {
-        return await storage.read(key: message) ?? "";
-      }, _storageKey);
+      try {      
 
-      if(json.isEmpty) {
-        return ResultError(exception: LocalStorageException(
-          message: "Not Found",
-          type: LocalStorageExceptionType.notFound
-        ));
-      }
+        var json = await storage.read(key: message) ?? "";
 
-      return await isolate.compute((message) async {
-        var entity = Helper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(message, (json) {
+        if(json.isEmpty) {
+          return ResultError(exception: LocalStorageException(
+            message: "Not Found",
+            type: LocalStorageExceptionType.notFound
+          ));
+        }
+
+        var entity = Helper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(json, (json) {
           return DataStorageEntity.fromJson(json);
         });
 
-        return ResultSuccess<DataStorageEntity>(data: entity);
-      }, json);
+        return ResultSuccess<DataStorageEntity>(data: entity);      
 
-    } catch (e) {
-      return ResultError(exception: LocalStorageException(
-        message: e.toString(),
-        type: LocalStorageExceptionType.failure
-      ));
-    }
+      } catch (e) {
+        return ResultError(exception: LocalStorageException(
+          message: e.toString(),
+          type: LocalStorageExceptionType.failure
+        ));
+      }
+
+    }, _storageKey);
+    
   }
 
   @override
   Future<Result<bool>> saveData(DataStorageEntity value) async {
-    try{  
 
-      final isolate = IsolateBuilder();
-      return await isolate.compute((message) async {
+    final isolate = IsolateBuilder();    
+    return await isolate.compute((message) async {
+
+      try{  
         var json = jsonEncode(message[1] as DataStorageEntity);
 
         await storage.write(key: message[0] as String, value: json);
         return const ResultSuccess<bool>(data: true);
-      }, [_storageKey, value]);
 
-    }catch(e){
-      return ResultError(exception: LocalStorageException(
-        message: e.toString(),
-        type: LocalStorageExceptionType.failure
-      ));
-    }
+      }catch(e){
+        return ResultError(exception: LocalStorageException(
+          message: e.toString(),
+          type: LocalStorageExceptionType.failure
+        ));
+      }
+
+    }, [_storageKey, value]);
+
   }
 
   @override
   Future<Result<bool>> deleteData() async {
-    try{      
 
-      final isolate = IsolateBuilder();
-      return await isolate.compute((message) async {
+    final isolate = IsolateBuilder();
+    return await isolate.compute((message) async {
+
+      try{            
+
         await storage.delete(key: message);
         return const ResultSuccess<bool>(data: true);
-      }, _storageKey);
 
-    }catch(e){
-      return ResultError(exception: LocalStorageException(
-        message: e.toString(),
-        type: LocalStorageExceptionType.failure
-      ));
-    }
+      }catch(e){
+        return ResultError(exception: LocalStorageException(
+          message: e.toString(),
+          type: LocalStorageExceptionType.failure
+        ));
+      }
+
+    }, _storageKey);
+    
   }
 }

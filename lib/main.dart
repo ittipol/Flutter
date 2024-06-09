@@ -5,8 +5,13 @@ import 'package:flutter_demo/config/app/app_config.dart';
 import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/config/route/tablet/tablet_route.dart';
+import 'package:flutter_demo/data/app/authentication.dart';
+import 'package:flutter_demo/helper/authentication_helper.dart';
+import 'package:flutter_demo/helper/helper.dart';
+import 'package:flutter_demo/helper/user_profile_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
+import 'package:flutter_demo/setting/app_api_url_setting.dart';
 import 'package:flutter_demo/setting/app_theme_setting.dart';
 import 'package:flutter_demo/provider/theme_provider.dart';
 import 'package:flutter_demo/setting/on_boarding_screen_setting.dart';
@@ -20,8 +25,19 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  AppApiUrlSetting.localHostUrl = Helper.getLocalhostUrl();
+
   await LocalStorageHelper.clearKeychainValues();
-  await AppThemeSetting.init();
+  await AuthenticationHelper.getToken();
+
+  if(Authentication.isLoggedIn) {
+    debugPrint("ZZZZ  +++++++++++++>>>>>>>>>>>>>> MAIN >>> Authentication.isLoggedIn >>>>>> [ TEUE ]");
+    await UserProfileHelper.getUserProfile();
+  }
+
+  await AppThemeSetting.init();  
+
+  debugPrint("AppApiUrlSetting.localHostUrl ===> [ ${AppApiUrlSetting.localHostUrl} ]");
 
   final showOnBoardingScreen = await OnBoardingScreenSetting.showOnBoardingScreen;
 

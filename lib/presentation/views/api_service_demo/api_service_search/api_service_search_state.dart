@@ -1,4 +1,4 @@
-import 'package:flutter_demo/domain/entities/pokemon_detail_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_detail_entity.dart';
 
 enum ApiServiceSearchStateStatus { initial, loading, success, failure }
 

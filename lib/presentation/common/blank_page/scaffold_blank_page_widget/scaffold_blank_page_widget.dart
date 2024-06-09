@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/setting/app_theme_setting.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
 
-  final AppBar? appBar;
+  final AppBarWidget? appBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
+  final Widget? drawer;
+  final Widget? bottomSheet;  
   final bool resizeToAvoidBottomInset;
   final bool useSafeArea;
+  final bool systemNavigationBack;
+  final void Function()? systemNavigationBackCallBack;
 
   const ScaffoldBlankPageWidget({
     this.appBar,
     this.body,
     this.bottomNavigationBar,
+    this.drawer,
+    this.bottomSheet,
     this.resizeToAvoidBottomInset = false,
     this.useSafeArea = true,
+    this.systemNavigationBack = false,
+    this.systemNavigationBackCallBack,
     super.key
   });
 
@@ -37,10 +46,14 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
           return;
         }
 
-        // bool value = await someFunction();
-        // if (value) {
-        //   if(Navigator.canPop(context)) Navigator.pop(context);
-        // }
+        if (widget.systemNavigationBack) {      
+          if (widget.systemNavigationBackCallBack != null) {
+            widget.systemNavigationBackCallBack?.call();
+          } else {
+            if(Navigator.canPop(context)) Navigator.pop(context);
+          }          
+        }
+
       },
       child: GestureDetector(
         onTap: (){
@@ -48,9 +61,11 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
         },
         child: LoaderOverlayBlankPageWidget(
           body: Scaffold(
-            appBar: widget.appBar,
+            appBar: widget.appBar,            
             body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
             bottomNavigationBar: widget.bottomNavigationBar,
+            drawer: widget.drawer,
+            bottomSheet: widget.bottomSheet,
             resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
           ),
         ),

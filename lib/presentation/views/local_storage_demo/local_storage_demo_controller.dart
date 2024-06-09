@@ -1,4 +1,3 @@
-import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
 import 'package:flutter_demo/domain/repositories/data_storage_repository.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_state.dart';
@@ -20,11 +19,11 @@ class LocalStorageDemoController extends StateNotifier<LocalStorageDemoState> {
     var result = await dataStorageRepository.getData();
 
     if(result.isCompleted) {
-      var entity = result as ResultSuccess<DataStorageEntity>;
+      var entity = result.getData;
 
-      state = state.copyWith(name: entity.data.name);
+      state = state.copyWith(name: entity?.name);
 
-      return entity.data;
+      return entity ?? DataStorageEntity();
     }
 
     return DataStorageEntity();
@@ -33,17 +32,18 @@ class LocalStorageDemoController extends StateNotifier<LocalStorageDemoState> {
   Future<void> saveData(String name) async {
     if(name.isEmpty) {
       return;
-    }
+    }    
 
-    var data = DataStorageEntity(
-      name: name
-    );
+    final readResult = await dataStorageRepository.getData();
+    if(readResult.isCompleted) {
 
-    var result = await dataStorageRepository.saveData(data);
+      var data = readResult.getData ?? DataStorageEntity();
+      data = data.copyWith(name: name);
 
-    if(result.isCompleted) {
-      state = state.copyWith(name: name);
-    }
+      final saveResult = await dataStorageRepository.saveData(data);
+      if(saveResult.isCompleted) {
+      }
+    }    
   }
 
   Future<void> deleteData() async {

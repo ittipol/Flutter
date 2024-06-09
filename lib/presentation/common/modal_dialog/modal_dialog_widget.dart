@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+final GlobalKey modalDialogKey = GlobalKey();
+
 class ModalDialogWidget {
 
   Future<T?> showModalDialog<T>({
@@ -17,6 +19,7 @@ class ModalDialogWidget {
       useSafeArea: true,
       builder: (BuildContext context) {
         return PopScope(
+          key: modalDialogKey,
           canPop: false,
           onPopInvoked: (didPop) {
             if (didPop) {
@@ -88,7 +91,7 @@ class ModalDialogWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 8.h)
+                  SizedBox(height: 8.r)
                 ]
               )
             ),
@@ -150,7 +153,7 @@ class ModalDialogWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 8.h)
+                  SizedBox(height: 8.r)
                 ]
               )
             ),
@@ -163,7 +166,7 @@ class ModalDialogWidget {
 
   Future<T?> showModalDialogWithOkButton<T>({
     required BuildContext context, 
-    required String title, 
+    String? title, 
     Widget? body,
     void Function()? onTap, 
     bool fullScreenWidth = false,
@@ -180,19 +183,22 @@ class ModalDialogWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.spMin,
-                color: Colors.black
-              ),
+            Visibility(
+              visible: title != null,
+              child: Text(
+                title ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24.spMin,
+                  color: Colors.black
+                ),
+              )
             ),
             Visibility(
               visible: body != null,
               child: body ?? Container(),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16.r),
             GestureDetector(
               onTap: onTap,
               child: Container(
@@ -202,7 +208,7 @@ class ModalDialogWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   color: Colors.blue.shade600
                 ),
-                padding: EdgeInsets.symmetric(vertical: 8.h),
+                padding: EdgeInsets.symmetric(vertical: 8.r),
                 child: const Text(
                   "OK",
                   style: TextStyle(
@@ -241,7 +247,7 @@ class ModalDialogWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.spMin,
+                fontSize: 24.spMin,
                 color: Colors.black
               ),
             ),
@@ -249,7 +255,7 @@ class ModalDialogWidget {
               visible: body != null,
               child: body ?? Container(),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16.r),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -263,7 +269,7 @@ class ModalDialogWidget {
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         color: Colors.white
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      padding: EdgeInsets.symmetric(vertical: 8.r),
                       child: const Text(
                         "Cancel",
                         style: TextStyle(
@@ -284,7 +290,7 @@ class ModalDialogWidget {
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         color: Colors.blue.shade600
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      padding: EdgeInsets.symmetric(vertical: 8.r),
                       child: const Text(
                         "OK",
                         style: TextStyle(

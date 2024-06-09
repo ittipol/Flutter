@@ -1,7 +1,7 @@
-import 'package:flutter_demo/data/models/pokemon_detail_model.dart';
-import 'package:flutter_demo/data/models/pokemon_sprites_model.dart';
-import 'package:flutter_demo/domain/entities/pokemon_detail_sprite_entity.dart';
-import 'package:flutter_demo/domain/entities/pokemon_detail_types_entity.dart';
+import 'package:flutter_demo/data/models/pokemon/pokemon_detail_model.dart';
+import 'package:flutter_demo/data/models/pokemon/pokemon_sprites_model.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_detail_sprite_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_detail_types_entity.dart';
 
 class PokemonDetailEntity {
 

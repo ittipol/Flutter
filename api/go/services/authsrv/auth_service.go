@@ -63,7 +63,11 @@ func (obj authService) Refresh(headers map[string]string) (res authResponse, err
 
 	tokenString, _ := helpers.GetBearerToken(value)
 
-	token, _ := obj.jwtToken.Validate(tokenString, appUtils.AccessTokenSecretKey)
+	token, err := obj.jwtToken.Validate(tokenString, appUtils.RefreshTokenSecretKey)
+
+	if err != nil {
+		return res, errs.NewUnexpectedError()
+	}
 
 	claims, _ := token.Claims.(jwt.MapClaims)
 

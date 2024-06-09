@@ -13,6 +13,9 @@ import 'package:flutter_demo/presentation/views/screen_capture/screen_capture_vi
 import 'package:flutter_demo/presentation/views/sliver_app_bar/sliver_app_bar_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/ui_demo_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_article_view.dart';
+import 'package:flutter_demo/presentation/views/user/user_home/user_home_view.dart';
+import 'package:flutter_demo/presentation/views/user/user_login/user_login_view.dart';
+import 'package:flutter_demo/presentation/views/user/user_register/user_register_view.dart';
 import 'package:flutter_demo/presentation/views/web_view_demo/web_view_demo/web_view_demo_view.dart';
 
 final class AppRouter {
@@ -49,6 +52,12 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.platformChannelView), builder: (_) => const PlatformChannelView());
       case RouteName.isolateDemoView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.isolateDemoView), builder: (_) => const IsolateDemoView());
+      case RouteName.userHomeView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userHomeView), builder: (_) => const UserHomeView());
+      case RouteName.userLoginView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userLoginView), builder: (_) => const UserLoginView());
+      case RouteName.userRegisterView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userRegisterView), builder: (_) => const UserRegisterView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

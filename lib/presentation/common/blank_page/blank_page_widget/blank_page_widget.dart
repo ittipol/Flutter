@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/scaffold_blank_page_widget/scaffold_blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlankPageWidget extends ConsumerStatefulWidget {
 
-  final AppBar? appBar;
+  final AppBarWidget? appBar;
   final Widget? body;
   final bool resizeToAvoidBottomInset;
   final bool showBackBtn;

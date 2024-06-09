@@ -1,4 +1,4 @@
-import 'package:flutter_demo/data/models/pokemon_result_model.dart';
+import 'package:flutter_demo/data/models/pokemon/pokemon_result_model.dart';
 
 class PokemonModel {
 

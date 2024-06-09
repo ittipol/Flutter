@@ -1,5 +1,5 @@
 import 'package:flutter_demo/config/network/result.dart';
-import 'package:flutter_demo/domain/entities/pokemon_detail_entity.dart';
+import 'package:flutter_demo/domain/entities/pokemon/pokemon_detail_entity.dart';
 import 'package:flutter_demo/domain/repositories/pokemon_repository.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail/api_service_detail_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

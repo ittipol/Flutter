@@ -3,6 +3,8 @@ import 'package:flutter_demo/config/observer/route_history_observer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+final GlobalKey<NavigatorState> baseContext = GlobalKey<NavigatorState>();
+
 class MaterialAppBlankWidget extends ConsumerStatefulWidget {
 
   final ThemeData? theme;
@@ -42,6 +44,7 @@ class _MaterialAppBlankWidget  extends ConsumerState<MaterialAppBlankWidget> {
           // darkTheme: darkMode,
           // themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
+          navigatorKey: baseContext,
           home: widget.home,
           initialRoute: widget.initialRoute,
           onGenerateInitialRoutes: widget.onGenerateInitialRoutes,

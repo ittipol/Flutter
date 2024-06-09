@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
+import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/components/component_article_list/component_article_list_view.dart';
@@ -61,19 +62,8 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
 
     return BlankPageWidget(
       showBackBtn: false,
-      appBar: AppBar(
-        title: Text(
-          "APP BAR",
-          style: const TextStyle().copyWith(fontSize: 16.spMin),
-        ),
-        centerTitle: true,
-        elevation: 8,
-        shadowColor: Colors.black,      
-        leading: BackButton(
-          onPressed: () {
-            if(Navigator.canPop(context)) Navigator.pop(context);
-          },
-        ),
+      appBar: AppBarWidget(
+        titleText: "APP BAR",
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -82,7 +72,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () {},
-          ),
+          )
         ],
       ),
       body: RefreshIndicator(

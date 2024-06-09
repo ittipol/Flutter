@@ -1,5 +1,5 @@
-import 'package:flutter_demo/data/models/pokemon_sprites_model.dart';
-import 'package:flutter_demo/data/models/pokemon_type_model.dart';
+import 'package:flutter_demo/data/models/pokemon/pokemon_sprites_model.dart';
+import 'package:flutter_demo/data/models/pokemon/pokemon_type_model.dart';
 
 class PokemonDetailModel {
   final int? id;
