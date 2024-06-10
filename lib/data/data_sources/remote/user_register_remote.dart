@@ -23,7 +23,7 @@ class UserRegisterRemote implements UserRegisterRemoteDataSources {
         var model = UserRegisterModel.fromJson(dioResponse.data);
         var data = UserRegisterEntity.fromModel(model);
 
-        return ResultSuccess(data: data);
+        return ResultComplete(data: data);
       } on DioException catch (error) {
         return ResultError(exception: error);
       } on Exception catch (error) {

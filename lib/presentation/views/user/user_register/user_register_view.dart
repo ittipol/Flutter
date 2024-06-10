@@ -140,25 +140,15 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
             ),
             SizedBox(height: 16.r),
             GestureDetector(
-              onTap: () async {
+              onTap: () async {                
 
-                if(!Helper.isValidEmail(_emailTextEditingController.text) || _emailTextEditingController.text.isEmpty || _passwordTextEditingController.text.isEmpty || _nameTextEditingController.text.isEmpty) {
+                if(_emailTextEditingController.text.isEmpty || _passwordTextEditingController.text.isEmpty || _nameTextEditingController.text.isEmpty) {
+                  _dialog(context, "Please input email, password and name");                
+                  return;
+                }
 
-                  ModalDialogWidget().showModalDialogWithOkButton(
-                    context: context,
-                    body: Text(
-                      "Please input Email, Password and Name",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle().copyWith(
-                        fontSize: 16.spMin,
-                        color: Colors.black
-                      ),
-                    ),
-                    onTap: () {
-                      if(Navigator.canPop(context)) Navigator.pop(context);
-                    }
-                  );
-
+                if(!Helper.isValidEmail(_emailTextEditingController.text)) {
+                  _dialog(context, "Please input valid email");
                   return;
                 }
 
@@ -171,37 +161,44 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                 );
 
                 if(result.isCompleted) {
-                  await ModalDialogWidget().showModalDialogWithOkButton(
-                    context: context,
-                    useInsetPadding: true,
-                    body: Text(
-                      "Register succeeded",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle().copyWith(
-                        fontSize: 16.spMin,
-                        color: Colors.black
+
+                  if(context.mounted) {
+                    await ModalDialogWidget().showModalDialogWithOkButton(
+                      context: context,
+                      useInsetPadding: true,
+                      body: Text(
+                        "Register success",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.spMin,
+                          color: Colors.black
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.userHomeView);
-                    }
-                  );
+                      onTap: () {
+                        if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.userHomeView);
+                      }
+                    );
+                  }
+                  
                 }else {
-                  await ModalDialogWidget().showModalDialogWithOkButton(
-                    context: context,
-                    useInsetPadding: true,
-                    body: Text(
-                      "Register not succeed",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle().copyWith(
-                        fontSize: 16.spMin,
-                        color: Colors.black
+
+                  if(context.mounted) {
+                    await ModalDialogWidget().showModalDialogWithOkButton(
+                      context: context,
+                      useInsetPadding: true,
+                      body: Text(
+                        "Register not success",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.spMin,
+                          color: Colors.black
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      if(Navigator.canPop(context)) Navigator.pop(context);
-                    }
-                  );
+                      onTap: () {
+                        if(Navigator.canPop(context)) Navigator.pop(context);
+                      }
+                    );
+                  }                  
                   
                 }
 
@@ -221,13 +218,30 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                     fontSize: 16.r,
                     color: Colors.black
                   )
-                ),
-              ),
+                )
+              )
             ),
             const Spacer()
-          ],
+          ]
+        )
+      )
+    );
+  }
+
+  void _dialog(BuildContext context, String text) {
+    ModalDialogWidget().showModalDialogWithOkButton(
+      context: context,
+      body: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle().copyWith(
+          fontSize: 16.spMin,
+          color: Colors.black
         ),
       ),
+      onTap: () {
+        if(Navigator.canPop(context)) Navigator.pop(context);
+      }
     );
   }
 

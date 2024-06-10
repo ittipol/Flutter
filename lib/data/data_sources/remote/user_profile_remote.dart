@@ -12,40 +12,18 @@ class UserProfileRemote implements UserProfileRemoteDataSources {
 
   @override
   Future<Result<UserProfileEntity>> profile() async {
-
-    // final isolate = IsolateBuilder();
-    // return await isolate.compute((message) async {
-    //   try {
-    //     final dioResponse = await dio.get(urlPath, options: Options(
-    //       headers: {
-    //         "Authorization" : "Bearer $message"
-    //       }
-    //     ));
-
-    //     var model = UserProfileModel.fromJson(dioResponse.data);
-    //     var data = UserProfileEntity.fromModel(model);
-
-    //     return ResultSuccess(data: data);
-    //   } on DioException catch (error) {
-    //     return ResultError(exception: error);
-    //   } on Exception catch (error) {
-    //     return ResultError(exception: error);
-    //   }
-    // }, Authentication.accessToken);
-
     try {
       final dioResponse = await dio.get(ApiEndPointConstant.userProfile);
 
       var model = UserProfileModel.fromJson(dioResponse.data);
       var data = UserProfileEntity.fromModel(model);
 
-      return ResultSuccess(data: data);
+      return ResultComplete(data: data);
     } on DioException catch (error) {
       return ResultError(exception: error);
     } on Exception catch (error) {
       return ResultError(exception: error);
-    }
-    
+    }    
   }
 
 }

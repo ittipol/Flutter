@@ -21,14 +21,11 @@ class ApiServiceIndexController extends StateNotifier<ApiServiceIndexState> {
 
     await Future.delayed(const Duration(milliseconds: 1000));
 
-    // if(result is ResultSuccess) {      
-    //   state = state.copyWith(status: ApiServiceIndexStateStatus.success, pokemon: (result as ResultSuccess<PokemonEntity>).data);
-    // }
-
-    if(result.isCompleted) {      
-      final data = result.getData ?? PokemonEntity();
-      state = state.copyWith(status: ApiServiceIndexStateStatus.success, pokemon: data);
-    }
+    result.when(
+      completeWithValue: (value) {
+        state = state.copyWith(status: ApiServiceIndexStateStatus.success, pokemon: value.data);
+      }
+    );
     
     return result;
   }

@@ -3,7 +3,7 @@ import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_provider.dart';
-import 'package:flutter_demo/setting/app_screen_setting.dart';
+import 'package:flutter_demo/helper/app_screen_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -112,7 +112,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                           });
                         },
                         useInsetPadding: true,
-                        fullScreenWidth: AppScreenSetting.isDesktop ? false : true
+                        fullScreenWidth: AppScreenHelper.isDesktop ? false : true
                       );
                     },
                     child: Container(
@@ -174,7 +174,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                           }                          
                         },
                         useInsetPadding: true,
-                        fullScreenWidth: AppScreenSetting.isDesktop ? false : true
+                        fullScreenWidth: AppScreenHelper.isDesktop ? false : true
                       );
                     },
                     child: Container(

@@ -66,7 +66,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.r),
               child: TextField(
                 onChanged: (value) {
         
@@ -103,8 +103,8 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                     children: [
                       Container(
                         constraints: BoxConstraints(
-                          minHeight: 200.h,
-                          maxHeight: 200.h,
+                          minHeight: 200.r,
+                          maxHeight: 200.r,
                           maxWidth: double.infinity
                         ),
                         child: _image(state),
@@ -121,7 +121,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        padding: EdgeInsets.symmetric(horizontal: 16.r),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,7 +161,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                       Container(
                         width: MediaQuery.sizeOf(context).width,
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.symmetric(horizontal: 40.h),
+                        padding: EdgeInsets.symmetric(horizontal: 40.r),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,12 +173,12 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                                 fontSize: 16.spMin
                               )
                             ),
-                            SizedBox(width: 16.w),
+                            SizedBox(width: 16.r),
                             Expanded(
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 itemCount: state.pokemonDetail?.types?.length ?? 0,
-                                separatorBuilder: (context, index) => SizedBox(height: 8.h),
+                                separatorBuilder: (context, index) => SizedBox(height: 8.r),
                                 itemBuilder: (context, index) {
         
                                   var item = state.pokemonDetail?.types?[index];
@@ -214,7 +214,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                       borderRadius: BorderRadius.all(Radius.circular(32)),
                       color: Colors.white,
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
+                    padding: EdgeInsets.symmetric(vertical: 4.r, horizontal: 16.r),
                     child: Text(
                       "Not found",
                       style: TextStyle(

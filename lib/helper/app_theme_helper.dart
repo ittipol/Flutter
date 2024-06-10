@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppThemeSetting {
+class AppThemeHelper {
   static bool _darkMode = false;
   static bool get isDarkModeEnabled => _darkMode;
 

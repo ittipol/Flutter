@@ -45,7 +45,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.r),
             child: Text(
               "Pokemon index",
               style: TextStyle(
@@ -68,10 +68,10 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
             visible: state.status == ApiServiceIndexStateStatus.success,
             child: Expanded(
               child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: 16.r),
                   child: Column(
                     children: [                      
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 8.r),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, RouteName.apiServiceSearchView);
@@ -110,7 +110,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           )
                         )
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 8.r),
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -120,12 +120,12 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 16.r),
                       Expanded(
                         child: ListView.separated(
                           shrinkWrap: true,
                           itemCount: state.pokemon?.results?.length ?? 0,
-                          separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                          separatorBuilder: (context, index) => SizedBox(height: 16.r),
                           itemBuilder: (context, index) {
 
                             var item = state.pokemon?.results?[index];
@@ -144,11 +144,11 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(width: 2, color: Colors.black87),
+                                      border: Border.all(width: 2, color: Theme.of(context).colorScheme.onSurface),
                                       borderRadius: const BorderRadius.all(Radius.circular(24)),
                                     ),
                                     width: MediaQuery.sizeOf(context).width,
-                                    height: 30.h,
+                                    height: 40.r,
                                     child: Row(
                                       children: [
                                         Expanded(
@@ -180,19 +180,19 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   ),
                                   Container(
                                     width: MediaQuery.sizeOf(context).width,
-                                    height: 30.h,
+                                    height: 40.r,
                                     decoration: BoxDecoration(
                                       border: Border.all(width: 2, color: Colors.transparent),
                                       color: Colors.transparent
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                      padding: EdgeInsets.symmetric(horizontal: 16.r),
                                       child: Row(
                                         children: [
                                           Icon(
                                             Icons.catching_pokemon,
                                             size: 32.spMin,
-                                            color: Colors.black
+                                            color: Colors.redAccent.shade700
                                           ),
                                           SizedBox(width: 8.r),
                                           Expanded(
@@ -220,7 +220,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           },
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 16.r),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,7 +244,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                                   color: (offset - limit < 0) ?Colors.grey.shade200 : Colors.blue.shade600
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
+                                padding: EdgeInsets.symmetric(vertical: 8.r, horizontal: 24.r),
                                 child: Text(
                                   "Previous",
                                   overflow: TextOverflow.ellipsis,
@@ -256,7 +256,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                               )
                             ),
                           ),
-                          SizedBox(width: 16.w),
+                          SizedBox(width: 16.r),
                           Expanded(
                             flex: 1,
                             child: GestureDetector(
@@ -276,7 +276,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                                   color: (offset + limit > (state.pokemon?.count ?? 0)) ? Colors.grey.shade200 :Colors.blue.shade600
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
+                                padding: EdgeInsets.symmetric(vertical: 8.r, horizontal: 24.r),
                                 child: Text(
                                   "Next",
                                   overflow: TextOverflow.ellipsis,
@@ -290,7 +290,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
                           )
                         ],
                       ),
-                      SizedBox(height: 16.h)
+                      SizedBox(height: 16.r)
                     ],
                   ),
                 )

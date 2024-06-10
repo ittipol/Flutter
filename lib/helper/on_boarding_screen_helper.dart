@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OnBoardingScreenSetting {
+class OnBoardingScreenHelper {
 
   static Future<bool> get showOnBoardingScreen async => await _showOnBoardingScreen();
 

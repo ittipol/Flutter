@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/setting/app_theme_setting.dart';
+import 'package:flutter_demo/helper/app_theme_helper.dart';
 
 final class AppTheme {
 
@@ -78,7 +78,7 @@ final class AppTheme {
   );
 
   static ThemeData getTheme() {
-    if(AppThemeSetting.isDarkModeEnabled) {
+    if(AppThemeHelper.isDarkModeEnabled) {
       return AppTheme.darkMode;
     }
 

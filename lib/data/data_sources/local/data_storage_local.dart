@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/core/errors/local_storage_exception.dart';
 import 'package:flutter_demo/core/isolate/isolate_builder.dart';
@@ -29,21 +30,24 @@ class DataStorageLocal implements DataStorageLocalDataSources {
     return await isolate.compute((message) async {
 
       try {      
+        final json = await storage.read(key: message) ?? "";
 
-        var json = await storage.read(key: message) ?? "";
+        // if(json.isEmpty) {
+        //   return ResultError(exception: LocalStorageException(
+        //     message: "Not Found",
+        //     type: LocalStorageExceptionType.notFound
+        //   ));
+        // }
 
-        if(json.isEmpty) {
-          return ResultError(exception: LocalStorageException(
-            message: "Not Found",
-            type: LocalStorageExceptionType.notFound
-          ));
-        }
+        var entity = DataStorageEntity();
 
-        var entity = Helper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(json, (json) {
-          return DataStorageEntity.fromJson(json);
-        });
+        if(json.isNotEmpty) {
+          entity = Helper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(json, (json) {
+            return DataStorageEntity.fromJson(json);
+          });
+        }        
 
-        return ResultSuccess<DataStorageEntity>(data: entity);      
+        return ResultComplete<DataStorageEntity>(data: entity);      
 
       } catch (e) {
         return ResultError(exception: LocalStorageException(
@@ -66,7 +70,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
         var json = jsonEncode(message[1] as DataStorageEntity);
 
         await storage.write(key: message[0] as String, value: json);
-        return const ResultSuccess<bool>(data: true);
+        return const ResultComplete<bool>(data: true);
 
       }catch(e){
         return ResultError(exception: LocalStorageException(
@@ -88,7 +92,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
       try{            
 
         await storage.delete(key: message);
-        return const ResultSuccess<bool>(data: true);
+        return const ResultComplete<bool>(data: true);
 
       }catch(e){
         return ResultError(exception: LocalStorageException(

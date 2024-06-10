@@ -2,9 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/data/app/authentication.dart';
-import 'package:flutter_demo/data/app/user_profile.dart';
 import 'package:flutter_demo/domain/entities/menu_entity.dart';
-import 'package:flutter_demo/helper/authentication_helper.dart';
+import 'package:flutter_demo/helper/api_base_url_helper.dart';
 import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
@@ -26,7 +25,7 @@ class UserHomeView extends ConsumerStatefulWidget {
 class _UserHomeView  extends ConsumerState<UserHomeView> {
 
   List<MenuEntity> menuList = [
-    MenuEntity(title: "Login", link: RouteName.userLoginView, icon: Icons.login),
+    MenuEntity(title: "Log In", link: RouteName.userLoginView, icon: Icons.login),
     MenuEntity(title: "Register", link: RouteName.userRegisterView, icon: Icons.person_add),
   ];
 
@@ -36,24 +35,13 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async { 
 
-      final value = await Helper.checkUrlActive(Helper.getLocalhostUrl(includePort: false));
+      final value = await Helper.checkUrlActive(ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false));
 
       if(!value) {
-        _hint();
+        _hint1();
       }      
 
       ref.read(userHomeIsActiveUrlProvider.notifier).state = value;      
-
-      // ref.showLoaderOverlay();
-      // if(Authentication.isLoggedIn) {
-      //   await ref.read(userHomeProvider.notifier).profile();
-      // }
-      
-      // await Future.delayed(const Duration(seconds: 1), () {
-      //   ref.hideLoaderOverlay();
-      // });
-
-      // ref.read(userHomeProvider.notifier).update(isLoggedIn: Authentication.isLoggedIn, status: UserHomeStateStatus.success);
     });
   }
 
@@ -66,7 +54,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
     return BlankPageWidget(
       showBackBtn: false,
       appBar: AppBarWidget(
-        titleText: "HOME",
+        titleText: "AUTHENTICATION",
       ),
       body: SingleChildScrollView(
         clipBehavior: Clip.antiAlias,
@@ -77,48 +65,8 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Visibility(
-                visible: !state.isLoggedIn,
-                child: Text(
-                  "You are not logged in",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle().copyWith(
-                    fontSize: 24.spMin,
-                    // color: Colors.black
-                  )
-                ),
-              ),
-              Visibility(
-                visible: state.isLoggedIn,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: RichText(
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    text: TextSpan(                    
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Welcome ",                                                
-                          style: const TextStyle().copyWith(
-                            fontSize: 24.spMin,
-                            // color: Colors.black
-                          )
-                        ),
-                        TextSpan(
-                          text: UserProfile.name,
-                          style: const TextStyle().copyWith(
-                            fontSize: 24.spMin,
-                            // color: Colors.black,
-                            fontWeight: FontWeight.w700
-                          )
-                        )
-                      ]
-                    )
-                  )
-                ),
-              ),
-              SizedBox(height: 16.r),
+              // const UserAvatar(),
+              // SizedBox(height: 16.r),
               Container(
                 padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
@@ -128,7 +76,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                 child: Column(
                   children: [
                     Text(
-                      "Please start a server before testing",
+                      "Please start a server before authentication",
                       textAlign: TextAlign.center,
                       style: const TextStyle().copyWith(
                         fontSize: 16.spMin,
@@ -143,10 +91,25 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                     SizedBox(height: 8.r),
                     GestureDetector(
                       onTap: () {
-                        _hint();
+                        _hint1();
                       },
                       child: Text(
                         "How to start a server?",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.spMin,
+                          color: Colors.blue.shade800,
+                          fontWeight: FontWeight.w700
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8.r),
+                    GestureDetector(
+                      onTap: () {
+                        _hint2();
+                      },
+                      child: Text(
+                        "How to set the Android Emulator proxy address?",
                         textAlign: TextAlign.center,
                         style: const TextStyle().copyWith(
                           fontSize: 16.spMin,
@@ -178,9 +141,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                 visible: state.isLoggedIn,
                 child: GestureDetector(
                   onTap: () {
-                    AuthenticationHelper.logout(callBack: () {
-                      ref.read(userHomeProvider.notifier).update(isLoggedIn: false);
-                    });                    
+                    ref.read(userHomeProvider.notifier).logout();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8.r),
@@ -208,7 +169,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                           width: double.infinity,
                           alignment: Alignment.center,
                           child: Text(
-                            "Logout",
+                            "Log Out",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -240,7 +201,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                     return GestureDetector(
                       onTap: () async {
       
-                        final value = await Helper.checkUrlActive(Helper.getLocalhostUrl(includePort: false));
+                        final value = await Helper.checkUrlActive(ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false));
                         ref.read(userHomeIsActiveUrlProvider.notifier).state = value;
       
                         if(value) {
@@ -322,7 +283,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
     );
   }
 
-  void _hint() {
+  void _hint1() {
     ModalDialogWidget().showModalDialogWithOkButton(
       context: context,
       useInsetPadding: true,
@@ -379,7 +340,81 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                 )
               ]
             )
+          ),
+          SizedBox(height: 16.r),
+          Text(
+            "* If you are running on Android Emulator, Please set the proxy address to 10.0.2.2",            
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
           )
+        ],
+      ),
+      onTap: () {
+        if(Navigator.canPop(context)) Navigator.pop(context);
+      }
+    );
+  }
+
+  void _hint2() {
+    ModalDialogWidget().showModalDialogWithOkButton(
+      context: context,
+      useInsetPadding: true,
+      title: "How to set the Android Emulator proxy address?",
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "1. Click horizontal ellipsis … (Three dot icon)",            
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          ),
+          Text(
+            "2. Click settings",            
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          ),
+          Text(
+            "3. Click proxy tab",            
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          ),
+          Text(
+            "4. Select Manual proxy configuration",
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          ),
+          Text(
+            "5. Input 10.0.2.2 in Host name",
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          ),
+          Text(
+            "6. Input 80 in Port number",
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          ),
+          Text(
+            "7. Click apply",
+            style: const TextStyle().copyWith(
+              fontSize: 16.spMin,
+              color: Colors.black
+            )
+          )          
         ],
       ),
       onTap: () {

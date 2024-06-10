@@ -126,76 +126,53 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
             GestureDetector(
               onTap: () async {            
 
-                // if(!Helper.isValidEmail(_emailTextEditingController.text) || _emailTextEditingController.text.isEmpty || _passwordTextEditingController.text.isEmpty) {
+                if(_emailTextEditingController.text.isEmpty || _passwordTextEditingController.text.isEmpty) {
+                  _dialog(context, "Please input email and password");
+                  return;
+                }
 
-                //   ModalDialogWidget().showModalDialogWithOkButton(
-                //     context: context,
-                //     body: Text(
-                //       "Please input Email and Password",
-                //       textAlign: TextAlign.center,
-                //       style: const TextStyle().copyWith(
-                //         fontSize: 16.spMin,
-                //         color: Colors.black
-                //       ),
-                //     ),
-                //     onTap: () {
-                //       if(Navigator.canPop(context)) Navigator.pop(context);
-                //     }
-                //   );
-
-                //   return;
-                // }
+                if(!Helper.isValidEmail(_emailTextEditingController.text)) {
+                  _dialog(context, "Please input valid email");
+                  return;
+                }                
 
                 ref.showLoaderOverlay();
-                var result = await ref.read(userLoginProvider.notifier).login(email: "test@email.com", password: "1234");
-                // var result = await ref.read(userLoginProvider.notifier).login(email: "test", password: "1234");
-                // final result = await ref.read(userLoginProvider.notifier).login(email: _emailTextEditingController.text, password: _passwordTextEditingController.text);
 
-                if(result.isCompleted) {
+                final result = await ref.read(userLoginProvider.notifier).login(email: _emailTextEditingController.text, password: _passwordTextEditingController.text);
+
+                if(result) {
 
                   final userProfile = await ref.read(userLoginProvider.notifier).profile();
 
-                  if(userProfile.isCompleted) {                    
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Login succeeded"),
-                      behavior: SnackBarBehavior.floating,                              
-                      dismissDirection: DismissDirection.horizontal,
-                      duration: Duration(seconds: 4)
-                    ));
-                    if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.userHomeView);
-                  }                  
-
-                  // await ModalDialogWidget().showModalDialogWithOkButton(
-                  //   context: context,
-                  //   useInsetPadding: true,
-                  //   body: Text(
-                  //     "Login succeeded",
-                  //     textAlign: TextAlign.center,
-                  //     style: const TextStyle().copyWith(
-                  //       fontSize: 16.spMin,
-                  //       color: Colors.black
-                  //     ),
-                  //   ),
-                  //   onTap: () {
-                  //     if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.userHomeView);
-                  //   }
-                  // );
+                  if(userProfile) {
+                    if(context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("You have been logged in"),
+                        behavior: SnackBarBehavior.floating,                              
+                        dismissDirection: DismissDirection.horizontal,
+                        duration: Duration(seconds: 4)
+                      ));
+                      if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.home);
+                    }                    
+                  }                                    
                 }else {
-                  await ModalDialogWidget().showModalDialogWithOkButton(
-                    context: context,
-                    useInsetPadding: true,
-                    body: Text(
-                      "Login not succeed",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle().copyWith(
-                        fontSize: 16.spMin,
-                        color: Colors.black
+                  if(context.mounted) {
+                    await ModalDialogWidget().showModalDialogWithOkButton(
+                      context: context,
+                      useInsetPadding: true,
+                      body: Text(
+                        "The email or password that you have entered does not match any account",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.spMin,
+                          color: Colors.black
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      if(Navigator.canPop(context)) Navigator.pop(context);
-                    }
-                  );
+                      onTap: () {
+                        if(Navigator.canPop(context)) Navigator.pop(context);
+                      }
+                    );
+                  }
                 }
 
                 ref.hideLoaderOverlay();             
@@ -208,7 +185,7 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
                 padding: EdgeInsets.all(8.r),
                 alignment: Alignment.center,
                 child: Text(
-                  "Login",
+                  "Log In",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle().copyWith(
                     fontSize: 16.r,
@@ -221,6 +198,23 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
           ],
         ),
       ),
+    );
+  }
+
+  void _dialog(BuildContext context, String text) {
+    ModalDialogWidget().showModalDialogWithOkButton(
+      context: context,
+      body: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle().copyWith(
+          fontSize: 16.spMin,
+          color: Colors.black
+        ),
+      ),
+      onTap: () {
+        if(Navigator.canPop(context)) Navigator.pop(context);
+      }
     );
   }
 

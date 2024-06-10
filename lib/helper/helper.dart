@@ -74,25 +74,6 @@ class Helper {
     });
 
     return response.statusCode == 200;
-  }  
-
-  static String getLocalhostUrl({includePort = true}) {
-
-    var host = "";
-
-    if(Platform.isAndroid) {
-      host = AppConstant.androidLocalhost;
-    }
-
-    if(Platform.isIOS) {
-      host = AppConstant.iosLocalhost;
-    }
-
-    if(includePort) {
-      host = "$host:${AppConstant.localhostApiPort}";
-    }
-
-    return host;
-  }
+  }    
 
 }

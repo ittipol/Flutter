@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
-import 'package:flutter_demo/setting/app_theme_setting.dart';
+import 'package:flutter_demo/helper/app_theme_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -93,7 +93,7 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
 
   SystemUiOverlayStyle _statusBarColor() {
 
-    var darkMode = AppThemeSetting.isDarkModeEnabled;
+    var darkMode = AppThemeHelper.isDarkModeEnabled;
 
     const light = SystemUiOverlayStyle(
       statusBarColor: Colors.white,

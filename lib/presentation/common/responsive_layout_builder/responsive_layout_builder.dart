@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/enum/screen_type.dart';
 import 'package:flutter_demo/presentation/common/orientation_layout/orientation_layout.dart';
-import 'package:flutter_demo/setting/app_screen_setting.dart';
+import 'package:flutter_demo/helper/app_screen_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -63,8 +63,8 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      debugPrint("------------ =====> AppScreenSetting.isMobile [ ${AppScreenSetting.isMobile} ]");
-      if(AppScreenSetting.isMobile) {
+      debugPrint("------------ =====> AppScreenHelper.isMobile [ ${AppScreenHelper.isMobile} ]");
+      if(AppScreenHelper.isMobile) {
         debugPrint("##################################### =====> isMobile ====> Lock screen");
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
@@ -84,7 +84,7 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
 
         if (kIsWeb) {
           debugPrint("##################################### =====> Web");
-          AppScreenSetting.deviceScreenType = ScreenType.desktop;
+          AppScreenHelper.deviceScreenType = ScreenType.desktop;
           return OrientationLayout(
             all: widget.webAppAll,
             portrait: widget.webAppPortrait,
@@ -92,7 +92,7 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
           );
         }else if(Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
           debugPrint("##################################### =====> Desktop");
-          AppScreenSetting.deviceScreenType = ScreenType.desktop;
+          AppScreenHelper.deviceScreenType = ScreenType.desktop;
           return OrientationLayout(
             all: widget.desktopAll,
             portrait: widget.desktopPortrait,
@@ -103,7 +103,7 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
             case DeviceScreenType.desktop:
             case DeviceScreenType.tablet:
             debugPrint("##################################### =====> [Tablet]");
-              AppScreenSetting.deviceScreenType = ScreenType.tablet;
+              AppScreenHelper.deviceScreenType = ScreenType.tablet;
               return OrientationLayout(
                 all: widget.tabletAll,
                 portrait: widget.tabletPortrait,
@@ -111,14 +111,14 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
               );
             case DeviceScreenType.mobile:
               debugPrint("##################################### =====> [Mobile]");
-              AppScreenSetting.deviceScreenType = ScreenType.mobile;
+              AppScreenHelper.deviceScreenType = ScreenType.mobile;
               return OrientationLayout(
                 all: widget.mobileAll,
                 portrait: widget.mobilePortrait,
                 landscape: widget.mobileLandscape,
               );
             case DeviceScreenType.watch:
-              AppScreenSetting.deviceScreenType = ScreenType.watch;
+              AppScreenHelper.deviceScreenType = ScreenType.watch;
               debugPrint("##################################### =====> [Watch]");
               return OrientationLayout(
                 all: widget.watchAll,
@@ -129,7 +129,7 @@ class _ResponsiveLayoutBuilder  extends ConsumerState<ResponsiveLayoutBuilder> {
           }
         }              
 
-        AppScreenSetting.deviceScreenType = ScreenType.none;
+        AppScreenHelper.deviceScreenType = ScreenType.none;
         return OrientationLayout(
           all: widget.notMatchAll,
           portrait: widget.notMatchPortrait,

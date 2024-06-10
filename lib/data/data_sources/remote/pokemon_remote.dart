@@ -33,7 +33,7 @@ class PokemonRemote implements PokemonRemoteDataSources {
       var model = PokemonModel.fromJson(dioResponse.data);
       var data = PokemonEntity.fromModel(model);
 
-      return ResultSuccess(data: data);
+      return ResultComplete(data: data);
     } on DioException catch (error) {
       return ResultError(exception: error);
     } on Exception catch (error) {
@@ -54,7 +54,7 @@ class PokemonRemote implements PokemonRemoteDataSources {
       var model = PokemonDetailModel.fromJson(dioResponse.data);
       var data = PokemonDetailEntity.fromModel(model);
 
-      return ResultSuccess(data: data);
+      return ResultComplete(data: data);
     } on DioException catch (error) {
       return ResultError(exception: error);
     } on Exception catch (error) {

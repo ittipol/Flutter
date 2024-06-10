@@ -1,21 +1,29 @@
 import 'package:flutter_demo/data/app/authentication.dart';
 import 'package:flutter_demo/domain/repositories/data_storage_repository.dart';
 import 'package:flutter_demo/helper/authentication_helper.dart';
-import 'package:flutter_demo/presentation/views/user/user_home/user_home_state.dart';
+import 'package:flutter_demo/presentation/common/user_avatar/user_avatar_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserHomeController extends StateNotifier<UserHomeState> {
+class UserAvatarController extends StateNotifier<UserAvatarState> {
 
   final DataStorageRepository dataStorageRepository;
 
-  UserHomeController({
+  UserAvatarController({
     required this.dataStorageRepository,
-  }) : super(UserHomeState(
+  }) : super(UserAvatarState(
     isLoggedIn: Authentication.isLoggedIn
   ));
 
-  void update({required bool isLoggedIn}) {
-    state = state.copyWith(isLoggedIn: isLoggedIn);
+  void update({String? name, bool? isLoggedIn}) {
+    state = state.copyWith(name: name, isLoggedIn: isLoggedIn);
+  }
+
+  void authentication() {
+    state = state.copyWith(isLoggedIn: true);
+  }  
+
+  void guest() {
+    state = state.copyWith(isLoggedIn: false);
   }  
 
   Future<bool> logout() async {

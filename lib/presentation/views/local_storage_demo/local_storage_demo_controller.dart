@@ -42,6 +42,7 @@ class LocalStorageDemoController extends StateNotifier<LocalStorageDemoState> {
 
       final saveResult = await dataStorageRepository.saveData(data);
       if(saveResult.isCompleted) {
+        state = state.copyWith(name: name);
       }
     }    
   }

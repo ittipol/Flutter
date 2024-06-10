@@ -2,19 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/app/app_config.dart';
+import 'package:flutter_demo/config/network/dio_option.dart';
 import 'package:flutter_demo/config/route/route.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/config/route/tablet/tablet_route.dart';
+import 'package:flutter_demo/data/app/api_base_url.dart';
 import 'package:flutter_demo/data/app/authentication.dart';
+import 'package:flutter_demo/data/data_sources/local/data_storage_local.dart';
+import 'package:flutter_demo/data/data_sources/remote/authentication_remote.dart';
+import 'package:flutter_demo/data/data_sources/remote/user_profile_remote.dart';
+import 'package:flutter_demo/data/repositories/authentication_repository_impl.dart';
+import 'package:flutter_demo/data/repositories/data_storage_repository_impl.dart';
+import 'package:flutter_demo/data/repositories/user_profile_repository_impl.dart';
 import 'package:flutter_demo/helper/authentication_helper.dart';
-import 'package:flutter_demo/helper/helper.dart';
+import 'package:flutter_demo/helper/on_boarding_screen_helper.dart';
 import 'package:flutter_demo/helper/user_profile_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
-import 'package:flutter_demo/setting/app_api_url_setting.dart';
-import 'package:flutter_demo/setting/app_theme_setting.dart';
+import 'package:flutter_demo/helper/api_base_url_helper.dart';
+import 'package:flutter_demo/helper/app_theme_helper.dart';
 import 'package:flutter_demo/provider/theme_provider.dart';
-import 'package:flutter_demo/setting/on_boarding_screen_setting.dart';
 import 'package:flutter_demo/helper/local_storage_helper.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,21 +32,29 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  AppApiUrlSetting.localHostUrl = Helper.getLocalhostUrl();
+  ApiBaseUrlHelper.init();
+  debugPrint("ApiBaseUrl.localhostBaseUrl ===> [ ${ApiBaseUrl.localhostBaseUrl} ]");
 
   await LocalStorageHelper.clearKeychainValues();
-  await AuthenticationHelper.getToken();
+
+  await AuthenticationHelper.checkRefreshTokenStillActive(
+    authenticationRepository: AuthenticationRepositoryImpl(
+      authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+    ),
+    dataStorageRepository: DataStorageRepositoryImpl(
+      dataStorageLocalDataSources: DataStorageLocal()
+    ),
+  );
 
   if(Authentication.isLoggedIn) {
-    debugPrint("ZZZZ  +++++++++++++>>>>>>>>>>>>>> MAIN >>> Authentication.isLoggedIn >>>>>> [ TEUE ]");
-    await UserProfileHelper.getUserProfile();
+    await UserProfileHelper.getUserProfile(userProfileRepository: UserProfileRepositoryImpl(
+      userProfileRemoteDataSources: UserProfileRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+    ));
   }
 
-  await AppThemeSetting.init();  
+  await AppThemeHelper.init();    
 
-  debugPrint("AppApiUrlSetting.localHostUrl ===> [ ${AppApiUrlSetting.localHostUrl} ]");
-
-  final showOnBoardingScreen = await OnBoardingScreenSetting.showOnBoardingScreen;
+  final showOnBoardingScreen = await OnBoardingScreenHelper.showOnBoardingScreen;
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,

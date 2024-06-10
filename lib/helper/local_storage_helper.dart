@@ -1,4 +1,3 @@
-import 'package:flutter_demo/data/data_sources/local/data_storage_local.dart';
 import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
 import 'package:flutter_demo/domain/repositories/data_storage_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,9 +16,8 @@ class LocalStorageHelper {
     }
   }
 
-  static Future<String> getRefreshToken() async {
-    final storage = DataStorageLocal();
-    final readResult = await storage.getData();
+  static Future<String> getRefreshToken({required DataStorageRepository dataStorageRepository}) async {  
+    final readResult = await dataStorageRepository.getData();
 
     if(readResult.isCompleted) {
       final data = readResult.getData ?? DataStorageEntity();      
@@ -36,6 +34,7 @@ class LocalStorageHelper {
     }    
 
     final readResult = await dataStorageRepository.getData();
+    
     if(readResult.isCompleted) {
 
       var data = readResult.getData ?? DataStorageEntity();

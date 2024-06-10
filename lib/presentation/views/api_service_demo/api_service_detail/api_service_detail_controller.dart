@@ -21,9 +21,11 @@ class ApiServiceDetailController extends StateNotifier<ApiServiceDetailState> {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    if(result is ResultSuccess) {      
-      state = state.copyWith(status: ApiServiceDetailStateStatus.success, pokemonDetail: (result as ResultSuccess<PokemonDetailEntity>).data);
-    }
+    result.when(
+      completeWithValue: (value) {
+        state = state.copyWith(status: ApiServiceDetailStateStatus.success, pokemonDetail: value.data);
+      }
+    );
     
     return result;
   }

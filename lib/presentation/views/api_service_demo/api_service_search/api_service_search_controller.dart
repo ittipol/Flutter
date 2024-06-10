@@ -16,7 +16,7 @@ class ApiServiceSearchController extends StateNotifier<ApiServiceSearchState> {
 
     if(name.isEmpty) {
       state = state.copyWith(status: ApiServiceSearchStateStatus.initial);
-      return ResultSuccess<PokemonDetailEntity>(
+      return ResultComplete<PokemonDetailEntity>(
         data: PokemonDetailEntity()
       );
     }
@@ -28,11 +28,14 @@ class ApiServiceSearchController extends StateNotifier<ApiServiceSearchState> {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    if(result is ResultSuccess) {      
-      state = state.copyWith(status: ApiServiceSearchStateStatus.success, pokemonDetail: (result as ResultSuccess<PokemonDetailEntity>).data);
-    }else {
-      state = state.copyWith(status: ApiServiceSearchStateStatus.failure);
-    }
+    result.when(
+      completeWithValue: (value) {
+        state = state.copyWith(status: ApiServiceSearchStateStatus.success, pokemonDetail: value.data);
+      },
+      completeWithError: (error) {
+        state = state.copyWith(status: ApiServiceSearchStateStatus.failure);
+      }
+    );
         
     return result;
   }

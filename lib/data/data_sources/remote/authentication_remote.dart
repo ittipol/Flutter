@@ -26,7 +26,7 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
         var model = UserAuthenticationModel.fromJson(dioResponse.data);
         var data = UserAuthenticationEntity.fromModel(model);
 
-        return ResultSuccess(data: data);
+        return ResultComplete(data: data);
       } on DioException catch (error) {
         return ResultError(exception: error);
       } on Exception catch (error) {
@@ -38,29 +38,6 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
 
   @override
   Future<Result<UserAuthenticationEntity>> refresh() async {
-
-    // final isolate = IsolateBuilder();
-    // return await isolate.compute((message) async {
-    //   try {
-    //     final dioResponse = await dio.post(
-    //       urlPath,
-    //       options: Options(
-    //         headers: {
-    //           "Authorization": "Bearer ${Authentication.refreshToken}"
-    //         }
-    //       )
-    //     );
-
-    //     var model = UserAuthenticationModel.fromJson(dioResponse.data);
-    //     var data = UserAuthenticationEntity.fromModel(model);
-
-    //     return ResultSuccess(data: data);
-    //   } on DioException catch (error) {
-    //     return ResultError(exception: error);
-    //   } on Exception catch (error) {
-    //     return ResultError(exception: error);
-    //   }
-    // }, "");
 
     try {
       final dioResponse = await dio.post(
@@ -75,7 +52,7 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
       var model = UserAuthenticationModel.fromJson(dioResponse.data);
       var data = UserAuthenticationEntity.fromModel(model);
 
-      return ResultSuccess(data: data);
+      return ResultComplete(data: data);
     } on DioException catch (error) {
       return ResultError(exception: error);
     } on Exception catch (error) {
@@ -87,29 +64,13 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
   @override
   Future<Result<TokenVerifyEntity>> verify() async {
 
-    // final isolate = IsolateBuilder();
-    // return await isolate.compute((message) async {
-    //   try {
-    //     final dioResponse = await dio.post(urlPath);
-
-    //     var model = TokenVerifyModel.fromJson(dioResponse.data);
-    //     var data = TokenVerifyEntity.fromModel(model);
-
-    //     return ResultSuccess(data: data);
-    //   } on DioException catch (error) {
-    //     return ResultError(exception: error);
-    //   } on Exception catch (error) {
-    //     return ResultError(exception: error);
-    //   }
-    // }, "");
-
     try {
       final dioResponse = await dio.post(ApiEndPointConstant.verify);
 
       var model = TokenVerifyModel.fromJson(dioResponse.data);
       var data = TokenVerifyEntity.fromModel(model);
 
-      return ResultSuccess(data: data);
+      return ResultComplete(data: data);
     } on DioException catch (error) {
       return ResultError(exception: error);
     } on Exception catch (error) {

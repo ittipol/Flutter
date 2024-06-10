@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout_builder/responsive_layout_builder.dart';
-import 'package:flutter_demo/setting/app_screen_setting.dart';
+import 'package:flutter_demo/helper/app_screen_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +37,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
 
   @override
   dispose(){    
-    if(AppScreenSetting.isMobile) {
+    if(AppScreenHelper.isMobile) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,

@@ -43,7 +43,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
           return List<PokemonFavoriteEntity>.from(json.map((value) => PokemonFavoriteEntity.fromJson(value)));
         });
 
-        return ResultSuccess<List<PokemonFavoriteEntity>>(data: entity);
+        return ResultComplete<List<PokemonFavoriteEntity>>(data: entity);
       }, data);
 
     } catch (e) {
@@ -65,7 +65,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
 
       return await isolate.compute((message) async {
         await storage.write(key: message[0], value: message[1]);
-        return const ResultSuccess<bool>(data: true);
+        return const ResultComplete<bool>(data: true);
       }, [_storageKey, json]);
 
     }catch(e){
@@ -83,7 +83,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
       final isolate = IsolateBuilder();
       return await isolate.compute((message) async {
         await storage.delete(key: _storageKey);
-        return const ResultSuccess<bool>(data: true);
+        return const ResultComplete<bool>(data: true);
       }, _storageKey);
 
     }catch(e){
