@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/core/errors/local_storage_exception.dart';
 import 'package:flutter_demo/core/isolate/isolate_builder.dart';
 import 'package:flutter_demo/data/data_sources/local/data_sources/data_storage_local_data_source.dart';
 import 'package:flutter_demo/domain/entities/local_storage/data_storage_entity.dart';
-import 'package:flutter_demo/helper/helper.dart';
+import 'package:flutter_demo/helper/json_helper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DataStorageLocal implements DataStorageLocalDataSources {
@@ -42,7 +41,7 @@ class DataStorageLocal implements DataStorageLocalDataSources {
         var entity = DataStorageEntity();
 
         if(json.isNotEmpty) {
-          entity = Helper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(json, (json) {
+          entity = JsonHelper.jsonDeserialize<DataStorageEntity, Map<String, dynamic>>(json, (json) {
             return DataStorageEntity.fromJson(json);
           });
         }        

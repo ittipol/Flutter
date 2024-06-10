@@ -82,7 +82,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
             mobilePortrait: (ctx) {
               debugPrint("====> mobilePortrait ${MediaQuery.sizeOf(context).width}");
               return Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.r),
                 decoration: const BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.all(Radius.circular(16))
@@ -99,7 +99,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
             mobileLandscape: (ctx) {
               debugPrint("====> mobileLandscape ${MediaQuery.sizeOf(context).width}");
               return Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
                   color: Colors.orange.shade800,
                   borderRadius: const BorderRadius.all(Radius.circular(16))
@@ -116,7 +116,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
             tabletPortrait: (ctx) {
               debugPrint("tabletPortrait ${MediaQuery.sizeOf(context).width}");
               return Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
                   color: Colors.blue.shade800,
                   borderRadius: const BorderRadius.all(Radius.circular(16))
@@ -133,7 +133,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
             tabletLandscape: (ctx) {
               debugPrint("tabletLandscape ${MediaQuery.sizeOf(context).width}");
               return Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.r),
                 decoration: const BoxDecoration(
                   color: Colors.purple,
                   borderRadius: BorderRadius.all(Radius.circular(16))
@@ -149,7 +149,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
             },
             webAppAll: (ctx) {
               return Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
                   color: Colors.indigoAccent.shade700,
                   borderRadius: const BorderRadius.all(Radius.circular(16))
@@ -176,7 +176,8 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
                       return Text(
                         "Rotate your device",
                         style: TextStyle(
-                          fontSize: 16.spMin
+                          fontSize: 16.spMin,
+                          fontWeight: FontWeight.w700
                         ),
                       );
                     },
@@ -184,7 +185,8 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
                       return Text(
                         "Rotate your device",
                         style: TextStyle(
-                          fontSize: 16.spMin
+                          fontSize: 16.spMin,
+                          fontWeight: FontWeight.w700
                         ),
                       );
                     },
@@ -192,7 +194,8 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
                       return Text(
                         "Resize your screen",
                         style: TextStyle(
-                          fontSize: 16.spMin
+                          fontSize: 16.spMin,
+                          fontWeight: FontWeight.w700
                         ),
                       );
                     },
@@ -230,13 +233,13 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
                             width: MediaQuery.sizeOf(context).width,
                             color: Colors.blue.shade100
                           );
-                        },
+                        }
                       );
-                    },
-                  ),
-                ],
-              ),
-            ),
+                    }
+                  )
+                ]
+              )
+            )
           )
         ]
       )
@@ -247,7 +250,7 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
     return Container(
       width: width,
       height: 300.r,
-      color: color,
+      color: color
     );
   }
 
@@ -270,8 +273,8 @@ class _ResponsiveDesignView  extends ConsumerState<ResponsiveDesignView> {
             'Grid item $index',
             style: TextStyle(
               fontSize: 16.spMin
-            ),
-          ),
+            )
+          )
         );
       }
     );

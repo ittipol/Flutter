@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/extension/loader_overlay_extension.dart';
-import 'package:flutter_demo/helper/helper.dart';
+import 'package:flutter_demo/helper/validation_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
@@ -87,7 +87,7 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
                 }                
 
                 timer = Timer(const Duration(milliseconds: 500), () async {
-                  final result = Helper.isValidEmail(value);   
+                  final result = ValidationHelper.isValidEmail(value);   
                   if(result) {
                     ref.read(userLoginEmailErrorTextProvider.notifier).state = null;
                   }else {
@@ -131,7 +131,7 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
                   return;
                 }
 
-                if(!Helper.isValidEmail(_emailTextEditingController.text)) {
+                if(!ValidationHelper.isValidEmail(_emailTextEditingController.text)) {
                   _dialog(context, "Please input valid email");
                   return;
                 }                

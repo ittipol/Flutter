@@ -5,7 +5,7 @@ import 'package:flutter_demo/core/errors/local_storage_exception.dart';
 import 'package:flutter_demo/core/isolate/isolate_builder.dart';
 import 'package:flutter_demo/data/data_sources/local/data_sources/pokemon_favorite_local_data_source.dart';
 import 'package:flutter_demo/domain/entities/local_storage/pokemon_favorite_entity.dart';
-import 'package:flutter_demo/helper/helper.dart';
+import 'package:flutter_demo/helper/json_helper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
@@ -39,7 +39,7 @@ class PokemonFavoriteLocal implements PokemonFavoriteLocalDataSources {
       }
 
       return await isolate.compute((message) async {
-        var entity = Helper.jsonDeserialize<List<PokemonFavoriteEntity>, List<dynamic>>(data, (json) {
+        var entity = JsonHelper.jsonDeserialize<List<PokemonFavoriteEntity>, List<dynamic>>(data, (json) {
           return List<PokemonFavoriteEntity>.from(json.map((value) => PokemonFavoriteEntity.fromJson(value)));
         });
 
