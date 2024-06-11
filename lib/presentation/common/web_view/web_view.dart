@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/pdf_viewer/pdf_viewer.dart';
 import 'package:flutter_demo/presentation/common/web_view/components/web_view_progress_bar.dart';
 import 'package:flutter_demo/presentation/common/web_view/web_view_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,12 +27,12 @@ class WebView extends ConsumerStatefulWidget {
 
 class _WebView  extends ConsumerState<WebView> {
 
-  WebViewController _webViewcontroller = WebViewController();
+  WebViewController _webViewController = WebViewController();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {       
-      if(widget.url.isNotEmpty) _webViewcontroller.loadRequest(Uri.parse(widget.url));
+      if(widget.url.isNotEmpty) _webViewController.loadRequest(Uri.parse(widget.url));
     });
 
     final controller = WebViewController()
@@ -55,7 +56,7 @@ class _WebView  extends ConsumerState<WebView> {
         onNavigationRequest: (NavigationRequest request) {
           
           if(isPdf(request.url)) {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pdfUrl: request.url)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pdfUrl: request.url)));
             return NavigationDecision.prevent;
           }
 
@@ -64,15 +65,15 @@ class _WebView  extends ConsumerState<WebView> {
       ),
     );
 
-    _webViewcontroller = controller;    
+    _webViewController = controller;    
 
     super.initState();    
   }
 
   @override
   void dispose(){
-    _webViewcontroller.clearCache();
-    _webViewcontroller.clearLocalStorage();
+    _webViewController.clearCache();
+    _webViewController.clearLocalStorage();
     WebViewCookieManager().clearCookies();
     super.dispose();
   }
@@ -105,10 +106,10 @@ class _WebView  extends ConsumerState<WebView> {
   }
 
   Future<bool> _webviewBackButton() async {
-    bool canNavigate = await _webViewcontroller.canGoBack();
+    bool canNavigate = await _webViewController.canGoBack();
 
     if(canNavigate) {
-      await _webViewcontroller.goBack();
+      await _webViewController.goBack();
     }
 
     return canNavigate;
@@ -119,12 +120,12 @@ class _WebView  extends ConsumerState<WebView> {
     if (WebViewPlatform.instance is AndroidWebViewPlatform) {
       return WebViewWidget.fromPlatformCreationParams(
         params: AndroidWebViewWidgetCreationParams(
-          controller: _webViewcontroller.platform,
+          controller: _webViewController.platform,
           displayWithHybridComposition: true,
         ),
       );
     } else {
-      return WebViewWidget(controller: _webViewcontroller);
+      return WebViewWidget(controller: _webViewController);
     }
   }
 

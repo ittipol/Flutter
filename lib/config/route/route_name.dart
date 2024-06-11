@@ -15,5 +15,6 @@ final class RouteName {
   static const isolateDemoView = "/isolateDemoView";   
   static const userHomeView = "/userHomeView";   
   static const userLoginView = "/userLoginView";   
-  static const userRegisterView = "/userRegisterView";   
+  static const userRegisterView = "/userRegisterView";
+  static const pdfViewerView = "/pdfViewerView";
 }

@@ -7,6 +7,7 @@ import 'package:flutter_demo/presentation/views/home/home_view.dart';
 import 'package:flutter_demo/presentation/views/isolate_demo/isolate_demo_view.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_view.dart';
 import 'package:flutter_demo/presentation/views/on_boarding_screen/on_boarding_screen_view.dart';
+import 'package:flutter_demo/presentation/views/pdf_viewer_demo/pdf_viewer_demo_view.dart';
 import 'package:flutter_demo/presentation/views/platform_channel/platform_channel_view.dart';
 import 'package:flutter_demo/presentation/views/responsive_design/responsive_design_view.dart';
 import 'package:flutter_demo/presentation/views/screen_capture/screen_capture_view.dart';
@@ -58,6 +59,8 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userLoginView), builder: (_) => const UserLoginView());
       case RouteName.userRegisterView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userRegisterView), builder: (_) => const UserRegisterView());
+      case RouteName.pdfViewerView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.pdfViewerView), builder: (_) => const PdfViewerView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

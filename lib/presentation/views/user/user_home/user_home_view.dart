@@ -1,12 +1,13 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/data/app/authentication.dart';
 import 'package:flutter_demo/domain/entities/menu_entity.dart';
+import 'package:flutter_demo/enum/modal_dialog_content_type.dart';
 import 'package:flutter_demo/helper/api_base_url_helper.dart';
 import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_content.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_demo/presentation/views/user/user_home/user_home_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
       final value = await Helper.checkUrlActive(ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false));
 
       if(!value) {
-        _hint1();
+        ModalDialogContent.show(context: context, type: ModalDialogContentType.howToStartServer);       
       }      
 
       ref.read(userHomeIsActiveUrlProvider.notifier).state = value;      
@@ -65,8 +66,6 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // const UserAvatar(),
-              // SizedBox(height: 16.r),
               Container(
                 padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
@@ -91,7 +90,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                     SizedBox(height: 8.r),
                     GestureDetector(
                       onTap: () {
-                        _hint1();
+                        ModalDialogContent.show(context: context, type: ModalDialogContentType.howToStartServer);
                       },
                       child: Text(
                         "How to start a server?",
@@ -106,7 +105,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                     SizedBox(height: 8.r),
                     GestureDetector(
                       onTap: () {
-                        _hint2();
+                        ModalDialogContent.show(context: context, type: ModalDialogContentType.androidSetProxyAddress);
                       },
                       child: Text(
                         "How to set the Android Emulator proxy address?",
@@ -281,145 +280,5 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
         ),
       ),
     );
-  }
-
-  void _hint1() {
-    ModalDialogWidget().showModalDialogWithOkButton(
-      context: context,
-      useInsetPadding: true,
-      title: "How to start a server?",
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "1. If you do not installed a Docker. you have to download and install",            
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            ),
-          ),
-          Text(
-            "2. Go to api folder",            
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            ),
-          ),
-          RichText(
-            text: TextSpan(
-              text: "3. Run",
-              style: const TextStyle().copyWith(
-                fontSize: 16.spMin,
-                color: Colors.black
-              ),
-              children: <TextSpan>[
-                const TextSpan(
-                  text: " `",
-                ),
-                TextSpan(
-                  text: "docker compose up -d --build",
-                  style: const TextStyle().copyWith(
-                    fontSize: 16.spMin,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w700
-                  ),
-                ),
-                const TextSpan(
-                  text: "` ",
-                ),
-                TextSpan(
-                  text: "to start a server",
-                  style: const TextStyle().copyWith(
-                    fontSize: 16.spMin,
-                    color: Colors.black
-                  ),
-                  recognizer: TapGestureRecognizer()..onTap = () {
-                    // Navigator.pushNamed(context, menu.link);
-                  }
-                )
-              ]
-            )
-          ),
-          SizedBox(height: 16.r),
-          Text(
-            "* If you are running on Android Emulator, Please set the proxy address to 10.0.2.2",            
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          )
-        ],
-      ),
-      onTap: () {
-        if(Navigator.canPop(context)) Navigator.pop(context);
-      }
-    );
-  }
-
-  void _hint2() {
-    ModalDialogWidget().showModalDialogWithOkButton(
-      context: context,
-      useInsetPadding: true,
-      title: "How to set the Android Emulator proxy address?",
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "1. Click horizontal ellipsis … (Three dot icon)",            
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          ),
-          Text(
-            "2. Click settings",            
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          ),
-          Text(
-            "3. Click proxy tab",            
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          ),
-          Text(
-            "4. Select Manual proxy configuration",
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          ),
-          Text(
-            "5. Input 10.0.2.2 in Host name",
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          ),
-          Text(
-            "6. Input 80 in Port number",
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          ),
-          Text(
-            "7. Click apply",
-            style: const TextStyle().copyWith(
-              fontSize: 16.spMin,
-              color: Colors.black
-            )
-          )          
-        ],
-      ),
-      onTap: () {
-        if(Navigator.canPop(context)) Navigator.pop(context);
-      }
-    );
-  }
+  }  
 }

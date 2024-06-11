@@ -21,7 +21,7 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeView  extends ConsumerState<HomeView> {
 
   final authenticationMenuList = [
-    MenuEntity(title: "User Authentication", link: RouteName.userHomeView, icon: Icons.key),
+    MenuEntity(title: "User Authentication", link: RouteName.userHomeView, icon: Icons.key),    
   ];
 
   final apiConnectionMenuList = [
@@ -32,7 +32,8 @@ class _HomeView  extends ConsumerState<HomeView> {
     MenuEntity(title: "UI widget", link: RouteName.uiDemoView, icon: Icons.phone_android),
     MenuEntity(title: "Responsive Design", link: RouteName.responsiveDesignView, icon: Icons.design_services),
     MenuEntity(title: "Sliver App Bar", link: RouteName.sliverAppBarView, icon: Icons.table_rows),
-    MenuEntity(title: "WebView", link: RouteName.webViewDemoView, icon: Icons.web)
+    MenuEntity(title: "WebView", link: RouteName.webViewDemoView, icon: Icons.web),
+    MenuEntity(title: "PDF Viewer", link: RouteName.pdfViewerView, icon: Icons.picture_as_pdf),
   ];
 
   final isolateMenuList = [

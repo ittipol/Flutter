@@ -1,9 +1,19 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Helper {
+
+  static Future<Uint8List> getByteArrayFromUrl(String url, {name}) async {
+    try {
+      final data = await http.get(Uri.parse(url));
+      return data.bodyBytes;
+    } catch (e) {
+      throw Exception("Error opening file from URL");
+    }
+  }  
 
   static Future<File> getFileFromUrl(String url, {name}) async {
     
@@ -14,14 +24,13 @@ class Helper {
     }
 
     try {
-      var data = await http.get(Uri.parse(url));
-      var bytes = data.bodyBytes;
-      var dir = await getApplicationDocumentsDirectory();
-      File file = File("${dir.path}/$fileName");
-      File urlFile = await file.writeAsBytes(bytes);
-      return urlFile;
+      final data = await http.get(Uri.parse(url));
+      final bytes = data.bodyBytes;
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File("${dir.path}/$fileName");
+      return await file.writeAsBytes(bytes, flush: true);
     } catch (e) {
-      throw Exception("Error opening url file");
+      throw Exception("Error opening file from URL");
     }
   }  
 
