@@ -33,13 +33,14 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   ApiBaseUrlHelper.init();
-  debugPrint("ApiBaseUrl.localhostBaseUrl ===> [ ${ApiBaseUrl.localhostBaseUrl} ]");
+  // debugPrint("ApiBaseUrl.localhostApiBaseUrl ===> [ ${ApiBaseUrl.localhostApiBaseUrl} ]");
+  // debugPrint("ApiBaseUrl.localhostWebAppBaseUrl ===> [ ${ApiBaseUrl.localhostWebAppBaseUrl} ]");
 
   await LocalStorageHelper.clearKeychainValues();
 
   await AuthenticationHelper.checkRefreshTokenStillActive(
     authenticationRepository: AuthenticationRepositoryImpl(
-      authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+      authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
     ),
     dataStorageRepository: DataStorageRepositoryImpl(
       dataStorageLocalDataSources: DataStorageLocal()
@@ -48,7 +49,7 @@ void main() async {
 
   if(Authentication.isLoggedIn) {
     await UserProfileHelper.getUserProfile(userProfileRepository: UserProfileRepositoryImpl(
-      userProfileRemoteDataSources: UserProfileRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+      userProfileRemoteDataSources: UserProfileRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
     ));
   }
 

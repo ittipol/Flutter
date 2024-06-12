@@ -14,6 +14,7 @@ import 'package:flutter_demo/presentation/views/screen_capture/screen_capture_vi
 import 'package:flutter_demo/presentation/views/sliver_app_bar/sliver_app_bar_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/ui_demo_view.dart';
 import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_article/ui_demo_article_view.dart';
+import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_web_view/ui_demo_web_view.dart';
 import 'package:flutter_demo/presentation/views/user/user_home/user_home_view.dart';
 import 'package:flutter_demo/presentation/views/user/user_login/user_login_view.dart';
 import 'package:flutter_demo/presentation/views/user/user_register/user_register_view.dart';
@@ -37,6 +38,8 @@ final class AppRouter {
       case RouteName.uiDemoArticleView:
         final args = settings.arguments as UiDemoArticleViewArgs;
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.uiDemoArticleView), builder: (_) => UiDemoArticleView(args: args));
+      case RouteName.uiDemoWebView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.uiDemoWebView), builder: (_) => const UiDemoWebView());
       case RouteName.webViewDemoView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.webViewDemoView), builder: (_) => const WebViewDemoView());
       case RouteName.sliverAppBarView:

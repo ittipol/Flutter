@@ -59,7 +59,7 @@ class DioInterceptor extends Interceptor {
 
         final isIgnoredPath = ignoredPaths.contains(err.requestOptions.path);
         final authenticationRepository = AuthenticationRepositoryImpl(
-          authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+          authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
         );
         final dataStorageRepository = DataStorageRepositoryImpl(
           dataStorageLocalDataSources: DataStorageLocal()
@@ -103,7 +103,7 @@ class DioInterceptor extends Interceptor {
   }
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-    final dio = DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl);
+    final dio = DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl);
     requestOptions.contentType = Headers.jsonContentType;
     return await dio.fetch(requestOptions);
   }

@@ -10,7 +10,7 @@ final userRegisterProvider = StateNotifierProvider.autoDispose<UserRegisterContr
   (ref) {
     return UserRegisterController(
       userRegisterRepository: UserRegisterRepositoryImpl(
-        userRegisterRemoteDataSources: UserRegisterRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+        userRegisterRemoteDataSources: UserRegisterRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
       )
     );
   }

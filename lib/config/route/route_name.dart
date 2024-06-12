@@ -5,6 +5,7 @@ final class RouteName {
   static const apiServiceDetailView = "/apiServiceDetailView";  
   static const uiDemoView = "/uiDemoView";
   static const uiDemoArticleView = "/uiDemoArticleView";
+  static const uiDemoWebView = "/uiDemoWebView";
   static const webViewDemoView = "/webViewDemoView";
   static const sliverAppBarView = "/sliverAppBarView";
   static const localStorageDemoView = "/localStorageDemoView";

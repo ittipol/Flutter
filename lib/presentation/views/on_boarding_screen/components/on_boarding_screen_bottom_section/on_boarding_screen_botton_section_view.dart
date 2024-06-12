@@ -7,22 +7,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnBoardingScreenButtomSectionView extends ConsumerStatefulWidget {
+class OnBoardingScreenButtonSectionView extends ConsumerStatefulWidget {
 
   final PageController pageController;
   final int totalPage;
 
-  const OnBoardingScreenButtomSectionView({
+  const OnBoardingScreenButtonSectionView({
     required this.pageController,
     required this.totalPage,
     super.key
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _OnBoardingScreenButtomSectionView();
+  ConsumerState<ConsumerStatefulWidget> createState() => _OnBoardingScreenButtonSectionView();
 }
 
-class _OnBoardingScreenButtomSectionView  extends ConsumerState<OnBoardingScreenButtomSectionView> {
+class _OnBoardingScreenButtonSectionView  extends ConsumerState<OnBoardingScreenButtonSectionView> {
 
   
 
@@ -33,7 +33,7 @@ class _OnBoardingScreenButtomSectionView  extends ConsumerState<OnBoardingScreen
 
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
-      height: 80,
+      height: 80.r,
       child: _build(showButton),
     );
 

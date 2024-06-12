@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/data/app/api_base_url.dart';
 import 'package:flutter_demo/enum/modal_dialog_content_type.dart';
 import 'package:flutter_demo/extension/loader_overlay_extension.dart';
-import 'package:flutter_demo/helper/api_base_url_helper.dart';
 import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_content.dart';
@@ -22,7 +22,7 @@ class PdfViewerView extends ConsumerStatefulWidget {
 
 class _PdfViewerView  extends ConsumerState<PdfViewerView> {  
 
-  final urlPath = "${ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false)}/pdf/PDF_Test.pdf";
+  final urlPath = "${ApiBaseUrl.localhostWebAppBaseUrl}/pdf/PDF_Test.pdf";
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _PdfViewerView  extends ConsumerState<PdfViewerView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 
       ref.showLoaderOverlay();
-      final value = await Helper.checkUrlActive(ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false));      
+      final value = await Helper.checkUrlActive(ApiBaseUrl.localhostWebAppBaseUrl);      
       ref.read(pdfViewerDemoIsActiveUrlProvider.notifier).state = value;
 
       await Future.delayed(const Duration(milliseconds: 1500), () {             
@@ -66,6 +66,7 @@ class _PdfViewerView  extends ConsumerState<PdfViewerView> {
     if(isActiveUrl) {
       return PdfViewer(
         pdfUrl: urlPath,
+        renderAsChild: true,
       );
     }
 

@@ -14,13 +14,13 @@ final userLoginProvider = StateNotifierProvider.autoDispose<UserLoginController,
   (ref) {
     return UserLoginController(
       authenticationRepository: AuthenticationRepositoryImpl(
-        authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+        authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
       ),
       dataStorageRepository: DataStorageRepositoryImpl(
         dataStorageLocalDataSources: DataStorageLocal()
       ),
       userProfileRepository: UserProfileRepositoryImpl(
-        userProfileRemoteDataSources: UserProfileRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostBaseUrl))
+        userProfileRemoteDataSources: UserProfileRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
       )
     );
   }

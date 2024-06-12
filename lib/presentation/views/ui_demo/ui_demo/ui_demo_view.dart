@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
+import 'package:flutter_demo/config/route/route_name.dart';
+import 'package:flutter_demo/data/app/api_base_url.dart';
+import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
@@ -47,8 +50,6 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {});     
   }
 
   @override
@@ -75,6 +76,67 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
           )
         ],
       ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        bottom: true,
+        child: Container(
+          padding: EdgeInsets.all(8.r),
+          color: Colors.transparent,
+          child: ElevatedButton(
+            onPressed: () async {
+              final value = await Helper.checkUrlActive(ApiBaseUrl.localhostWebAppBaseUrl);
+              
+              if(value) {
+                if(context.mounted) {
+                  Navigator.pushNamed(context, RouteName.uiDemoWebView);
+                }                
+              }else {
+                if(context.mounted) {
+                  ModalDialogWidget().showModalDialogWithOkButton(
+                    context: context,
+                    body: Text(
+                      "On the next page will open a website from localhost. Please start a web server",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle().copyWith(
+                        fontSize: 16.spMin,
+                        color: Colors.black
+                      ),
+                    ),
+                    useInsetPadding: true,
+                    onTap: () {
+                      if(Navigator.canPop(context)) Navigator.pop(context);
+                    }
+                  );
+                }
+              }
+              
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green.shade400,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
+              ),
+              elevation: 0,
+            ),
+            child: SizedBox(
+              height: 40.r,
+              child: Center(
+                child: Text(
+                  "Next Page",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                  )
+                ),
+              )
+            ),
+          ),
+        ),
+      ),
       body: RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.onEdge,
         color: Theme.of(context).colorScheme.primary,
@@ -90,7 +152,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
           physics: const ClampingScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(height: 16.h),
+              SizedBox(height: 16.r),
               CarouselSlider(
                 options: CarouselOptions(
                   height: 400.r,
@@ -120,7 +182,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                   );
                 }).toList(),
               ),
-              SizedBox(height: 16.h),            
+              SizedBox(height: 16.r),            
               Container(
                 decoration: BoxDecoration(
                   border: Border(
@@ -134,14 +196,14 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                   )
                 )
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8.r),
               Text(
                 "Modal dialog with one button",
                 style: TextStyle(
                   fontSize: 16.spMin
                 )
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 4.r),
               Column(
                 children: [
                   GestureDetector(
@@ -156,7 +218,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     },
                     child: _button(text: "Show modal dialog #1"),
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 8.r),
                   GestureDetector(
                     onTap: () {
                       ModalDialogWidget().showModalDialogWithOkButton(
@@ -181,14 +243,14 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                   ),
                 ],
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8.r),
               Text(
                 "Modal dialog with two buttons",
                 style: TextStyle(
                   fontSize: 16.spMin
                 )
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 4.r),
               Column(
                 children: [
                   GestureDetector(
@@ -203,7 +265,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     },
                     child: _button(text: "Show modal dialog #1"),
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 8.r),
                   GestureDetector(
                     onTap: () {
                       ModalDialogWidget().showModalDialogWithOkCancelButton(
@@ -228,14 +290,14 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                   ),
                 ],
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8.r),
               Text(
                 "Full screen modal dialog",
                 style: TextStyle(
                   fontSize: 16.spMin
                 )
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 4.r),
               GestureDetector(
                 onTap: () {
                   ModalDialogWidget().showModalDialogFullScreen(
@@ -252,14 +314,14 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 },              
                 child: _button(text: "Show full screen modal dialog"),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8.r),
               Text(
                 "Fixed screen modal dialog",
                 style: TextStyle(
                   fontSize: 16.spMin
                 )
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 4.r),
               GestureDetector(
                 onTap: () {
                   ModalDialogWidget().showFixedScreenModalDialog(
@@ -279,16 +341,16 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 },              
                 child: _button(text: "Show Fixed screen modal dialog"),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 16.r),
               const Divider(
                 thickness: 1,
                 color: AppColor.primary,
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 16.r),
               const ComponentButtonGroupAndListView(),
-              SizedBox(height: 16.h),
+              SizedBox(height: 16.r),
               const ComponentArticleListView(),
-              SizedBox(height: 16.h),
+              SizedBox(height: 16.r),
               const ComponentGridView(),              
 
               Slidable(
@@ -365,8 +427,8 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
 
   Widget _button({required String text}) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      height: 30.h,
+      margin: EdgeInsets.symmetric(horizontal: 16.r),
+      height: 32.r,
       alignment: Alignment.center,
       decoration: const BoxDecoration(
         color: AppColor.primary,

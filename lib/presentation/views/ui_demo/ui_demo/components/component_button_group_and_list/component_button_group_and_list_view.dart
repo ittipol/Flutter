@@ -124,13 +124,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
 
                   return GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkButton(
-                        context: context,
-                        title: "Select ${item.title} in vertical list",
-                        onTap: () {
-                          if(Navigator.canPop(context)) Navigator.pop(context);
-                        },
-                      );
+                      _showModalBottomSheet(context: context, text: "Select ${item.title} in vertical list");
                     },
                     child: Container(
                       padding: EdgeInsets.all(8.r),
@@ -172,13 +166,7 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
                     for(var item in list) ... [
                       GestureDetector(
                         onTap: () {
-                          ModalDialogWidget().showModalDialogWithOkButton(
-                            context: context,
-                            title: "Select ${item.title} in horizontal list",
-                            onTap: () {
-                              if(Navigator.canPop(context)) Navigator.pop(context);
-                            },
-                          );
+                          _showModalBottomSheet(context: context, text: "Select ${item.title} in horizontal list");
                         },
                         child: Container(
                           alignment: Alignment.center,
@@ -207,6 +195,52 @@ class _ComponentButtonGroupAndListView  extends ConsumerState<ComponentButtonGro
           ),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> _showModalBottomSheet({required BuildContext context, required String text}) {
+    return showModalBottomSheet(
+      context: context, 
+      builder: (context) {
+        return Container(
+          height: MediaQuery.sizeOf(context).height * 0.5,
+          width: MediaQuery.sizeOf(context).width,
+          color: Colors.white,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24.spMin,
+                    color: Colors.black
+                  )
+                ),
+                SizedBox(height: 8.r),
+                ElevatedButton(
+                  onPressed: () {
+                    if(Navigator.canPop(context)) Navigator.pop(context);
+                  },           
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade200
+                  ),
+                  child: Text(
+                    "Close",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.spMin,
+                      color: Colors.black
+                    )
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
     );
   }  
 }

@@ -8,6 +8,9 @@ class BlankPageWidget extends ConsumerStatefulWidget {
 
   final AppBarWidget? appBar;
   final Widget? body;
+  final Widget? bottomNavigationBar;
+  final Widget? drawer;
+  final Widget? bottomSheet;  
   final bool resizeToAvoidBottomInset;
   final bool showBackBtn;
   final void Function()? onTabBackBtn;
@@ -15,6 +18,9 @@ class BlankPageWidget extends ConsumerStatefulWidget {
   const BlankPageWidget({
     this.appBar,
     this.body,
+    this.bottomNavigationBar,
+    this.drawer,
+    this.bottomSheet,
     this.resizeToAvoidBottomInset = false,
     this.showBackBtn = true,
     this.onTabBackBtn,
@@ -75,6 +81,9 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
           )
         ]
       ),
+      bottomNavigationBar: widget.bottomNavigationBar,
+      drawer: widget.drawer,
+      bottomSheet: widget.bottomSheet,
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
     );
   }

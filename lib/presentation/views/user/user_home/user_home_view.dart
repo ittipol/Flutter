@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
+import 'package:flutter_demo/data/app/api_base_url.dart';
 import 'package:flutter_demo/data/app/authentication.dart';
 import 'package:flutter_demo/domain/entities/menu_entity.dart';
 import 'package:flutter_demo/enum/modal_dialog_content_type.dart';
-import 'package:flutter_demo/helper/api_base_url_helper.dart';
 import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
@@ -25,7 +25,8 @@ class UserHomeView extends ConsumerStatefulWidget {
 
 class _UserHomeView  extends ConsumerState<UserHomeView> {
 
-  List<MenuEntity> menuList = [
+  final apiHealthCheck = "${ApiBaseUrl.localhostApiBaseUrl}/health";
+  final menuList = [
     MenuEntity(title: "Log In", link: RouteName.userLoginView, icon: Icons.login),
     MenuEntity(title: "Register", link: RouteName.userRegisterView, icon: Icons.person_add),
   ];
@@ -36,7 +37,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async { 
 
-      final value = await Helper.checkUrlActive(ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false));
+      final value = await Helper.checkUrlActive(apiHealthCheck);
 
       if(!value) {
         ModalDialogContent.show(context: context, type: ModalDialogContentType.howToStartServer);       
@@ -200,7 +201,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                     return GestureDetector(
                       onTap: () async {
       
-                        final value = await Helper.checkUrlActive(ApiBaseUrlHelper.getLocalhostBaseUrl(includePort: false));
+                        final value = await Helper.checkUrlActive(apiHealthCheck);
                         ref.read(userHomeIsActiveUrlProvider.notifier).state = value;
       
                         if(value) {

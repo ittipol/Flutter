@@ -23,21 +23,5 @@ class _WebViewDemoView  extends ConsumerState<WebViewDemoView> {
       url: "https://riverpod.dev/",
     );
   }
-
-  // Future<bool> _checkConection(String url) async {
-
-  //   var response = await http.get(Uri.parse(url))
-  //   .timeout(
-  //     const Duration(seconds: 5),
-  //     onTimeout: () {
-  //       return http.Response('Error', 408);
-  //     },
-  //   )
-  //   .onError((error, stackTrace) {
-  //     return http.Response('Error', 500);
-  //   });
-
-  //   return response.statusCode == 200;
-  // }
-
+  
 }

@@ -6,21 +6,33 @@ import 'package:flutter_demo/data/app/api_base_url.dart';
 class ApiBaseUrlHelper {
   
   static void init() {
-    ApiBaseUrl.localhostBaseUrl = getLocalhostBaseUrl();
+    ApiBaseUrl.localhostUrl = getLocalhostUrl();
+    ApiBaseUrl.localhostApiBaseUrl = getLocalhostBaseUrl(ApiBaseUrl.localhostUrl, includePort: 1);
+    ApiBaseUrl.localhostWebAppBaseUrl = getLocalhostBaseUrl(ApiBaseUrl.localhostUrl, includePort: 2);
   }
 
-  static String getLocalhostBaseUrl({includePort = true}) {
-
-    var host = "";
-
+  static String getLocalhostUrl() {
     if(Platform.isAndroid) {
-      host = AppConstant.androidLocalhost;
+      return AppConstant.androidLocalhost;
     }else if(Platform.isIOS) {
-      host = AppConstant.iosLocalhost;
+      return AppConstant.iosLocalhost;
     }
 
-    if(includePort) {
-      host = "$host:${AppConstant.localhostApiPort}";
+    return "";
+  }
+
+  static String getLocalhostBaseUrl(String localhostUrl, {int includePort = 0}) {
+
+    var host = localhostUrl;
+
+    switch (includePort) {
+      case 1:
+        host = "$host:${AppConstant.localhostApiPort}";
+        break;
+      case 2:
+        host = "$host:${AppConstant.localhostWebAppPort}";
+        break;
+      default:
     }
 
     return host;

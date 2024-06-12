@@ -9,3 +9,17 @@ section.container {
 section.container > h2 {
     text-align: center;
 }
+
+.button {
+    background-color: #2196F3;
+    padding: 8px 16px;
+    border-radius: 32px;
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+}
+
+.button > a {
+    color: #fff !important;
+    text-decoration: none;
+}
