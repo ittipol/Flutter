@@ -40,26 +40,27 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
 
       var result = await ref.read(apiServiceDetailProvider.notifier).getPokemonDetail(widget.args.name);
 
-      if(result is ResultError) {
-        var error = (result as ResultError).exception;
+      result.when(
+        completeWithError: (error) async {
+          var message = "something went wrong. Please try again later";
 
-        var message = "something went wrong. Please try again later";
+          if(error is DioException) {
+            message = "Connection Error";
+          }
 
-        if(error is DioException) {
-          message = "Connection Error";
+          if(context.mounted) {
+            await ModalDialogWidget.showModalDialogWithOkButton(
+              context: context,
+              title: message,
+              onTap: () {
+                if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.home);
+              },
+              useInsetPadding: true
+            );
+          }      
         }
+      );
 
-        if(context.mounted) {
-          ModalDialogWidget().showModalDialogWithOkButton(
-            context: context,
-            title: message,
-            onTap: () {
-              if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.home);
-            },
-          );
-        }        
-        
-      }
     });
 
   }

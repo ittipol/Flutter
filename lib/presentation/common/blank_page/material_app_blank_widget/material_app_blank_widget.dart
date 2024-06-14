@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/observer/route_history_observer.dart';
+import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final GlobalKey<NavigatorState> baseContext = GlobalKey<NavigatorState>();
+final baseContext = GlobalKey<NavigatorState>();
 
 class MaterialAppBlankWidget extends ConsumerStatefulWidget {
 
@@ -37,19 +38,21 @@ class _MaterialAppBlankWidget  extends ConsumerState<MaterialAppBlankWidget> {
     return ScreenUtilInit(
       designSize: Size(widget.width, widget.height),
       builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
-          title: 'Flutter',           
-          theme: widget.theme,
-          // theme: lightMode,
-          // darkTheme: darkMode,
-          // themeMode: ThemeMode.system,
-          debugShowCheckedModeBanner: false,
-          navigatorKey: baseContext,
-          home: widget.home,
-          initialRoute: widget.initialRoute,
-          onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
-          onGenerateRoute: widget.onGenerateRoute,    
-          navigatorObservers: [RouteHistoryObserver()],      
+        return LoaderOverlayBlankPageWidget(
+          body: MaterialApp(
+            title: 'Flutter',           
+            theme: widget.theme,
+            // theme: lightMode,
+            // darkTheme: darkMode,
+            // themeMode: ThemeMode.system,
+            debugShowCheckedModeBanner: false,
+            navigatorKey: baseContext,
+            home: widget.home,
+            initialRoute: widget.initialRoute,
+            onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
+            onGenerateRoute: widget.onGenerateRoute,    
+            navigatorObservers: [RouteHistoryObserver()]
+          )
         );
       }
     );

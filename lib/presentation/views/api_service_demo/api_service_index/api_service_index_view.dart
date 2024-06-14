@@ -314,7 +314,7 @@ class _ApiServiceIndexView  extends ConsumerState<ApiServiceIndexView> {
         message = "Connection Error";
       }
 
-      ModalDialogWidget().showModalDialogWithOkButton(
+      ModalDialogWidget.showModalDialogWithOkButton(
         context: context,
         title: message,
         onTap: () {

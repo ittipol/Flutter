@@ -216,7 +216,7 @@ class _UserHomeView  extends ConsumerState<UserHomeView> {
                                   
                         }else {                        
                           
-                          ModalDialogWidget().showModalDialogWithOkButton(
+                          ModalDialogWidget.showModalDialogWithOkButton(
                             context: context,
                             body: Text(
                               "Please start a server",

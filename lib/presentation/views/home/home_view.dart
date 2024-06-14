@@ -200,7 +200,7 @@ class _HomeView  extends ConsumerState<HomeView> {
           onTap: () async {
 
             if(menu.loaderOverlay) {
-              ref.showLoaderOverlay();
+              context.showLoaderOverlay();
       
               await Future.delayed(const Duration(seconds: 2), () {
                 Navigator.pushNamed(context, menu.link);
@@ -214,15 +214,6 @@ class _HomeView  extends ConsumerState<HomeView> {
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(16)),
               color: Color(0xFFF5F3FF)             
-              // boxShadow: [
-              //   BoxShadow(
-              //     // color: Theme.of(context).colorScheme.shadow,
-              //     color: Colors.black.withAlpha(100),
-              //     blurRadius: 5,
-              //     // offset: const Offset(3, 3)
-              //     offset: const Offset(0, 0)
-              //   )
-              // ]
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -232,7 +223,6 @@ class _HomeView  extends ConsumerState<HomeView> {
                 Container(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    // color: Colors.blue
                     gradient: LinearGradient(
                       begin: Alignment.topRight,
                       end: Alignment.bottomLeft,
@@ -242,7 +232,6 @@ class _HomeView  extends ConsumerState<HomeView> {
                   padding: EdgeInsets.all(16.r),
                   child: Icon(
                     menu.icon ?? Icons.phone_android,
-                    // color: const Color(0xFF050403),
                     color: Colors.white,
                     size: 40.spMin,
                   ),
@@ -258,7 +247,6 @@ class _HomeView  extends ConsumerState<HomeView> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16.spMin,
-                      // color: const Color(0xFF050403)
                       color: Colors.black
                     ),
                   )

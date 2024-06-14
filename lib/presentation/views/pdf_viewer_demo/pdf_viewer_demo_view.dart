@@ -30,12 +30,12 @@ class _PdfViewerView  extends ConsumerState<PdfViewerView> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 
-      ref.showLoaderOverlay();
+      context.showLoaderOverlay();
       final value = await Helper.checkUrlActive(ApiBaseUrl.localhostWebAppBaseUrl);      
       ref.read(pdfViewerDemoIsActiveUrlProvider.notifier).state = value;
 
       await Future.delayed(const Duration(milliseconds: 1500), () {             
-        ref.hideLoaderOverlay();
+        context.hideLoaderOverlay();
 
         ref.read(pdfViewerDemoIsLoadedProvider.notifier).state = true;
 

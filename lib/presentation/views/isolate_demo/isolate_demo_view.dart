@@ -121,9 +121,9 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> with SingleTicker
             GestureDetector(
               onTap: () {
                 _delayedTab(() {
-                  ref.showLoaderOverlay();
+                  context.showLoaderOverlay();
                   ref.read(isolateDemoProvider.notifier).fibonacci(input: sequence);
-                  ref.hideLoaderOverlay();
+                  context.hideLoaderOverlay();
                 });                      
               },
               child: Container(
@@ -147,9 +147,9 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> with SingleTicker
             // GestureDetector(
             //   onTap: () async {                    
             //     _delayedTab(() async {                        
-            //       ref.showLoaderOverlay();
+            //       context.showLoaderOverlay();
             //       await ref.read(isolateDemoProvider.notifier).isolateFibonacci(input: sequence);
-            //       ref.hideLoaderOverlay();
+            //       context.hideLoaderOverlay();
             //     });                      
             //   },
             //   child: Container(
@@ -177,9 +177,9 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> with SingleTicker
                   child: GestureDetector(
                     onTap: () async {                    
                       _delayedTab(() async {                        
-                        ref.showLoaderOverlay();
+                        context.showLoaderOverlay();
                         await ref.read(isolateDemoProvider.notifier).isolateFibonacci(input: sequence);
-                        ref.hideLoaderOverlay();
+                        context.hideLoaderOverlay();
                       });                      
                     },
                     child: Container(
@@ -205,9 +205,9 @@ class _IsolateDemoView  extends ConsumerState<IsolateDemoView> with SingleTicker
                   child: GestureDetector(
                     onTap: () async {                    
                       _delayedTab(() async {                        
-                        ref.showLoaderOverlay();
+                        context.showLoaderOverlay();
                         await ref.read(isolateDemoProvider.notifier).simpleIsolateFibonacci(input: sequence);
-                        ref.hideLoaderOverlay();
+                        context.hideLoaderOverlay();
                       });                      
                     },
                     child: Container(

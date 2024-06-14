@@ -19,12 +19,15 @@ class _LoaderOverlayBlankPageWidget  extends ConsumerState<LoaderOverlayBlankPag
 
   @override
   Widget build(BuildContext context) {    
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        widget.body ?? Container(),
-        const LoaderOverlayWidget()
-      ]
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          widget.body ?? Container(),
+          const LoaderOverlayWidget()
+        ]
+      )
     );
   }
 }

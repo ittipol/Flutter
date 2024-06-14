@@ -36,7 +36,7 @@ func (obj authService) Login(email string, password string) (res authResponse, e
 
 	if err != nil {
 		logs.Error(err)
-		return res, errs.NewUnexpectedError()
+		return res, errs.NewNotFoundError("Invalid username or password")
 	}
 
 	accessToken, refreshToken, err := obj.jwtToken.GenToken(user.ID)

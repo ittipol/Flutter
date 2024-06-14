@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/helper/validation_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
@@ -57,8 +56,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
             TextField(
               controller: _emailTextEditingController,
               style: const TextStyle().copyWith(
-                fontSize: 16.spMin,
-                // color: AppColor.primary
+                fontSize: 16.spMin
               ),
               decoration: InputDecoration(
                 // label: Text(
@@ -67,10 +65,8 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                 // border: OutlineInputBorder(),
                 hintText: "Email",
                 hintStyle: const TextStyle().copyWith(
-                  fontSize: 16.spMin,
-                  // color: AppColor.primary
-                ),
-                // errorText: "Email not valid"
+                  fontSize: 16.spMin
+                ),                
                 errorText: emailErrorText
               ),
               keyboardType: TextInputType.emailAddress,
@@ -95,8 +91,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
             TextField(
               controller: _passwordTextEditingController,
               style: const TextStyle().copyWith(
-                fontSize: 16.spMin,
-                // color: AppColor.primary
+                fontSize: 16.spMin
               ),
               decoration: InputDecoration(
                 // label: Text(
@@ -105,8 +100,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                 // border: OutlineInputBorder(),
                 hintText: "Password",
                 hintStyle: const TextStyle().copyWith(
-                  fontSize: 16.spMin,
-                  // color: AppColor.primary
+                  fontSize: 16.spMin
                 ),
               ),
               autocorrect: false,
@@ -120,8 +114,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
             TextField(
               controller: _nameTextEditingController,
               style: const TextStyle().copyWith(
-                fontSize: 16.spMin,
-                // color: AppColor.primary
+                fontSize: 16.spMin
               ),
               decoration: InputDecoration(
                 // label: Text(
@@ -130,8 +123,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                 // border: OutlineInputBorder(),
                 hintText: "Name",
                 hintStyle: const TextStyle().copyWith(
-                  fontSize: 16.spMin,
-                  // color: AppColor.primary
+                  fontSize: 16.spMin
                 ),
               ),
               onChanged: (value) {
@@ -152,18 +144,18 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                   return;
                 }
 
-                ref.showLoaderOverlay();
-                // await ref.read(userRegisterProvider.notifier).register(email: "test@email.com", password: "1234");
+                context.showLoaderOverlay();
                 final result = await ref.read(userRegisterProvider.notifier).register(
                   email: _emailTextEditingController.text, 
                   password: _passwordTextEditingController.text,
                   name: _nameTextEditingController.text
                 );
+                context.hideLoaderOverlay();    
 
                 if(result.isCompleted) {
 
                   if(context.mounted) {
-                    await ModalDialogWidget().showModalDialogWithOkButton(
+                    await ModalDialogWidget.showModalDialogWithOkButton(
                       context: context,
                       useInsetPadding: true,
                       body: Text(
@@ -172,10 +164,11 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                         style: const TextStyle().copyWith(
                           fontSize: 16.spMin,
                           color: Colors.black
-                        ),
+                        )
                       ),
-                      onTap: () {
-                        if(Navigator.canPop(context)) Navigator.popUntil(context, (route) => route.settings.name == RouteName.userHomeView);
+                      onTap: () {                        
+                        ModalDialogWidget.closeModalDialog(context: context);
+                        if(Navigator.canPop(context)) Navigator.pop(context);
                       }
                     );
                   }
@@ -183,7 +176,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                 }else {
 
                   if(context.mounted) {
-                    await ModalDialogWidget().showModalDialogWithOkButton(
+                    await ModalDialogWidget.showModalDialogWithOkButton(
                       context: context,
                       useInsetPadding: true,
                       body: Text(
@@ -192,17 +185,14 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
                         style: const TextStyle().copyWith(
                           fontSize: 16.spMin,
                           color: Colors.black
-                        ),
+                        )
                       ),
                       onTap: () {
-                        if(Navigator.canPop(context)) Navigator.pop(context);
+                        ModalDialogWidget.closeModalDialog(context: context);
                       }
                     );
-                  }                  
-                  
-                }
-
-                ref.hideLoaderOverlay();             
+                  }                                    
+                }                         
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -229,7 +219,7 @@ class _UserRegisterView  extends ConsumerState<UserRegisterView> {
   }
 
   void _dialog(BuildContext context, String text) {
-    ModalDialogWidget().showModalDialogWithOkButton(
+    ModalDialogWidget.showModalDialogWithOkButton(
       context: context,
       body: Text(
         text,

@@ -12,10 +12,8 @@ import 'package:flutter_demo/data/data_sources/remote/authentication_remote.dart
 import 'package:flutter_demo/data/repositories/authentication_repository_impl.dart';
 import 'package:flutter_demo/data/repositories/data_storage_repository_impl.dart';
 import 'package:flutter_demo/helper/authentication_helper.dart';
-import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget_provider.dart';
 import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DioInterceptor extends Interceptor {
@@ -49,12 +47,13 @@ class DioInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     
-    debugPrint("--------------------- onError ======>");
     debugPrint("--------------------- onError [HttpStatus] ======> [ ${err.response?.statusCode} ]");
 
     switch (err.response?.statusCode) {
       case HttpStatus.badRequest:
+
         return handler.next(err);
+
       case HttpStatus.unauthorized:
 
         final isIgnoredPath = ignoredPaths.contains(err.requestOptions.path);
@@ -71,13 +70,14 @@ class DioInterceptor extends Interceptor {
         }
 
         if(isIgnoredPath) {
-          await _logout(dataStorageRepository);
 
-          // Return to prevent the next interceptor in the chain from being executed.
-          // return;
+          if(await _logout(dataStorageRepository)) {
+            // Return to prevent the next interceptor in the chain from being executed.
+            return;
+          }
+          
         }else if(Authentication.isLoggedIn && retry < 1) {
 
-          // get new refresh token
           await AuthenticationHelper.getRefreshToken(
             authenticationRepository: authenticationRepository,
             dataStorageRepository: dataStorageRepository,
@@ -91,12 +91,20 @@ class DioInterceptor extends Interceptor {
             return handler.next(e);
           }       
 
-        }else {
-          await _logout(dataStorageRepository);                   
+        }else {     
+
+          if(await _logout(dataStorageRepository)) {
+            // Return to prevent the next interceptor in the chain from being executed.
+            return;
+          }
+
         }           
 
-        break;
       default:
+        if(err.response?.statusCode == null && baseContext.currentContext != null) {
+          await _showDialogUnexpectedError();
+          return;
+        }        
     }
 
     super.onError(err, handler);
@@ -108,38 +116,40 @@ class DioInterceptor extends Interceptor {
     return await dio.fetch(requestOptions);
   }
 
-  Future<void> _showDialog() async {
+  Future<bool> _logout(DataStorageRepositoryImpl dataStorageRepository) async {
+    final result = await AuthenticationHelper.logout(dataStorageRepository: dataStorageRepository);  
+    final hasWidget = baseContext.currentContext != null;
 
-    if(modalDialogKey.currentContext == null && baseContext.currentContext != null) {            
-      await ModalDialogWidget().showModalDialogWithOkButton(
-        context: baseContext.currentContext!,
-        body: Text(
-          "Session expired",
-          textAlign: TextAlign.center,
-          style: const TextStyle().copyWith(
-            fontSize: 16.spMin,
-            color: Colors.black
-          ),
-        ),
-        onTap: () {
+    if(result && hasWidget) {
+      await _showDialogSessionExpired();
+    }
 
-          var parentRef = ProviderScope.containerOf(baseContext.currentContext!);
-          if(parentRef.read(isShowLoaderOverlayProvider.notifier).isLoaderOverlayShow()) {
-            parentRef.read(isShowLoaderOverlayProvider.notifier).hide();
-          }
-
-          if(Navigator.canPop(baseContext.currentContext!)) Navigator.popUntil(baseContext.currentContext!, (route) => route.settings.name == RouteName.home);
-        }
-      );      
-    }     
+    return hasWidget;
   }
 
-  Future<void> _logout(DataStorageRepositoryImpl dataStorageRepository) async {
-    final result = await AuthenticationHelper.logout(dataStorageRepository: dataStorageRepository);
+  Future<void> _showDialogSessionExpired() async {
+    await _showDialog(title: "Session expired");   
+  }
 
-    if(result) {
-      await _showDialog();
-    }
+  Future<void> _showDialogUnexpectedError() async {
+    await _showDialog(title: "An unexpected error has occurred");
+  }  
+
+  Future<void> _showDialog({required String title}) async {
+    await ModalDialogWidget.showModalDialogWithOkButton(
+      context: baseContext.currentContext!,
+      body: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: const TextStyle().copyWith(
+          fontSize: 16.spMin,
+          color: Colors.black
+        )
+      ),
+      onTap: () {
+        if(Navigator.canPop(baseContext.currentContext!)) Navigator.popUntil(baseContext.currentContext!, (route) => route.settings.name == RouteName.home);
+      }
+    );
   }
 
 }

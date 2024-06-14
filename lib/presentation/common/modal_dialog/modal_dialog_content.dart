@@ -6,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ModalDialogContent {
 
-  // bool isModalDialogShown = false;
-
   static void show({required BuildContext context, required ModalDialogContentType type}) {
 
     switch (type) {
@@ -22,12 +20,8 @@ class ModalDialogContent {
 
   }
 
-  // void close({required BuildContext context}) {
-
-  // }
-
   static void _howToStartServer({required BuildContext context}) {
-    ModalDialogWidget().showModalDialogWithOkButton(
+    ModalDialogWidget.showModalDialogWithOkButton(
       context: context,
       useInsetPadding: true,
       title: "How to start a server?",
@@ -93,13 +87,13 @@ class ModalDialogContent {
         ],
       ),
       onTap: () {
-        if(Navigator.canPop(context)) Navigator.pop(context);
+        ModalDialogWidget.closeModalDialog(context: context);
       }
     );
   }
 
   static void _androidSetProxyAddress({required BuildContext context}) {
-    ModalDialogWidget().showModalDialogWithOkButton(
+    ModalDialogWidget.showModalDialogWithOkButton(
       context: context,
       useInsetPadding: true,
       title: "How to set the Android Emulator proxy address?",
@@ -159,7 +153,7 @@ class ModalDialogContent {
         ],
       ),
       onTap: () {
-        if(Navigator.canPop(context)) Navigator.pop(context);
+        ModalDialogWidget.closeModalDialog(context: context);
       }
     );
   }

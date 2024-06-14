@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/core/constant/api_end_point_constant.dart';
-import 'package:flutter_demo/core/isolate/isolate_builder.dart';
 import 'package:flutter_demo/data/app/authentication.dart';
 import 'package:flutter_demo/data/data_sources/remote/data_sources/authentication_remote_data_source.dart';
 import 'package:flutter_demo/data/models/authentication/token_verify_model.dart';
@@ -18,21 +17,18 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
   @override
   Future<Result<UserAuthenticationEntity>> login(UserLoginRequest request) async {
 
-    final isolate = IsolateBuilder();
-    return await isolate.compute((message) async {
-      try {
-        final dioResponse = await dio.post(ApiEndPointConstant.login, data: request.toJson());
+    try {
+      final dioResponse = await dio.post(ApiEndPointConstant.login, data: request.toJson());
 
-        var model = UserAuthenticationModel.fromJson(dioResponse.data);
-        var data = UserAuthenticationEntity.fromModel(model);
+      var model = UserAuthenticationModel.fromJson(dioResponse.data);
+      var data = UserAuthenticationEntity.fromModel(model);
 
-        return ResultComplete(data: data);
-      } on DioException catch (error) {
-        return ResultError(exception: error);
-      } on Exception catch (error) {
-        return ResultError(exception: error);
-      }
-    }, request);
+      return ResultComplete(data: data);
+    } on DioException catch (error) {
+      return ResultError(exception: error, httpStatusCode: error.response?.statusCode);
+    } on Exception catch (error) {
+      return ResultError(exception: error);
+    }
     
   }
 
@@ -54,7 +50,7 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
 
       return ResultComplete(data: data);
     } on DioException catch (error) {
-      return ResultError(exception: error);
+      return ResultError(exception: error, httpStatusCode: error.response?.statusCode);
     } on Exception catch (error) {
       return ResultError(exception: error);
     }
@@ -72,7 +68,7 @@ class AuthenticationRemote implements AuthenticationRemoteDataSources {
 
       return ResultComplete(data: data);
     } on DioException catch (error) {
-      return ResultError(exception: error);
+      return ResultError(exception: error, httpStatusCode: error.response?.statusCode);
     } on Exception catch (error) {
       return ResultError(exception: error);
     }

@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/helper/app_theme_helper.dart';
-import 'package:flutter_demo/presentation/common/blank_page/loader_overlay_blank_page_widget/loader_overlay_blank_page_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
 
+  final Key? scaffoldBlankPageKey;
   final AppBarWidget? appBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
   final Widget? drawer;
+  final Widget? endDrawer;  
+  final bool drawerEnableOpenDragGesture;
   final Widget? bottomSheet;  
   final bool resizeToAvoidBottomInset;
   final bool useSafeArea;
@@ -18,10 +20,13 @@ class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
   final void Function()? systemNavigationBackCallBack;
 
   const ScaffoldBlankPageWidget({
+    this.scaffoldBlankPageKey,
     this.appBar,
     this.body,
     this.bottomNavigationBar,
     this.drawer,
+    this.endDrawer,
+    this.drawerEnableOpenDragGesture = false,
     this.bottomSheet,
     this.resizeToAvoidBottomInset = false,
     this.useSafeArea = true,
@@ -34,7 +39,7 @@ class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ScaffoldBlankPageWidget();
 }
 
-class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
+class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {  
   
   @override
   Widget build(BuildContext context) {
@@ -59,17 +64,18 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
         onTap: (){
           _hideKeyboard(context);
         },
-        child: LoaderOverlayBlankPageWidget(
-          body: Scaffold(
-            appBar: widget.appBar,            
-            body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
-            bottomNavigationBar: widget.bottomNavigationBar,
-            drawer: widget.drawer,
-            bottomSheet: widget.bottomSheet,
-            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-          ),
-        ),
-      ),
+        child: Scaffold(
+          key: widget.scaffoldBlankPageKey,
+          appBar: widget.appBar,            
+          body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
+          bottomNavigationBar: widget.bottomNavigationBar,
+          drawer: widget.drawer,
+          endDrawer: widget.endDrawer,
+          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+          bottomSheet: widget.bottomSheet,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset
+        )
+      )
     );
   }
 
@@ -87,7 +93,7 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
   Widget _annotatedRegion(Widget body) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: _statusBarColor(),
-      child: body,
+      child: body
     );
   }
 
@@ -98,7 +104,7 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
     const light = SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light
     );
 
     const dark = SystemUiOverlayStyle(

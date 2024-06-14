@@ -20,7 +20,7 @@ class UserProfileRemote implements UserProfileRemoteDataSources {
 
       return ResultComplete(data: data);
     } on DioException catch (error) {
-      return ResultError(exception: error);
+      return ResultError(exception: error, httpStatusCode: error.response?.statusCode);
     } on Exception catch (error) {
       return ResultError(exception: error);
     }    

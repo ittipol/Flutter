@@ -60,7 +60,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
         child: Column(
           children: [
             Text(
-              "Pokemon search",
+              "Search Pokemon",
               style: TextStyle(
                 fontSize: 24.spMin
               ),
@@ -68,6 +68,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.r),
               child: TextField(
+                autofocus: true,
                 onChanged: (value) {
         
                   if(timer != null && timer!.isActive) {
@@ -251,7 +252,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
       }
 
       if(showErrorModalDialog) {
-        ModalDialogWidget().showModalDialogWithOkButton(
+        ModalDialogWidget.showModalDialogWithOkButton(
           context: context,
           title: message,
           onTap: () {

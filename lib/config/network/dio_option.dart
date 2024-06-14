@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_demo/config/network/dio_interceptor.dart';
-import 'package:flutter_demo/core/constant/app_constant.dart';
 
 class DioOption {
 
-  Dio init({String baseUrl = AppConstant.baseUrl}) {
+  Dio init({required String baseUrl, Map<String, dynamic>? headers, bool enableInterceptor = true}) {
     final dio = Dio();
 
     dio.options = BaseOptions(
@@ -16,7 +15,9 @@ class DioOption {
       }
     );
 
-    dio.interceptors.add(DioInterceptor());
+    if(enableInterceptor) {
+      dio.interceptors.add(DioInterceptor());
+    }    
 
     return dio;
   }

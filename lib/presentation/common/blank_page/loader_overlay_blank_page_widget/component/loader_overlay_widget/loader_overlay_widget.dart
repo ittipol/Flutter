@@ -32,7 +32,7 @@ class _LoaderOverlayWidget  extends ConsumerState<LoaderOverlayWidget> {
             color: AppColor.primary
           )
         )
-      ),
+      )
     );
   }
 }

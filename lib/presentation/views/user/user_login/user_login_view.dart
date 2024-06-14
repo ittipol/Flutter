@@ -136,13 +136,12 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
                   return;
                 }                
 
-                ref.showLoaderOverlay();
-
-                final result = await ref.read(userLoginProvider.notifier).login(email: _emailTextEditingController.text, password: _passwordTextEditingController.text);
+                context.showLoaderOverlay();
+                final result = await ref.read(userLoginProvider.notifier).login(email: _emailTextEditingController.text, password: _passwordTextEditingController.text);                
 
                 if(result) {
-
                   final userProfile = await ref.read(userLoginProvider.notifier).profile();
+                  context.hideLoaderOverlay();    
 
                   if(userProfile) {
                     if(context.mounted) {
@@ -156,8 +155,9 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
                     }                    
                   }                                    
                 }else {
+                  context.hideLoaderOverlay();    
                   if(context.mounted) {
-                    await ModalDialogWidget().showModalDialogWithOkButton(
+                    await ModalDialogWidget.showModalDialogWithOkButton(
                       context: context,
                       useInsetPadding: true,
                       body: Text(
@@ -173,9 +173,7 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
                       }
                     );
                   }
-                }
-
-                ref.hideLoaderOverlay();             
+                }                         
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -202,7 +200,7 @@ class _UserLoginView  extends ConsumerState<UserLoginView> {
   }
 
   void _dialog(BuildContext context, String text) {
-    ModalDialogWidget().showModalDialogWithOkButton(
+    ModalDialogWidget.showModalDialogWithOkButton(
       context: context,
       body: Text(
         text,

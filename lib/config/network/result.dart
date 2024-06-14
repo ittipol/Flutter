@@ -50,5 +50,6 @@ final class ResultComplete<T> extends Result<T> {
 
 final class ResultError<T> extends Result<T> {
   final Exception exception;
-  const ResultError({required this.exception});
+  final int? httpStatusCode;
+  const ResultError({required this.exception, this.httpStatusCode});
 }

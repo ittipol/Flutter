@@ -6,20 +6,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlankPageWidget extends ConsumerStatefulWidget {
 
+  final Key? scaffoldBlankPageKey;
   final AppBarWidget? appBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
   final Widget? drawer;
+  final Widget? endDrawer;
+  final bool drawerEnableOpenDragGesture;
   final Widget? bottomSheet;  
   final bool resizeToAvoidBottomInset;
   final bool showBackBtn;
   final void Function()? onTabBackBtn;
 
   const BlankPageWidget({
+    this.scaffoldBlankPageKey,
     this.appBar,
     this.body,
     this.bottomNavigationBar,
     this.drawer,
+    this.endDrawer,
+    this.drawerEnableOpenDragGesture = false,
     this.bottomSheet,
     this.resizeToAvoidBottomInset = false,
     this.showBackBtn = true,
@@ -38,6 +44,7 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldBlankPageWidget(
+      scaffoldBlankPageKey: widget.scaffoldBlankPageKey,
       appBar: widget.appBar,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -49,7 +56,7 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [     
-                SizedBox(height: 8.h),                 
+                SizedBox(height: 8.r),                 
                 GestureDetector(
                   onTap: () {                      
                     if (widget.onTabBackBtn != null) {
@@ -72,19 +79,21 @@ class _BlankPageWidget  extends ConsumerState<BlankPageWidget> {
                     child: const Icon(Icons.chevron_left),
                   ),
                 ),
-                SizedBox(height: 8.h)
+                SizedBox(height: 8.r)
               ]
             )
           ),
           Expanded(
-            child: widget.body ?? Container(),
+            child: widget.body ?? Container()
           )
         ]
       ),
       bottomNavigationBar: widget.bottomNavigationBar,
       drawer: widget.drawer,
+      endDrawer: widget.endDrawer,
+      drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
       bottomSheet: widget.bottomSheet,
-      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset
     );
   }
 

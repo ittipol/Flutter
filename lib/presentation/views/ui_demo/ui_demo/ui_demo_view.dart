@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/app/app_color.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/data/app/api_base_url.dart';
+import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/helper/helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/app_bar_widget/app_bar_widget.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
@@ -14,6 +15,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+final GlobalKey<ScaffoldState> scaffoldBlankPageKey = GlobalKey();
+
 class UiDemoView extends ConsumerStatefulWidget {
 
   const UiDemoView({
@@ -24,7 +27,7 @@ class UiDemoView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _UiDemoView();
 }
 
-class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver {
+class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver {  
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -62,19 +65,78 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
   Widget build(BuildContext context) {    
 
     return BlankPageWidget(
+      scaffoldBlankPageKey: scaffoldBlankPageKey,
       showBackBtn: false,
       appBar: AppBarWidget(
         titleText: "APP BAR",
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              ModalDialogWidget.showModalDialogWithOkCancelButton(
+                context: context,
+                title: "Search",
+                body: const TextField(
+                  style: TextStyle(color: Colors.black),
+                ),
+                onTapCancel: () {
+                  ModalDialogWidget.closeModalDialog(context: context);
+                },
+                onTapOk: () async {
+                  ModalDialogWidget.closeModalDialog(context: context);
+
+                  context.showLoaderOverlay();
+                  await Future.delayed(const Duration(seconds: 2), () {
+                    context.hideLoaderOverlay();
+                  });
+                },
+                useInsetPadding: true
+              );
+            },
           ),
           IconButton(
             icon: const Icon(Icons.more_vert),
-            onPressed: () {},
+            onPressed: () {
+              scaffoldBlankPageKey.currentState!.openEndDrawer();
+            },
           )
-        ],
+        ]
+      ),
+      endDrawer: Drawer(
+        shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          bottomRight: Radius.circular(20)
+        ),
+      ),
+        backgroundColor: Colors.white,
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.r),
+                child: Text(
+                  "Menu",
+                  style: const TextStyle().copyWith(
+                    color: Colors.black,
+                    fontSize: 32.spMin
+                  )
+                ),
+              ),              
+              _drawerMenuItem(title: "Log In", icon: Icons.key, onTap: () {
+                Navigator.pushNamed(context, RouteName.userHomeView);
+              }),
+              _drawerMenuItem(title: "Isolate", icon: Icons.memory, onTap: () {
+                Navigator.pushNamed(context, RouteName.isolateDemoView);
+              }),
+              _drawerMenuItem(title: "Local storage", icon: Icons.storage, onTap: () {
+                Navigator.pushNamed(context, RouteName.localStorageDemoView);
+              })
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: SafeArea(
         top: false,
@@ -92,10 +154,10 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 }                
               }else {
                 if(context.mounted) {
-                  ModalDialogWidget().showModalDialogWithOkButton(
+                  ModalDialogWidget.showModalDialogWithOkButton(
                     context: context,
                     body: Text(
-                      "On the next page will open a website from localhost. Please start a web server",
+                      "On the next page, It will open a website from localhost. Please start a web server",
                       textAlign: TextAlign.center,
                       style: const TextStyle().copyWith(
                         fontSize: 16.spMin,
@@ -104,7 +166,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     ),
                     useInsetPadding: true,
                     onTap: () {
-                      if(Navigator.canPop(context)) Navigator.pop(context);
+                      ModalDialogWidget.closeModalDialog(context: context);
                     }
                   );
                 }
@@ -208,11 +270,11 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 children: [
                   GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkButton(
+                      ModalDialogWidget.showModalDialogWithOkButton(
                         context: context,
                         title: "Modal dialog with one button #1",
                         onTap: () {
-                          if(Navigator.canPop(context)) Navigator.pop(context);
+                          ModalDialogWidget.closeModalDialog(context: context);
                         }
                       );
                     },
@@ -221,7 +283,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                   SizedBox(height: 8.r),
                   GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkButton(
+                      ModalDialogWidget.showModalDialogWithOkButton(
                         context: context,
                         title: "Modal dialog with one button #2",
                         body: Text(
@@ -233,7 +295,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                           )
                         ),
                         onTap: () {
-                          if(Navigator.canPop(context)) Navigator.pop(context);
+                          ModalDialogWidget.closeModalDialog(context: context);
                         },
                         useInsetPadding: true,
                         fullScreenWidth: true
@@ -255,11 +317,11 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 children: [
                   GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkCancelButton(
+                      ModalDialogWidget.showModalDialogWithOkCancelButton(
                         context: context,
                         title: "Modal dialog with two buttons #1",
                         onTapCancel: () {
-                          if(Navigator.canPop(context)) Navigator.pop(context);
+                          ModalDialogWidget.closeModalDialog(context: context);
                         }
                       );
                     },
@@ -268,7 +330,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                   SizedBox(height: 8.r),
                   GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkCancelButton(
+                      ModalDialogWidget.showModalDialogWithOkCancelButton(
                         context: context,
                         title: "Modal dialog with two buttons #2",
                         body: Text(
@@ -280,7 +342,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                           )
                         ),
                         onTapCancel: () {
-                          if(Navigator.canPop(context)) Navigator.pop(context);
+                          ModalDialogWidget.closeModalDialog(context: context);
                         },
                         useInsetPadding: true,
                         fullScreenWidth: true
@@ -300,7 +362,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               SizedBox(height: 4.r),
               GestureDetector(
                 onTap: () {
-                  ModalDialogWidget().showModalDialogFullScreen(
+                  ModalDialogWidget.showModalDialogFullScreen(
                     context: context,
                     showBackBtn: true,
                     body: Text(
@@ -324,7 +386,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               SizedBox(height: 4.r),
               GestureDetector(
                 onTap: () {
-                  ModalDialogWidget().showFixedScreenModalDialog(
+                  ModalDialogWidget.showFixedScreenModalDialog(
                     context: context,
                     showBackBtn: true,
                     body: Text(
@@ -419,6 +481,52 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                 )
               )
             ]
+          )
+        )
+      )
+    );
+  }
+
+  GestureDetector _drawerMenuItem({required String title, required IconData icon, void Function()? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        padding: EdgeInsets.all(4.r),
+        child: Container(
+          margin: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(vertical: 4.r),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: const BorderRadius.all(Radius.circular(32))
+          ),
+          child: ListTile(
+            leading: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Color(0xFFFFCC70), Color(0xFFC850C0), Color(0xFF4158D0)]
+                )
+              ),
+              width: 32.r,
+              height: 32.r,
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 24.spMin
+              ),
+            ),
+            title: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle().copyWith(
+                color: Colors.black,
+                fontSize: 16.spMin
+              )
+            )
           )
         )
       )

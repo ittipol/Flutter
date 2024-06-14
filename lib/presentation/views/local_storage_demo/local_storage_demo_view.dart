@@ -26,10 +26,10 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.showLoaderOverlay();
+      context.showLoaderOverlay();
       await ref.read(localStorageDemoProvider.notifier).getData();
       await Future.delayed(const Duration(seconds: 1), () {
-        ref.hideLoaderOverlay();
+        context.hideLoaderOverlay();
       });
     });     
   }
@@ -91,7 +91,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkCancelButton(
+                      ModalDialogWidget.showModalDialogWithOkCancelButton(
                         context: context,
                         title: "Delete stored text?",
                         onTapCancel: () {
@@ -99,7 +99,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                         },
                         onTapOk: () async {
                           if(Navigator.canPop(context)) Navigator.pop(context);
-                          ref.showLoaderOverlay();
+                          context.showLoaderOverlay();
                           await ref.read(localStorageDemoProvider.notifier).deleteData();
                           await Future.delayed(const Duration(seconds: 1), () {
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -108,7 +108,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                               dismissDirection: DismissDirection.horizontal,
                               duration: Duration(seconds: 4)
                             ));
-                            ref.hideLoaderOverlay();
+                            context.hideLoaderOverlay();
                           });
                         },
                         useInsetPadding: true,
@@ -135,7 +135,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      ModalDialogWidget().showModalDialogWithOkCancelButton(
+                      ModalDialogWidget.showModalDialogWithOkCancelButton(
                         context: context,
                         title: "Insert stored text",
                         body: TextField(
@@ -159,7 +159,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                             ));
 
                           }else {
-                            ref.showLoaderOverlay();
+                            context.showLoaderOverlay();
                             await ref.read(localStorageDemoProvider.notifier).saveData(_textController.text);
                             await Future.delayed(const Duration(seconds: 1), () {
                               _textController.text = "";
@@ -169,7 +169,7 @@ class _LocalStorageDemoView  extends ConsumerState<LocalStorageDemoView> {
                                 dismissDirection: DismissDirection.horizontal,
                                 duration: Duration(seconds: 4)
                               ));
-                              ref.hideLoaderOverlay();
+                              context.hideLoaderOverlay();
                             });
                           }                          
                         },
