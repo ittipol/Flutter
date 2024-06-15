@@ -55,6 +55,9 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
   }
 
   Widget _build({required BuildContext context, required ApiServiceSearchState state, required double width}) {
+
+    final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+
     return Center(
       child: SizedBox(
         width: width,
@@ -104,18 +107,19 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                   // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   child: Column(
                     children: [
-                      Text(
-                        "Tab image to view or zoom image",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16.spMin
-                        )
+                      Visibility(
+                        visible: image.isNotEmpty,
+                        child: Text(
+                          "Tab image to view or zoom image",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16.spMin
+                          )
+                        ),
                       ),
                       SizedBox(height: 8.r),
                       GestureDetector(
                         onTap: () {
-
-                          final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
 
                           if(image.isEmpty) {
                             return;
@@ -131,7 +135,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                             maxHeight: 200.r,
                             maxWidth: double.infinity
                           ),
-                          child: _image(state)
+                          child: _image(image)
                         )
                       ),
                       Container(
@@ -289,9 +293,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
     }
   }
 
-  Widget _image(ApiServiceSearchState state) {
-
-    var image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+  Widget _image(String image) {
 
     if(image.isEmpty) {
       return Container(

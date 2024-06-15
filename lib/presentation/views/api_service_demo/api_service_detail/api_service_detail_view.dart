@@ -78,6 +78,8 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
 
   Widget _build(ApiServiceDetailState state) {
 
+    final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+
     switch (state.status) {
       case ApiServiceDetailStateStatus.loading:
         return Center(
@@ -89,18 +91,19 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
         case ApiServiceDetailStateStatus.success:
           return Column(
             children: [
-              Text(
-                "Tab image to view or zoom image",
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16.spMin
-                )
+              Visibility(
+                visible: image.isNotEmpty,
+                child: Text(
+                  "Tab image to view or zoom image",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16.spMin
+                  )
+                ),
               ),
               SizedBox(height: 8.r),
               GestureDetector(
-                onTap: () {
-
-                  final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+                onTap: () {                  
 
                   if(image.isEmpty) {
                     return;
@@ -116,7 +119,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
                     maxHeight: 200.r,
                     maxWidth: double.infinity
                   ),
-                  child: _image(state)
+                  child: _image(image)
                 )
               ),
               Container(
@@ -217,9 +220,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
     }
   }
 
-  Widget _image(ApiServiceDetailState state) {
-
-    final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+  Widget _image(String image) {
 
     if(image.isEmpty) {
       return Container(
