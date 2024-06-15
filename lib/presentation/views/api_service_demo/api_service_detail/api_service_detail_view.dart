@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail/api_service_detail_provider.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail/api_service_detail_state.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
+import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail_image/api_service_detail_image_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,6 +41,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
       var result = await ref.read(apiServiceDetailProvider.notifier).getPokemonDetail(widget.args.name);
 
       result.when(
+        completeWithValue: (value) {},
         completeWithError: (error) async {
           var message = "something went wrong. Please try again later";
 
@@ -57,7 +58,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
               },
               useInsetPadding: true
             );
-          }      
+          }
         }
       );
 
@@ -88,13 +89,35 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
         case ApiServiceDetailStateStatus.success:
           return Column(
             children: [
-              Container(
-                constraints: BoxConstraints(
-                  minHeight: 200.r,
-                  maxHeight: 200.r,
-                  maxWidth: double.infinity
-                ),
-                child: _image(state),
+              Text(
+                "Tab image to view or zoom image",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16.spMin
+                )
+              ),
+              SizedBox(height: 8.r),
+              GestureDetector(
+                onTap: () {
+
+                  final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+
+                  if(image.isEmpty) {
+                    return;
+                  }
+
+                  Navigator.of(context).pushNamed(RouteName.apiServiceDetailImageView, arguments: ApiServiceDetailImageViewArgs(
+                    image: image
+                  ));
+                },
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: 200.r,
+                    maxHeight: 200.r,
+                    maxWidth: double.infinity
+                  ),
+                  child: _image(state)
+                )
               ),
               Container(
                 width: MediaQuery.sizeOf(context).width,
@@ -196,7 +219,7 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
 
   Widget _image(ApiServiceDetailState state) {
 
-    var image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+    final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
 
     if(image.isEmpty) {
       return Container(
@@ -216,10 +239,13 @@ class _ApiServiceDetailView  extends ConsumerState<ApiServiceDetailView> {
       );
     }
 
-    return Image.network(
-      image,
-      height: double.infinity,
-      width: double.infinity
+    return Hero(
+      tag: "image_viewer",
+      child: Image.network(
+        image,
+        height: double.infinity,
+        width: double.infinity
+      ),
     );
   }
 

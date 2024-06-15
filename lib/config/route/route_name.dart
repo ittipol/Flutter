@@ -2,7 +2,8 @@ final class RouteName {
   static const home = '/';
   static const apiServiceIndexView = "/apiServiceIndexView";
   static const apiServiceSearchView = "/apiServiceSearchView";
-  static const apiServiceDetailView = "/apiServiceDetailView";  
+  static const apiServiceDetailView = "/apiServiceDetailView";
+  static const apiServiceDetailImageView = "/apiServiceDetailImageView";
   static const uiDemoView = "/uiDemoView";
   static const uiDemoArticleView = "/uiDemoArticleView";
   static const uiDemoWebView = "/uiDemoWebView";

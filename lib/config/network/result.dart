@@ -22,19 +22,19 @@ abstract class Result<T> {
   }
 
   R when<R>({
-    R Function(ResultComplete<T>)? completeWithValue,
-    R Function(ResultError<T>)? completeWithError,
+    required R Function(ResultComplete<T>) completeWithValue, 
+    required R Function(ResultError<T>) completeWithError,
     void Function()? complete
   }) {
 
     R? result;
 
     if(this is ResultComplete<T>){
-      result = completeWithValue?.call(this as ResultComplete<T>);
+      result = completeWithValue.call(this as ResultComplete<T>);
     }
     
     if(this is ResultError<T>){
-      result = completeWithError?.call(this as ResultError<T>);
+      result = completeWithError.call(this as ResultError<T>);
     }
 
     complete?.call();

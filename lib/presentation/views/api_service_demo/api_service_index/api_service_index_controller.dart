@@ -24,7 +24,8 @@ class ApiServiceIndexController extends StateNotifier<ApiServiceIndexState> {
     result.when(
       completeWithValue: (value) {
         state = state.copyWith(status: ApiServiceIndexStateStatus.success, pokemon: value.data);
-      }
+      },
+      completeWithError: (error) {}
     );
     
     return result;

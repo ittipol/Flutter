@@ -24,7 +24,8 @@ class ApiServiceDetailController extends StateNotifier<ApiServiceDetailState> {
     result.when(
       completeWithValue: (value) {
         state = state.copyWith(status: ApiServiceDetailStateStatus.success, pokemonDetail: value.data);
-      }
+      },
+      completeWithError: (error) {}
     );
     
     return result;

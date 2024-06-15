@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/common/responsive_layout/responsive_layout.dart';
+import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail_image/api_service_detail_image_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_provider.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_state.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
@@ -82,6 +83,7 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                 }        
               ),
             ),
+            SizedBox(height: 16.r),
             Visibility(
               visible: state.status == ApiServiceSearchStateStatus.loading,
               child: Expanded(
@@ -102,13 +104,35 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
                   // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   child: Column(
                     children: [
-                      Container(
-                        constraints: BoxConstraints(
-                          minHeight: 200.r,
-                          maxHeight: 200.r,
-                          maxWidth: double.infinity
-                        ),
-                        child: _image(state),
+                      Text(
+                        "Tab image to view or zoom image",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16.spMin
+                        )
+                      ),
+                      SizedBox(height: 8.r),
+                      GestureDetector(
+                        onTap: () {
+
+                          final image = state.pokemonDetail?.sprites?.other?.officialArtwork?.frontDefault ?? "";
+
+                          if(image.isEmpty) {
+                            return;
+                          }
+
+                          Navigator.of(context).pushNamed(RouteName.apiServiceDetailImageView, arguments: ApiServiceDetailImageViewArgs(
+                            image: image
+                          ));
+                        },
+                        child: Container(
+                          constraints: BoxConstraints(
+                            minHeight: 200.r,
+                            maxHeight: 200.r,
+                            maxWidth: double.infinity
+                          ),
+                          child: _image(state)
+                        )
                       ),
                       Container(
                         width: MediaQuery.sizeOf(context).width,
@@ -287,10 +311,13 @@ class _ApiServiceSearchView  extends ConsumerState<ApiServiceSearchView> {
       );
     }
 
-    return Image.network(
-      image,
-      height: double.infinity,
-      width: double.infinity
+    return Hero(
+      tag: "image_viewer",
+      child: Image.network(
+        image,
+        height: double.infinity,
+        width: double.infinity
+      ),
     );
   }
 

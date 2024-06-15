@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail/api_service_detail_view.dart';
+import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail_image/api_service_detail_image_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_view.dart';
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
@@ -33,6 +34,9 @@ final class AppRouter {
       case RouteName.apiServiceDetailView:
         final args = settings.arguments as ApiServiceDetailViewArgs;
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.apiServiceDetailView), builder: (_) => ApiServiceDetailView(args: args));
+      case RouteName.apiServiceDetailImageView:
+        final args = settings.arguments as ApiServiceDetailImageViewArgs;
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.apiServiceDetailImageView), builder: (_) => ApiServiceDetailImageView(args: args));
       case RouteName.uiDemoView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.uiDemoView), builder: (_) => const UiDemoView());
       case RouteName.uiDemoArticleView:

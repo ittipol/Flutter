@@ -51,6 +51,7 @@ class _OnBoardingScreenView  extends ConsumerState<OnBoardingScreenView> {
                       end: Alignment.bottomRight,
                       // colors: [Color(0xFF005C97), Color(0xFF363795)]
                       colors: [Color(0xFF80D0C7), Color(0xFF0093E9)]
+                      // stops: <double>[0.0, 1.0],
                     )
                   ),
                   child: Column(
