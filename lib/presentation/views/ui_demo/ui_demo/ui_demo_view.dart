@@ -29,6 +29,8 @@ class UiDemoView extends ConsumerStatefulWidget {
 
 class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver {  
 
+  // FocusNode searchFocusNode = FocusNode();
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -58,6 +60,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
   @override
   void dispose(){
     WidgetsBinding.instance.removeObserver(this);
+    // searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -72,11 +75,12 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              ModalDialogWidget.showModalDialogWithOkCancelButton(
+            onPressed: () async {
+              await ModalDialogWidget.showModalDialogWithOkCancelButton(
                 context: context,
                 title: "Search",
                 body: const TextField(
+                  autofocus: true,
                   style: TextStyle(color: Colors.black),
                 ),
                 onTapCancel: () {
@@ -90,9 +94,10 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     context.hideLoaderOverlay();
                   });
                 },
-                useInsetPadding: true
+                useInsetPadding: true,
+                fullScreenWidth: true
               );
-            },
+            }
           ),
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -123,8 +128,8 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     color: Colors.black,
                     fontSize: 32.spMin
                   )
-                ),
-              ),              
+                )
+              ),
               _drawerMenuItem(title: "Log In", icon: Icons.key, onTap: () {
                 Navigator.pushNamed(context, RouteName.userHomeView);
               }),
@@ -134,9 +139,9 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               _drawerMenuItem(title: "Local storage", icon: Icons.storage, onTap: () {
                 Navigator.pushNamed(context, RouteName.localStorageDemoView);
               })
-            ],
-          ),
-        ),
+            ]
+          )
+        )
       ),
       bottomNavigationBar: SafeArea(
         top: false,
