@@ -55,3 +55,16 @@ open -a Simulator
 
 ### Create and manage virtual devices
 - https://developer.android.com/studio/run/managing-avds
+
+## Unit Test
+
+``` bash
+# Generate mock classes
+dart run build_runner build -d
+
+# Run test
+flutter test -r expanded
+
+# Run test with specific path
+flutter test test/data/remote/pokemon_remote_test.dart -r expanded
+```
