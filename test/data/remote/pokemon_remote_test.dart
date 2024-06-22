@@ -21,10 +21,14 @@ void main() {
       pokemonRemote = PokemonRemote(dio: mockDio);
     });
 
-    test("Given limit and offset as parameter when API is called then response Pokemon list", () async {
+    test("Given limit and offset when request success then response Pokemon list", () async {
 
       const limit = 20;
       const offset = 0;
+
+      final responsePayload = {
+        "count" : 20
+      };
 
       when(mockDio.get(
         ApiEndPointConstant.getPokemons,
@@ -36,7 +40,7 @@ void main() {
         return Response(
           requestOptions: RequestOptions(),
           statusCode: HttpStatus.ok,
-          data: {"count":20}
+          data: responsePayload
         );
       });
 
@@ -55,11 +59,11 @@ void main() {
       );
 
       expect(result.isCompleted, true);
-      expect(value, limit);
+      expect(value, responsePayload["count"]);
 
     });
 
-    test("Given limit and offset as parameter when API is called then response an error", () async {
+    test("Given limit and offset when request fail then throw a DioException", () async {
 
       const limit = 20;
       const offset = 0;
@@ -94,9 +98,13 @@ void main() {
 
     });
 
-    test("Given Pokemon name as parameter when API is called then response Pokemon detail", () async {
+    test("Given Pokemon name when request success then response Pokemon detail", () async {
 
       const name = "pikachu";
+
+      final responsePayload = {
+        "name" : "pikachu"
+      };
 
       when(mockDio.get(
         "${ApiEndPointConstant.getPokemons}/$name"
@@ -104,7 +112,7 @@ void main() {
         return Response(
           requestOptions: RequestOptions(),
           statusCode: HttpStatus.ok,
-          data: {"name":"pikachu"}
+          data: responsePayload
         );
       });
 
@@ -114,7 +122,7 @@ void main() {
 
     });
 
-    test("Given Pokemon name as parameter when API is called then response an error", () async {
+    test("Given Pokemon name when request fail then throw a DioException", () async {
 
       const name = "pikachu";
 
