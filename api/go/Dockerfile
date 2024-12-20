@@ -1,4 +1,4 @@
-FROM golang:1.19  as build
+FROM golang:1.19 AS build
 
 WORKDIR /go-app
 
@@ -10,7 +10,7 @@ COPY . ./
 RUN go build -o ./app
 
 # =================================================
-FROM golang:1.19  as production
+FROM golang:1.19 AS production
 
 WORKDIR /go-app
 
