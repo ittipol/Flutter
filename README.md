@@ -3,6 +3,44 @@
 - Install Dart SDK (https://dart.dev/get-dart)
 - Visual Studio Code (https://docs.flutter.dev/tools/vs-code)
 
+## Install Flutter SDK
+``` bash
+# Download Flutter SDK from Flutter Github repo
+RUN git clone https://github.com/flutter/flutter.git /flutter/sdk
+```
+
+## Switching to a specific Flutter version
+``` bash
+# Navigate to the Flutter SDK directory execute
+git checkout <Flutter version>
+
+# Show information about the installed tooling
+flutter doctor
+```
+
+## Set Flutter environment path
+1. Add Flutter binary to PATH environment variable
+``` bash
+# Open the .bash_profile file with a text editor
+code ~/.bash_profile
+```
+2. Use the export command to add new environment variables
+``` bash
+# export [existing_variable_name]=[new_variable_value]:$[existing_variable_name]
+export PATH="$PATH:~/Downloads/flutter"
+```
+3. Execute the new .bash_profile by either restarting the terminal window or using
+``` bash
+source ~/.bash-profile
+```
+4. Check a PATH environment variable
+``` bash
+echo $PATH
+```
+5. Verify the installation
+``` bash
+flutter --version
+```
 
 ## Command line
 ``` bash
@@ -18,9 +56,6 @@ flutter run --dart-define=SOME_VAR=SOME_VALUE --dart-define=OTHER_VAR=OTHER_VALU
 # Compiles to release mode
 flutter run --release
 ```
-
-## Difference between `flutter run` and `flutter build` command
-You need to use `flutter build` command with one of following parameters: apk, appbundle, ios. This will produce an application to deploy or publish on AppStore, PlayStore, or some other distribution channels like Firebase.
 
 ## Document
 - https://docs.flutter.dev/
@@ -57,7 +92,6 @@ open -a Simulator
 - https://developer.android.com/studio/run/managing-avds
 
 ## Unit Test
-
 ``` bash
 # Generate mock classes
 dart run build_runner build -d
@@ -66,5 +100,5 @@ dart run build_runner build -d
 flutter test -r expanded
 
 # Run test with specific path
-flutter test test/data/remote/pokemon_remote_test.dart -r expanded
+flutter test test/data/remote/authentication_remote_test.dart -r expanded
 ```
