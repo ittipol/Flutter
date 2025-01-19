@@ -49,10 +49,10 @@ class Helper {
     return base64;
   }    
 
-  static Future<bool> checkUrlActive(String url) async {
+  static Future<bool> checkUrlActive(String url, {bool Function(X509Certificate, String, int)? callback}) async {
 
     // var httpClient = await CertificateHelper.getSSLPinningClient();
-    var httpClient = await CertificateHelper.getLocalHostSSLPinningClient();
+    var httpClient = await CertificateHelper.getLocalHostSSLPinningClient(callback: callback);
 
     var response = await httpClient.get(Uri.parse(url))
     .timeout(

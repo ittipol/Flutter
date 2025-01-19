@@ -57,4 +57,44 @@ class CertificatePinningController extends StateNotifier<CertificatePinningState
     return response;
   }
 
+  Future<bool> checkServer1IsActive() async {
+    final url = "https://${ApiBaseUrl.localhostUrl}:${AppConstant.localhostApiPort5050}/health";
+    var certificate = "";
+
+    if(state.isCert1Allowed) {
+      certificate = await rootBundle.loadString(AppConstant.cert1);
+    }
+
+    var response = await Helper.checkUrlActive(url, callback: (cert, host, port) {      
+
+      if(cert.pem.isNotEmpty && cert.pem == certificate) {
+        return true;
+      }
+
+      return false;
+    });
+
+    return response;
+  }
+
+  Future<bool> checkServer2IsActive() async {
+    final url = "https://${ApiBaseUrl.localhostUrl}:${AppConstant.localhostApiPort5051}/health";
+    var certificate = "";
+
+    if(state.isCert1Allowed) {
+      certificate = await rootBundle.loadString(AppConstant.cert2);
+    }
+
+    var response = await Helper.checkUrlActive(url, callback: (cert, host, port) {      
+
+      if(cert.pem.isNotEmpty && cert.pem == certificate) {
+        return true;
+      }
+
+      return false;
+    });
+
+    return response;
+  }
+
 }
