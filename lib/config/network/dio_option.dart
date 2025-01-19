@@ -24,30 +24,32 @@ class DioOption {
       }
     );
 
-    if(checkCertificatePinning && !_isExceptUrl(exceptUrlList, baseUrl)) {
-      // Cannot use with self-signed certificate
-      dio.interceptors.add(CertificatePinningInterceptor(allowedSHAFingerprints: Certificate.allowedSHAFingerprints));
-    }else {
-      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
-        final client = HttpClient();
+    if(checkCertificatePinning) {
+      if(!_isExceptUrl(exceptUrlList, baseUrl)) {
+        // Cannot use with self-signed certificate
+        dio.interceptors.add(CertificatePinningInterceptor(allowedSHAFingerprints: Certificate.allowedSHAFingerprints));
+      }else {
+        (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+          final client = HttpClient();
 
-        // Check self-signed certificate pinning
-        client.badCertificateCallback = (X509Certificate cert, String host, int port) {
+          // Check self-signed certificate pinning
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) {
 
-          // if (host.isNotEmpty && host == "localhost") {
-          //   return true;
-          // }
+            // if (host.isNotEmpty && host == "localhost") {
+            //   return true;
+            // }
 
-          if(cert.pem.isNotEmpty && cert.pem == Certificate.certificate) {
-            return true;
-          }     
+            if(cert.pem.isNotEmpty && cert.pem == Certificate.certificate) {
+              return true;
+            }     
 
-          return false;
+            return false;
+          };
+
+          return client;
         };
-
-        return client;
-      };
-    }
+      }
+    }    
 
     if(enableInterceptor) {
       dio.interceptors.add(DioInterceptor());      
