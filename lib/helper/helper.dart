@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'package:flutter_demo/helper/certificate_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,11 +47,14 @@ class Helper {
     }
 
     return base64;
-  }  
+  }    
 
   static Future<bool> checkUrlActive(String url) async {
 
-    var response = await http.get(Uri.parse(url))
+    // var httpClient = await CertificateHelper.getSSLPinningClient();
+    var httpClient = await CertificateHelper.getLocalHostSSLPinningClient();
+
+    var response = await httpClient.get(Uri.parse(url))
     .timeout(
       const Duration(seconds: 5),
       onTimeout: () {
@@ -60,7 +65,35 @@ class Helper {
       return http.Response('Error', 500);
     });
 
+    httpClient.close();
+
     return response.statusCode == 200;
+  }
+
+  static Future<String> httpGet(String url, {bool Function(X509Certificate, String, int)? callback}) async {
+    
+    var httpClient = await CertificateHelper.getLocalHostSSLPinningClient(callback: callback);
+
+    var response = await httpClient.get(Uri.parse(url))
+    .timeout(
+      const Duration(seconds: 5),
+      onTimeout: () {
+        return http.Response('Error', 408);
+      },
+    )
+    .onError((error, stackTrace) {
+      return http.Response('Error', 500);
+    });
+
+    httpClient.close();
+
+    // if(response.statusCode == 200) {
+
+    // }else {
+
+    // }
+
+    return response.body;
   }    
 
 }

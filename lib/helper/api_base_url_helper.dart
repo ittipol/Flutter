@@ -8,7 +8,7 @@ class ApiBaseUrlHelper {
   static void init() {
     ApiBaseUrl.localhostUrl = getLocalhostUrl();
     ApiBaseUrl.localhostApiBaseUrl = getLocalhostBaseUrl(ApiBaseUrl.localhostUrl, includePort: 1);
-    ApiBaseUrl.localhostWebAppBaseUrl = getLocalhostBaseUrl(ApiBaseUrl.localhostUrl, includePort: 2);
+    ApiBaseUrl.localhostWebAppBaseUrl = getLocalhostBaseUrl(ApiBaseUrl.localhostUrl, includePort: 2, useHttps: false);
   }
 
   static String getLocalhostUrl() {
@@ -21,16 +21,20 @@ class ApiBaseUrlHelper {
     return "";
   }
 
-  static String getLocalhostBaseUrl(String localhostUrl, {int includePort = 0}) {
+  static String getLocalhostBaseUrl(String localhostUrl, {int includePort = 0, bool useHttps = true}) {
 
     var host = localhostUrl;
 
+    var protocol = "http://";
+
+    if(useHttps) protocol = "https://";
+
     switch (includePort) {
       case 1:
-        host = "$host:${AppConstant.localhostApiPort}";
+        host = "$protocol$host:${AppConstant.localhostApiPort5050}";
         break;
       case 2:
-        host = "$host:${AppConstant.localhostWebAppPort}";
+        host = "$protocol$host:${AppConstant.localhostWebAppPort}";
         break;
       default:
     }

@@ -15,6 +15,7 @@ import 'package:flutter_demo/data/repositories/authentication_repository_impl.da
 import 'package:flutter_demo/data/repositories/data_storage_repository_impl.dart';
 import 'package:flutter_demo/data/repositories/user_profile_repository_impl.dart';
 import 'package:flutter_demo/helper/authentication_helper.dart';
+import 'package:flutter_demo/helper/certificate_helper.dart';
 import 'package:flutter_demo/helper/on_boarding_screen_helper.dart';
 import 'package:flutter_demo/helper/user_profile_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
@@ -33,6 +34,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   ApiBaseUrlHelper.init();
+  await CertificateHelper.init();
   // debugPrint("ApiBaseUrl.localhostApiBaseUrl ===> [ ${ApiBaseUrl.localhostApiBaseUrl} ]");
   // debugPrint("ApiBaseUrl.localhostWebAppBaseUrl ===> [ ${ApiBaseUrl.localhostWebAppBaseUrl} ]");
 

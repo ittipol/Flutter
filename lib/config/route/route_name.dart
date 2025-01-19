@@ -19,4 +19,5 @@ final class RouteName {
   static const userLoginView = "/userLoginView";   
   static const userRegisterView = "/userRegisterView";
   static const pdfViewerView = "/pdfViewerView";
+  static const certificatePinningView = "/certificatePinningView";  
 }

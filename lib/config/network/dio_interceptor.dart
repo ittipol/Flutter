@@ -24,6 +24,7 @@ class DioInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
 
     debugPrint("--------------------- onRequest ======> [ ${options.path} ]");
+    debugPrint("--------------------- onRequest ======> [ ${options.baseUrl} ]");
 
     if(Authentication.isLoggedIn) {      
       if(options.path == ApiEndPointConstant.refreshToken) {

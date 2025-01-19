@@ -4,6 +4,7 @@ import 'package:flutter_demo/presentation/views/api_service_demo/api_service_det
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_detail_image/api_service_detail_image_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_index/api_service_index_view.dart';
 import 'package:flutter_demo/presentation/views/api_service_demo/api_service_search/api_service_search_view.dart';
+import 'package:flutter_demo/presentation/views/certificate/certificate_pinning/certificate_pinning_view.dart';
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
 import 'package:flutter_demo/presentation/views/isolate_demo/isolate_demo_view.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_view.dart';
@@ -68,6 +69,8 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userRegisterView), builder: (_) => const UserRegisterView());
       case RouteName.pdfViewerView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.pdfViewerView), builder: (_) => const PdfViewerView());
+      case RouteName.certificatePinningView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.certificatePinningView), builder: (_) => const CertificatePinningView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

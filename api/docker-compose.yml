@@ -22,8 +22,26 @@ services:
     ports:
       - 8088:8088
       # - 443:443
-      - 5055:5055
+      # - 5055:5055
       # - 8080:8080
+    restart: unless-stopped
+    depends_on:
+      - go
+
+  nginx_1:
+    build: nginx/nginx_1
+    container_name: nginx_1
+    ports:
+      - 5050:5050
+    restart: unless-stopped
+    depends_on:
+      - go
+
+  nginx_2:
+    build: nginx/nginx_2
+    container_name: nginx_2
+    ports:
+      - 5051:5051
     restart: unless-stopped
     depends_on:
       - go
