@@ -18,7 +18,7 @@ services:
 
   nginx:
     build: nginx
-    container_name: api_nginx
+    container_name: nginx_web
     ports:
       - 8088:8088
       # - 443:443
@@ -30,7 +30,7 @@ services:
 
   nginx_1:
     build: nginx/nginx_1
-    container_name: nginx_1
+    container_name: nginx_1_api
     ports:
       - 5050:5050
     restart: unless-stopped
@@ -39,7 +39,7 @@ services:
 
   nginx_2:
     build: nginx/nginx_2
-    container_name: nginx_2
+    container_name: nginx_2_api
     ports:
       - 5051:5051
     restart: unless-stopped

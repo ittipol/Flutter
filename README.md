@@ -6,7 +6,7 @@
 ## Install Flutter SDK
 ``` bash
 # Download Flutter SDK from Flutter Github repo
-RUN git clone https://github.com/flutter/flutter.git /flutter/sdk
+git clone https://github.com/flutter/flutter.git ~/Downloads/flutter
 ```
 
 ## Switching to a specific Flutter version
