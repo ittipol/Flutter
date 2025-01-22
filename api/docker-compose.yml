@@ -14,7 +14,7 @@ services:
   #   #   - ./web/index.html:/var/www/index.html
   #   #   - ./pdf:/var/www/pdf
   #   depends_on:
-  #     - go
+  #     - go_app
 
   nginx:
     build: nginx
@@ -22,11 +22,9 @@ services:
     ports:
       - 8088:8088
       # - 443:443
-      # - 5055:5055
-      # - 8080:8080
     restart: unless-stopped
     depends_on:
-      - go
+      - go_app
 
   nginx_1:
     build: nginx/nginx_1
@@ -35,7 +33,7 @@ services:
       - 5050:5050
     restart: unless-stopped
     depends_on:
-      - go
+      - go_app
 
   nginx_2:
     build: nginx/nginx_2
@@ -44,11 +42,11 @@ services:
       - 5051:5051
     restart: unless-stopped
     depends_on:
-      - go
+      - go_app
 
-  go:
+  go_app:
     build: go
-    container_name: go
+    container_name: go-app
     restart: unless-stopped
     depends_on:
       - db

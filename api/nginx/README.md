@@ -1,5 +1,7 @@
 # Nginx
 
+- Module ngx_http_ssl_module https://nginx.org/en/docs/http/ngx_http_ssl_module.html
+
 ## Test Nginx TLS 1.1/1.0 support
 ``` bash
 # -I Show document header info only
