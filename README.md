@@ -80,6 +80,13 @@ flutter run --release
 The simulator acts like an iPhone (or iPad).
 It's a very accurate simulation, but of course some features are not available (like the on-device cameras)
 
+### Open Xcode
+``` bash
+cd ios
+
+xed .
+```
+
 ### To start the Simulator, run the following command:
 ``` bash
 open -a Simulator
