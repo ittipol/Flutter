@@ -11,11 +11,22 @@ git clone https://github.com/flutter/flutter.git ~/Downloads/flutter
 
 ## Switching to a specific Flutter version
 ``` bash
+# List Flutter channels
+flutter channel
+
+# Use stable version
+git checkout stable
+
 # Navigate to the Flutter SDK directory execute
 git checkout <Flutter version>
 
+# https://github.com/flutter/flutter/tags
+git checkout 3.29.3
+
 # Show information about the installed tooling
 flutter doctor
+
+flutter doctor -v
 ```
 
 ## Set Flutter environment path
