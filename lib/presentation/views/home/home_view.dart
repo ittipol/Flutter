@@ -38,6 +38,7 @@ class _HomeView  extends ConsumerState<HomeView> {
     MenuEntity(title: "Sliver App Bar", link: RouteName.sliverAppBarView, icon: Icons.table_rows),
     MenuEntity(title: "WebView", link: RouteName.webViewDemoView, icon: Icons.web),
     MenuEntity(title: "PDF Viewer", link: RouteName.pdfViewerView, icon: Icons.picture_as_pdf),
+    MenuEntity(title: "Carousel", link: RouteName.carouselView, icon: Icons.view_carousel),
   ];
 
   final isolateMenuList = [
