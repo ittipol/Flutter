@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
-import 'package:flutter_demo/presentation/views/ui_demo/ui_demo/ui_demo_view.dart';
+import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -52,23 +53,34 @@ class _CarouselView  extends ConsumerState<CarouselView> {
               items: [1,2,3,4,5].map((i) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      // margin: EdgeInsets.symmetric(horizontal: 5.w),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        // color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Title $i",
-                          style: TextStyle(
-                            fontSize: 24.spMin,
-                            overflow: TextOverflow.ellipsis,
-                            color: Colors.white
-                          )
+                    return GestureDetector(
+                      onTap: () {
+                        ModalDialogWidget.showModalDialogWithOkButton(
+                          context: context,
+                          title: "Title $i clicked",
+                          onTap: () {
+                            ModalDialogWidget.closeModalDialog(context: context);
+                          }
+                        );
+                      },
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width,
+                        // margin: EdgeInsets.symmetric(horizontal: 5.w),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          // color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)
                         ),
-                      )
+                        child: Center(
+                          child: Text(
+                            "Title $i",
+                            style: TextStyle(
+                              fontSize: 24.spMin,
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.white
+                            )
+                          ),
+                        )
+                      ),
                     );
                   },
                 );
@@ -153,6 +165,7 @@ class _CarouselView  extends ConsumerState<CarouselView> {
                     return GestureDetector(
                       onTap: () {
                         debugPrint("Title $i");
+                        Navigator.pushNamed(context, RouteName.uiDemoView);
                       },
                       child: Container(
                         width: MediaQuery.sizeOf(context).width,
