@@ -223,6 +223,14 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               CarouselSlider(
                 options: CarouselOptions(
                   height: 400.r,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 4),
+                  // aspectRatio: 16 / 9,
+                  autoPlayCurve: Curves.easeInOutQuint,
+                  enableInfiniteScroll: true,
+                  autoPlayAnimationDuration: const Duration(milliseconds: 500),
+                  viewportFraction: 0.8,
                   // viewportFraction: 1
                 ),
                 items: [1,2,3,4,5].map((i) {
