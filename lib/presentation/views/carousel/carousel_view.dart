@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
@@ -210,6 +211,107 @@ class _CarouselView  extends ConsumerState<CarouselView> {
               }).toList(),
             ),
           ),
+          SizedBox(height: 24.r,),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, RouteName.uiDemoView);
+            },
+            child: Container(
+              margin: EdgeInsets.all(16.r),
+              padding: EdgeInsets.symmetric(vertical: 16.r, horizontal: 12.r),
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).width * 0.29,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  colors: [Color(0xFFEBEFF2), Color(0xFFFFFFFF)],
+                  stops: [0.40, 0.65]
+                )
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 80.r,
+                    height: 80.r,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey.shade700
+                    ),
+                  ),
+                  SizedBox(
+                    width: 220.r,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(         
+                          width: MediaQuery.sizeOf(context).width,
+                          // decoration: BoxDecoration(
+                          //   color: Colors.grey.shade700
+                          // ),
+                          child: Text(
+                            "title",
+                            style: const TextStyle().copyWith(
+                              fontSize: 14.spMin,
+                              color: const Color(0xFF3A3433),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Row(                        
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 130,
+                              // decoration: BoxDecoration(
+                              //   color: Colors.grey.shade700
+                              // ),
+                              child: Text(
+                                "subtitle",
+                                style: const TextStyle().copyWith(
+                                  fontSize: 12.spMin,
+                                  color: const Color(0xFF3A3433),
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              width: 96.r,
+                              height: 24.r,
+                              // padding: EdgeInsets.symmetric(vertical: 4.r),
+                              decoration: BoxDecoration(
+                                color: Colors.brown.shade700,
+                                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                              ),
+                              child: Center(
+                                child: Text(
+                                    "ตกลง",
+                                    style: const TextStyle().copyWith(
+                                      fontSize: 14.spMin,
+                                      color: const Color(0xFFFFFFFF),
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              )
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       )
     );
