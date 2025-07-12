@@ -22,4 +22,5 @@ final class RouteName {
   static const carouselView = "/carouselView";
   static const certificatePinningView = "/certificatePinningView";
   static const javascriptChannelView = "/javascriptChannelView";
+  static const ecdhView = "/ecdhView";
 }

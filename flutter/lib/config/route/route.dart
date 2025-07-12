@@ -7,6 +7,7 @@ import 'package:flutter_demo/presentation/views/api_service_demo/api_service_sea
 import 'package:flutter_demo/presentation/views/carousel/carousel_view.dart';
 import 'package:flutter_demo/presentation/views/certificate/certificate_pinning/certificate_pinning_view.dart';
 import 'package:flutter_demo/presentation/views/channel/js_channel/js_channel_view.dart';
+import 'package:flutter_demo/presentation/views/cryptography/ecdh/ecdh_view.dart';
 import 'package:flutter_demo/presentation/views/home/home_view.dart';
 import 'package:flutter_demo/presentation/views/isolate_demo/isolate_demo_view.dart';
 import 'package:flutter_demo/presentation/views/local_storage_demo/local_storage_demo_view.dart';
@@ -77,6 +78,8 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.certificatePinningView), builder: (_) => const CertificatePinningView());
       case RouteName.javascriptChannelView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.javascriptChannelView), builder: (_) => const JsChannelView());
+      case RouteName.ecdhView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.ecdhView), builder: (_) => const EcdhView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

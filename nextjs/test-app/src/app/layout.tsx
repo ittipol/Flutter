@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Transition from "@/components/transition";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -9,10 +10,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en">
-            <body
-                className={`antialiased`}
-            >
-                {children}
+            <body>
+                <Transition>{children}</Transition>
             </body>
         </html>
     );

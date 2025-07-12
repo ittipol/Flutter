@@ -56,16 +56,18 @@ class _JsChannelView extends ConsumerState<JsChannelView> {
                 elevation: 0,
               ),
               child: SizedBox(
-                  height: 40.r,
-                  child: Center(
-                    child: Text("Next Page",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                        )),
-                  )),
+                height: 40.r,
+                child: Center(
+                  child: Text("Next Page",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ),
+                )
+              ),
             ),
           ),
         ),
@@ -73,8 +75,24 @@ class _JsChannelView extends ConsumerState<JsChannelView> {
           // url: ApiBaseUrl.localhostWebAppBaseUrl,
           // url: "http://localhost:5055",
           url: "http://localhost:3000",
-          onMessageReceived: (message) {
-            print("This is test");   
+          onMessageReceived: {
+            "Print":(message) {
+              print(message.message);
+            },
+            "Next":(message) async {
+              context.showLoaderOverlay();
+              print(message.message);
+              await Future.delayed(const Duration(seconds: 1), () {
+                context.hideLoaderOverlay();
+              });
+            },
+            "Back":(message) async {
+              context.showLoaderOverlay();
+              print(message.message);
+              await Future.delayed(const Duration(seconds: 1), () {
+                context.hideLoaderOverlay();
+              });
+            }
           },
         )
       );

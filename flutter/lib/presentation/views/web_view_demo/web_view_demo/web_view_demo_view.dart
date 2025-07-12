@@ -20,7 +20,7 @@ class _WebViewDemoView  extends ConsumerState<WebViewDemoView> {
   Widget build(BuildContext context) {    
 
     return const WebView(
-      url: "https://riverpod.dev/",
+      url: "http://localhost:3000/web",
     );
   }
   

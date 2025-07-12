@@ -175,8 +175,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
                     }
                   );
                 }
-              }
-              
+              }              
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.brown.shade700,

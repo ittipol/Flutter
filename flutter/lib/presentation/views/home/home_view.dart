@@ -24,9 +24,13 @@ class _HomeView  extends ConsumerState<HomeView> {
     MenuEntity(title: "User Authentication", link: RouteName.userHomeView, icon: Icons.key),    
   ];
 
+  final cryptographyMenuList = [
+    MenuEntity(title: "Elliptic-curve Diffie–Hellman", link: RouteName.ecdhView, icon: Icons.security),    
+  ];
+
   final certificateMenuList = [
     MenuEntity(title: "Certificate Pinning", link: RouteName.certificatePinningView, icon: Icons.security),    
-  ];
+  ];  
 
   final apiConnectionMenuList = [
     MenuEntity(title: "Pokemon index", link: RouteName.apiServiceIndexView, icon: Icons.catching_pokemon),
@@ -109,6 +113,13 @@ class _HomeView  extends ConsumerState<HomeView> {
                   context: context,
                   title: "Authentication",
                   menuList: authenticationMenuList,
+                  width: MediaQuery.sizeOf(context).width
+                ),
+                SizedBox(height: 8.r),
+                _menuSection(
+                  context: context,
+                  title: "Cryptography",
+                  menuList: cryptographyMenuList,
                   width: MediaQuery.sizeOf(context).width
                 ),
                 SizedBox(height: 8.r),

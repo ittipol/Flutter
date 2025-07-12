@@ -31,7 +31,7 @@ export default function Home() {
       <button onClick={() => nextCallback("Change to page B")}>
         Next
       </button>
-      <button onClick={() => testCallback("ZZZZ")}>
+      <button onClick={() => testCallback("Test....")}>
         Test
       </button>
       <Link href="/dashboard">Dashboard</Link>

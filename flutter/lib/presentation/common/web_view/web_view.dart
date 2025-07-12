@@ -15,17 +15,13 @@ class WebView extends ConsumerStatefulWidget {
   final String url;
   final void Function()? onTabBackBtn;
   final bool displayProgressBar;
-  final void Function(JavaScriptMessage)? onMessageReceived;
-  final void Function(JavaScriptMessage)? onMobilePagePushMessageReceived;
-  final void Function(JavaScriptMessage)? onWebPageChangeMessageReceived;
+  final Map<String, void Function(JavaScriptMessage)>? onMessageReceived;
   
   const WebView({  
     required this.url,
     this.displayProgressBar = true,
     this.onTabBackBtn,
     this.onMessageReceived,
-    this.onMobilePagePushMessageReceived,
-    this.onWebPageChangeMessageReceived,
     super.key
   });
 
@@ -45,43 +41,28 @@ class _WebView  extends ConsumerState<WebView> {
 
     final controller = WebViewController()
     ..enableZoom(true)
-    ..addJavaScriptChannel(
-      'Print',
-      onMessageReceived: (JavaScriptMessage message) {
-        context.showLoaderOverlay();
-        print(message.message);
-      },
-    )
-    ..addJavaScriptChannel(
-      'Test',
-      onMessageReceived: (JavaScriptMessage message) {
-        if(widget.onMessageReceived != null) {
-          widget.onMessageReceived?.call(message);
-        }
-      },
-    )
-    ..addJavaScriptChannel(
-      'Next',
-      onMessageReceived: (JavaScriptMessage message) {
-        context.showLoaderOverlay();
-        print(message.message);
-        Future.delayed(const Duration(seconds: 1), () {
-          context.hideLoaderOverlay();
-        });
-      },
-    )
-    ..addJavaScriptChannel(
-      'Page',
-      onMessageReceived: (JavaScriptMessage message) {
-        context.showLoaderOverlay();
-        Navigator.pushNamed(context, RouteName.uiDemoView).then((value) => {
-          print("Call Back from page")
-        });
-        Future.delayed(const Duration(seconds: 1), () {
-          context.hideLoaderOverlay();
-        });
-      },
-    )
+    // ..addJavaScriptChannel(
+    //   'Next',
+    //   onMessageReceived: (JavaScriptMessage message) {
+    //     context.showLoaderOverlay();
+    //     print(message.message);
+    //     Future.delayed(const Duration(seconds: 1), () {
+    //       context.hideLoaderOverlay();
+    //     });
+    //   },
+    // )
+    // ..addJavaScriptChannel(
+    //   'Page',
+    //   onMessageReceived: (JavaScriptMessage message) {
+    //     context.showLoaderOverlay();
+    //     Navigator.pushNamed(context, RouteName.uiDemoView).then((value) => {
+    //       print("Call Back from page")
+    //     });
+    //     Future.delayed(const Duration(seconds: 1), () {
+    //       context.hideLoaderOverlay();
+    //     });
+    //   },
+    // )
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..setBackgroundColor(Colors.transparent)
     ..setNavigationDelegate(
@@ -122,6 +103,12 @@ class _WebView  extends ConsumerState<WebView> {
         },
       ),
     );
+
+    if(widget.onMessageReceived != null){
+      widget.onMessageReceived?.forEach((key, func) {
+        controller.addJavaScriptChannel(key, onMessageReceived: func);
+      });
+    }
 
     _webViewController = controller;    
 
