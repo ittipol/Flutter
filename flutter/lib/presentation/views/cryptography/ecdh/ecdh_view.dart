@@ -5,6 +5,7 @@ import 'package:elliptic/ecdh.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/extension/loader_overlay_extension.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/cryptography/ecdh/ecdh_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,22 +21,56 @@ class EcdhView extends ConsumerStatefulWidget {
 class _EcdhView extends ConsumerState<EcdhView> {
 
   bool isLoading = false;
+  final plainText = "Hello world";
   
   @override
   void initState() {
     super.initState();
 
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await Future.delayed(const Duration(seconds: 1), () {
-    //     context.hideLoaderOverlay();
-    //   });
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      
+      var clientPrivateKey = _genKeyPair();
+      var clientPublicKey = clientPrivateKey.publicKey;
+
+      ref.read(ecdhProvider.notifier).updateData(
+        privateKey: clientPrivateKey,
+        publicKey: clientPublicKey
+      );
+
+      await Future.delayed(const Duration(seconds: 1), () {
+        context.hideLoaderOverlay();
+      });
+
+      // Test ecdh
+      // var clientPrivateKey = _genKeyPair();
+      // var clientPublicKey = clientPrivateKey.publicKey;
+
+      // var result = await ref.read(ecdhProvider.notifier).TestEcdh(clientPrivateKey.toHex(), clientPublicKey.toHex());
+      // result.when(
+      //   completeWithValue: (value) {
+      //     // var ec = getP256();
+
+      //     var serverPrivateKeyHex = value.data.serverPrivateKey ?? "";
+      //     var serverPublicKeyHex = value.data.serverPublicKey ?? "";
+
+      //     var serverPublicKey = _genPublicKey(serverPublicKeyHex);
+
+      //     var cSharedSecretKey = computeSecret(clientPrivateKey, serverPublicKey);
+
+      //     print("cSharedSecretKey: ${base64Encode(cSharedSecretKey)}");
+          
+      //   }, 
+      //   completeWithError: (error) {
+          
+      //   }
+      // );
+    });
   }
 
-  // @override
-  // void dispose(){
-  //   super.dispose();
-  // }
+  @override
+  void dispose(){
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +100,18 @@ class _EcdhView extends ConsumerState<EcdhView> {
               SizedBox(height: 8.h),
               _text("Shared secret key", state.sharedSecretKey != null ? base64Encode(state.sharedSecretKey!) : ""),
               SizedBox(height: 8.h),
-              _text("Plain text", ""),
+              _text("Plain text", plainText),
               SizedBox(height: 8.h),
-              _text("Cipher text (encrypted data)", ""),
+              _text("Cipher text (encrypted data)", state.cipherText ?? ""),
               SizedBox(height: 8.h),
               _text("Decrypted data", ""),              
               SizedBox(height: 32.h),
               _button("Generate key pair", () {
                 var privateKey = _genKeyPair();
                 var publicKey = privateKey.publicKey;
+
+                print("privateKey length: [${privateKey.bytes.length}]");
+                print("publicKey length: [${privateKey.bytes.length}]");
 
                 ref.read(ecdhProvider.notifier).updateData(
                   privateKey: privateKey,
@@ -82,29 +120,29 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
               }),
               SizedBox(height: 24.h),
-              _button("Exchange public key", () {
-                
-                List<int>? sharedSecretKey;
-
-                var otherPartyPublicKeyHex = _exchangeKey();
-                var otherPartyPublicKey = _genPublicKey(otherPartyPublicKeyHex);                  
-
-                if(state.privateKey != null) {
-                  sharedSecretKey = computeSecret(state.privateKey!, otherPartyPublicKey);
-                }
-
-                ref.read(ecdhProvider.notifier).updateData(
-                  otherPartyPublicKey: otherPartyPublicKey,
-                  sharedSecretKey: sharedSecretKey
-                );
-
+              _button("Exchange public key", () async {              
+                await _exchangeKey();
               }),
               SizedBox(height: 24.h),
               _button("AES encryption and send to server", () {
                 
-                // call api and return encrypted data
+                var sharedSecretKey = ref.read(ecdhProvider).sharedSecretKey;
 
-                // decrypt data with shared secret key
+                if(sharedSecretKey == null) {
+                  return;
+                }
+
+                context.showLoaderOverlay();
+
+                var cipherText = _encryptAesGcm(base64Encode(sharedSecretKey), plainText);
+
+                ref.read(ecdhProvider.notifier).updateData(
+                  cipherText: cipherText
+                );
+
+                Future.delayed(const Duration(seconds: 1), () {
+                  context.hideLoaderOverlay();
+                });
 
               }),                      
             ],
@@ -233,16 +271,74 @@ class _EcdhView extends ConsumerState<EcdhView> {
     return PublicKey.fromHex(getP256(), hex);
   }
 
-  String _exchangeKey() {
-    // Call Api to exchange key to other party
-    return "04778aae16b613d212ddfc9d62cb5784d5c665746faea92d65b5699cd21b14fc75d4fd2e961d50e746334b1d5640700508fdda2a7658e266f4ec7ea53ea69d205a";
+  Future<String> _exchangeKey() async {
+    
+    var privateKey = ref.read(ecdhProvider).privateKey;
+    var publicKey = ref.read(ecdhProvider).publicKey;
+
+    if(privateKey == null || publicKey == null) {
+      return "";
+    }
+
+    context.showLoaderOverlay();
+    
+    var result = await ref.read(ecdhProvider.notifier).keyExchange(publicKey.toHex());
+    var otherPartyPublicKey = result.when(
+      completeWithValue: (value) {
+
+        List<int> sharedSecretKey = [];
+        print("value.data.publicKey: ${value.data.publicKey}");
+        // print(value.data.encryptedKeyData);
+
+        var otherPartyPublicKey = _genPublicKey(value.data.publicKey ?? "");        
+
+        sharedSecretKey = computeSecret(privateKey, otherPartyPublicKey);
+
+        print("sharedSecretKey: ${base64Encode(sharedSecretKey)}");
+        print("sharedKey (from server): ${value.data.sharedKey}");
+
+        ref.read(ecdhProvider.notifier).updateData(
+          otherPartyPublicKey: otherPartyPublicKey,
+          sharedSecretKey: sharedSecretKey
+        );
+
+        // ============================================================
+
+        final base64Decoder = base64.decoder;
+        var cipherText = base64Decoder.convert(value.data.encryptedKeyData ?? "");
+
+        var iv = cipherText.getRange(0, 12).toList();
+        var encryptedKeyData = cipherText.getRange(12, cipherText.length).toList();
+
+        // print("nonce: ${iv.toString()}");
+        // print("cipherText: ${cipherText.toString()}");
+        // print("cipherText last-1: ${cipherText[cipherText.length-2]}");
+        // print("cipherText last: ${cipherText.last}");
+
+        // Test decrypt
+        var data = _decryptAesGcm(value.data.sharedKey ?? "", base64Encode(encryptedKeyData), base64Encode(iv));
+
+        print("data: $data");
+        return otherPartyPublicKey.toHex();
+        
+      }, 
+      completeWithError: (error) {
+        return "";
+      }
+    );
+
+    await Future.delayed(const Duration(seconds: 1), () {
+      context.hideLoaderOverlay();
+    });
+
+    return otherPartyPublicKey;
   }
 
-  String _encrypt(String Base64Key, String plainText) {
-    final key = encrypt.Key.fromBase64(Base64Key);
+  String _encrypt(String base64Key, String plainText) {
+    final key = encrypt.Key.fromBase64(base64Key);
     // final key = encrypt.Key.fromLength(32);
 
-    final iv = encrypt.IV.fromLength(16);
+    final iv = encrypt.IV.fromLength(12);
 
     final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
 
@@ -252,15 +348,57 @@ class _EcdhView extends ConsumerState<EcdhView> {
     return encrypted.base64;
   }
 
-  String _decrypt(String Base64Key, String cipherText) {
-    final key = encrypt.Key.fromBase64(Base64Key);
-    // final key = encrypt.Key.fromLength(32);
+  // String _decrypt(String base64Key, String cipherText) {
+  //   final key = encrypt.Key.fromBase64(base64Key);
+  //   // final key = encrypt.Key.fromLength(32);
 
-    final iv = encrypt.IV.fromLength(16);
+  //   final iv = encrypt.IV.fromLength(12);
 
-    final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+  //   final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
 
-    final plainText = encrypter.decrypt64(cipherText, iv: iv);
+  //   final plainText = encrypter.decrypt64(cipherText, iv: iv);
+
+  //   return plainText;
+  // }
+
+  String _encryptAesGcm(String base64Key, String plainText) {
+
+    var cipherText = "";
+
+    try {
+      final key = encrypt.Key.fromBase64(base64Key);
+      // final key = encrypt.Key.fromLength(32);
+
+      final nonce = encrypt.IV.fromLength(12);
+
+      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+
+      cipherText = encrypter.encrypt(plainText, iv: nonce).base64;
+
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return cipherText;
+  }
+
+  String _decryptAesGcm(String base64Key, String cipherText, String nonce) {
+
+    var plainText = "";
+    
+    try {
+      final key = encrypt.Key.fromBase64(base64Key);
+      // final key = encrypt.Key.fromLength(32);
+
+      final iv = encrypt.IV.fromBase64(nonce);
+
+      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+
+      plainText = encrypter.decrypt64(cipherText, iv: iv);
+
+    } catch (e) {
+      print(e.toString());
+    }
 
     return plainText;
   }

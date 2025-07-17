@@ -25,7 +25,7 @@ class _HomeView  extends ConsumerState<HomeView> {
   ];
 
   final cryptographyMenuList = [
-    MenuEntity(title: "Elliptic-curve Diffie–Hellman", link: RouteName.ecdhView, icon: Icons.security),    
+    MenuEntity(title: "Elliptic-curve Diffie–Hellman", link: RouteName.ecdhView, loaderOverlay: true, icon: Icons.security),    
   ];
 
   final certificateMenuList = [
@@ -236,7 +236,7 @@ class _HomeView  extends ConsumerState<HomeView> {
             if(menu.loaderOverlay) {
               context.showLoaderOverlay();
       
-              await Future.delayed(const Duration(seconds: 2), () {
+              await Future.delayed(const Duration(seconds: 1), () {
                 Navigator.pushNamed(context, menu.link);
               });
             }else {
