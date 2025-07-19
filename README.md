@@ -2,6 +2,8 @@
 - Install Flutter SDK and other setup (https://docs.flutter.dev/get-started/install/macos)
 - Install Dart SDK (https://dart.dev/get-dart)
 - Visual Studio Code (https://docs.flutter.dev/tools/vs-code)
+- Kotlin version (https://kotlinlang.org/docs/releases.html#release-details)
+- Using packages (https://docs.flutter.dev/packages-and-plugins/using-packages)
 
 ## Install Flutter SDK
 ``` bash
@@ -66,6 +68,14 @@ flutter run --dart-define=SOME_VAR=SOME_VALUE --dart-define=OTHER_VAR=OTHER_VALU
 
 # Compiles to release mode
 flutter run --release
+```
+
+## Package
+``` yaml
+dependencies:
+  package_a: ^4.2.0    # any version >= 4.2.0 but < 6.0.0
+  package_b: '4.8.5'   # only version 4.8.5
+  package_c: '>=2.6.1 <5.0.0' # any version >= 2.6.1 but < 5.0.0
 ```
 
 ## Document
