@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/helper/certificate_helper.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,15 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Helper {
+
+  Future<String?> getAndroidVersion() async {
+  if (Platform.isAndroid) {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.version.release;
+  }
+  throw UnsupportedError("Platform is not Android");
+}
 
   static Future<Uint8List> getByteArrayFromUrl(String url, {name}) async {
     try {

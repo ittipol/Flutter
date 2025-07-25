@@ -23,6 +23,7 @@ import 'package:flutter_demo/presentation/views/ui_demo/ui_demo_web_view/ui_demo
 import 'package:flutter_demo/presentation/views/user/user_home/user_home_view.dart';
 import 'package:flutter_demo/presentation/views/user/user_login/user_login_view.dart';
 import 'package:flutter_demo/presentation/views/user/user_register/user_register_view.dart';
+import 'package:flutter_demo/presentation/views/user/user_welcome/user_welcome_view.dart';
 import 'package:flutter_demo/presentation/views/web_view_demo/web_view_demo/web_view_demo_view.dart';
 
 final class AppRouter {
@@ -80,6 +81,8 @@ final class AppRouter {
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.javascriptChannelView), builder: (_) => const JsChannelView());
       case RouteName.ecdhView:
         return MaterialPageRoute(settings: const RouteSettings(name: RouteName.ecdhView), builder: (_) => const EcdhView());
+      case RouteName.userWelcomeView:
+        return MaterialPageRoute(settings: const RouteSettings(name: RouteName.userWelcomeView), builder: (_) => const UserWelcomeView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

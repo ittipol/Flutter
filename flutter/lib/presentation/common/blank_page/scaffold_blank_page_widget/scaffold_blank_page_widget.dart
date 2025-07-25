@@ -18,6 +18,7 @@ class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
   final bool useSafeArea;
   final bool systemNavigationBack;
   final void Function()? systemNavigationBackCallBack;
+  final Color? backgroundColor;
 
   const ScaffoldBlankPageWidget({
     this.scaffoldBlankPageKey,
@@ -32,6 +33,7 @@ class ScaffoldBlankPageWidget extends ConsumerStatefulWidget {
     this.useSafeArea = true,
     this.systemNavigationBack = false,
     this.systemNavigationBackCallBack,
+    this.backgroundColor,
     super.key
   });
 
@@ -64,7 +66,7 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
         onTap: (){
           _hideKeyboard(context);
         },
-        child: Scaffold(
+        child: Scaffold(          
           key: widget.scaffoldBlankPageKey,
           appBar: widget.appBar,            
           body: _safeArea(useSafeArea: widget.useSafeArea, body: widget.body ?? Container()),
@@ -73,7 +75,8 @@ class _ScaffoldBlankPageWidget  extends ConsumerState<ScaffoldBlankPageWidget> {
           endDrawer: widget.endDrawer,
           drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
           bottomSheet: widget.bottomSheet,
-          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          backgroundColor: widget.backgroundColor ?? Theme.of(context).colorScheme.background
         )
       )
     );

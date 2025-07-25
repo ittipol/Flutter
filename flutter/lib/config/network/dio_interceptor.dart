@@ -32,7 +32,11 @@ class DioInterceptor extends Interceptor {
       }else {
         options.headers['Authorization'] = "Bearer ${Authentication.accessToken}";
       }
-    }      
+    }
+
+    // include a key id
+
+    // encryption
 
     super.onRequest(options, handler);
   }

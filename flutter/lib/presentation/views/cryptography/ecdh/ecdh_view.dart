@@ -77,7 +77,8 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
     final state = ref.watch(ecdhProvider);
 
-    return BlankPageWidget(      
+    return BlankPageWidget(     
+      showBackBtn: false, 
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.r),
         child: SingleChildScrollView(
@@ -99,6 +100,8 @@ class _EcdhView extends ConsumerState<EcdhView> {
               _text("Server public key (receive from other party)", state.otherPartyPublicKey?.toHex() ?? ""),
               SizedBox(height: 8.h),
               _text("Shared secret key", state.sharedSecretKey != null ? base64Encode(state.sharedSecretKey!) : ""),
+              SizedBox(height: 8.h),
+              _text("Key ID", state.keyId ?? ""),
               SizedBox(height: 8.h),
               _text("Plain text", plainText),
               SizedBox(height: 8.h),
@@ -124,7 +127,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
                 await _exchangeKey();
               }),
               SizedBox(height: 24.h),
-              _button("AES encryption and send to server", () {
+              _button("AES encryption and send to server", () async {
                 
                 var sharedSecretKey = ref.read(ecdhProvider).sharedSecretKey;
 
@@ -138,6 +141,18 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
                 ref.read(ecdhProvider.notifier).updateData(
                   cipherText: cipherText
+                );
+
+                var keyId = ref.read(ecdhProvider).keyId ?? "";
+
+                var result = await ref.read(ecdhProvider.notifier).TestEcdh(keyId, "");
+                result.when(
+                  completeWithValue: (value) {
+                    
+                  }, 
+                  completeWithError: (error) {
+                    
+                  }
                 );
 
                 Future.delayed(const Duration(seconds: 1), () {
@@ -277,6 +292,8 @@ class _EcdhView extends ConsumerState<EcdhView> {
     var publicKey = ref.read(ecdhProvider).publicKey;
 
     if(privateKey == null || publicKey == null) {
+      print("_exchangeKey: ${privateKey == null}");
+      print("_exchangeKey: ${publicKey == null}");
       return "";
     }
 
@@ -297,10 +314,10 @@ class _EcdhView extends ConsumerState<EcdhView> {
         print("sharedSecretKey: ${base64Encode(sharedSecretKey)}");
         print("sharedKey (from server): ${value.data.sharedKey}");
 
-        ref.read(ecdhProvider.notifier).updateData(
-          otherPartyPublicKey: otherPartyPublicKey,
-          sharedSecretKey: sharedSecretKey
-        );
+        // ref.read(ecdhProvider.notifier).updateData(
+        //   otherPartyPublicKey: otherPartyPublicKey,
+        //   sharedSecretKey: sharedSecretKey
+        // );
 
         // ============================================================
 
@@ -319,6 +336,16 @@ class _EcdhView extends ConsumerState<EcdhView> {
         var data = _decryptAesGcm(value.data.sharedKey ?? "", base64Encode(encryptedKeyData), base64Encode(iv));
 
         print("data: $data");
+
+        Map<String, dynamic> valueMap = jsonDecode(data);
+        print("KeyId: ${valueMap["keyId"]}");
+
+        ref.read(ecdhProvider.notifier).updateData(
+          otherPartyPublicKey: otherPartyPublicKey,
+          sharedSecretKey: sharedSecretKey,
+          keyId: valueMap["keyId"]
+        );
+
         return otherPartyPublicKey.toHex();
         
       }, 

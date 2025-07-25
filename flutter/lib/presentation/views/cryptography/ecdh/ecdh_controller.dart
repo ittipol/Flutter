@@ -14,13 +14,14 @@ class EcdhController extends StateNotifier<EcdhState> {
     required this.keyExchangeRepository,
   }) : super(EcdhState());
 
-  void updateData({PrivateKey? privateKey, PublicKey? publicKey, List<int>? sharedSecretKey, PublicKey? otherPartyPublicKey, String? cipherText}) {
+  void updateData({PrivateKey? privateKey, PublicKey? publicKey, List<int>? sharedSecretKey, PublicKey? otherPartyPublicKey, String? cipherText, String? keyId}) {
     state = state.copyWith(
       privateKey: privateKey,
       publicKey: publicKey,
       sharedSecretKey: sharedSecretKey,
       otherPartyPublicKey: otherPartyPublicKey,
-      cipherText: cipherText
+      cipherText: cipherText,
+      keyId: keyId
     );
   }
 

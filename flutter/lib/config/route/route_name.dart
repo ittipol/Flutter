@@ -14,8 +14,9 @@ final class RouteName {
   static const onBoardingScreenView = "/onBoardingScreenView";
   static const responsiveDesignView = "/responsiveDesignView";
   static const platformChannelView = "/platformChannelView";
-  static const isolateDemoView = "/isolateDemoView";   
-  static const userHomeView = "/userHomeView";   
+  static const isolateDemoView = "/isolateDemoView";
+  static const userWelcomeView = "/userWelcomeView";
+  static const userHomeView = "/userHomeView";
   static const userLoginView = "/userLoginView";   
   static const userRegisterView = "/userRegisterView";
   static const pdfViewerView = "/pdfViewerView";

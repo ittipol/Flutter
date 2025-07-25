@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/domain/entities/menu_entity.dart';
 import 'package:flutter_demo/extension/loader_overlay_extension.dart';
-import 'package:flutter_demo/presentation/common/user_avatar/user_avatar.dart';
+import 'package:flutter_demo/presentation/common/navigation_bar/navigation_bar_widget.dart';
+import 'package:flutter_demo/presentation/views/cryptography/ecdh/ecdh_view.dart';
 import 'package:flutter_demo/presentation/views/home/components/selecting_theme_switch/selecting_theme_switch_view.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
+import 'package:flutter_demo/presentation/views/home/home_provider.dart';
+import 'package:flutter_demo/presentation/views/user/user_welcome/user_welcome_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,13 +23,15 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeView  extends ConsumerState<HomeView> {
 
-  final authenticationMenuList = [
-    MenuEntity(title: "User Authentication", link: RouteName.userHomeView, icon: Icons.key),    
-  ];
+  bool loading = false;
 
-  final cryptographyMenuList = [
-    MenuEntity(title: "Elliptic-curve Diffie–Hellman", link: RouteName.ecdhView, loaderOverlay: true, icon: Icons.security),    
-  ];
+  // final authenticationMenuList = [
+  //   MenuEntity(title: "User Authentication", link: RouteName.userHomeView, icon: Icons.key),    
+  // ];
+
+  // final cryptographyMenuList = [
+  //   MenuEntity(title: "Elliptic-curve Diffie–Hellman", link: RouteName.ecdhView, loaderOverlay: true, icon: Icons.security),    
+  // ];
 
   final certificateMenuList = [
     MenuEntity(title: "Certificate Pinning", link: RouteName.certificatePinningView, icon: Icons.security),    
@@ -58,132 +63,183 @@ class _HomeView  extends ConsumerState<HomeView> {
   ];
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
+
+    final PageController _pageController = PageController(initialPage: 0);
+
+    // final EdgeInsets systemGestureInsets = MediaQuery.of(context).systemGestureInsets;
 
     return BlankPageWidget(
       showBackBtn: false,
-      body: Container(
-        decoration: BoxDecoration(          
-          color: Theme.of(context).colorScheme.background
-        ),
-        width: MediaQuery.sizeOf(context).width,
-        height: MediaQuery.sizeOf(context).height,
-        child: SingleChildScrollView(
-          clipBehavior: Clip.antiAlias,
-          physics: const ClampingScrollPhysics(),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),            
-            child: Column(
-              children: [
-                // Container(
-                //   width: MediaQuery.sizeOf(context).width,
-                //   alignment: Alignment.center,
-                //   // decoration: BoxDecoration(
-                //   //   border: Border(
-                //   //     bottom: BorderSide(
-                //   //       width: 2.r,
-                //   //       color: Theme.of(context).colorScheme.secondary
-                //   //     )
-                //   //   )
-                //   // ),
-                //   child: Text(
-                //     "Flutter",
-                //     style: TextStyle(
-                //       fontSize: 24.spMin
-                //       // color: Theme.of(context)
-                //     )
-                //   ),
+      bottomNavigationBar: NavigationBarWidget(
+        tabIndexProvider: homeTabIndexProvider,
+        onDestinationSelected: (index) {
+
+          _pageController.animateToPage(index, duration: const Duration(milliseconds: 1000), curve: Curves.fastLinearToSlowEaseIn);
+
+          // _pageController.nextPage(duration: const Duration(milliseconds: 1000), curve: Curves.fastLinearToSlowEaseIn);
+        },
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Badge(child: Icon(Icons.list)),
+            label: 'Menu',
+          ),
+          NavigationDestination(
+            icon: Badge(label: Text("9+"), child: Icon(Icons.person)),
+            label: 'User',
+          ),
+        ],
+      ),
+      body: PageView.builder(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        clipBehavior: Clip.antiAlias,
+        onPageChanged: (value) {
+          
+        },
+        padEnds: true,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+
+          switch (index) {
+            case 1:
+
+              return SizedBox(
+                // decoration: BoxDecoration(          
+                //   color: Theme.of(context).colorScheme.background
                 // ),
-                const UserAvatar(),
-                SizedBox(height: 8.r),
-                const SelectingThemeSwitchView(),
-                Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  alignment: Alignment.centerLeft,                  
-                  child: Text(
-                    "Demo Menu",
-                    style: TextStyle(
-                      fontSize: 24.spMin,
-                      fontWeight: FontWeight.w700
-                    )
-                  ),
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: SingleChildScrollView(
+                  clipBehavior: Clip.antiAlias,
+                  physics: const ClampingScrollPhysics(),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),            
+                    child: Column(
+                      children: [
+                        // Container(
+                        //   width: MediaQuery.sizeOf(context).width,
+                        //   alignment: Alignment.center,
+                        //   // decoration: BoxDecoration(
+                        //   //   border: Border(
+                        //   //     bottom: BorderSide(
+                        //   //       width: 2.r,
+                        //   //       color: Theme.of(context).colorScheme.secondary
+                        //   //     )
+                        //   //   )
+                        //   // ),
+                        //   child: Text(
+                        //     "Flutter",
+                        //     style: TextStyle(
+                        //       fontSize: 24.spMin
+                        //       // color: Theme.of(context)
+                        //     )
+                        //   ),
+                        // ),
+                        const SelectingThemeSwitchView(),
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          alignment: Alignment.centerLeft,                  
+                          child: Text(
+                            "Menu",
+                            style: TextStyle(
+                              fontSize: 24.spMin,
+                              fontWeight: FontWeight.w700
+                            )
+                          ),
+                        ),
+                        // SizedBox(height: 8.r),
+                        // _menuSection(
+                        //   context: context,
+                        //   title: "Authentication",
+                        //   menuList: authenticationMenuList,
+                        //   width: MediaQuery.sizeOf(context).width
+                        // ),
+                        // SizedBox(height: 8.r),
+                        // _menuSection(
+                        //   context: context,
+                        //   title: "Cryptography",
+                        //   menuList: cryptographyMenuList,
+                        //   width: MediaQuery.sizeOf(context).width
+                        // ),
+                        SizedBox(height: 8.r),
+                        _menuSection(
+                          context: context,
+                          title: "Channel",
+                          menuList: channelMenuList,
+                          width: MediaQuery.sizeOf(context).width
+                        ),
+                        SizedBox(height: 8.r),
+                        _menuSection(
+                          context: context,
+                          title: "Certificate",
+                          menuList: certificateMenuList,
+                          width: MediaQuery.sizeOf(context).width
+                        ),
+                        SizedBox(height: 16.r),
+                        _menuSection(
+                          context: context,
+                          title: "API Connection",
+                          menuList: apiConnectionMenuList,
+                          width: MediaQuery.sizeOf(context).width
+                        ),
+                        SizedBox(height: 16.r),
+                        _menuSection(
+                          context: context,
+                          title: "UI",
+                          menuList: uiMenuList,
+                          width: MediaQuery.sizeOf(context).width
+                        ),
+                        SizedBox(height: 16.r),
+                        _menuSection(
+                          context: context,
+                          title: "Isolate",
+                          menuList: isolateMenuList,
+                          width: MediaQuery.sizeOf(context).width
+                        ),
+                        SizedBox(height: 16.r),
+                        _menuSection(
+                          context: context,
+                          title: "Local storage",
+                          menuList: localStorageMenuList,
+                          width: MediaQuery.sizeOf(context).width
+                        ),
+                        SizedBox(height: 32.r),                
+                        // ResponsiveLayoutBuilder(
+                        //   mobileAll: (context) {
+                        //     return _buttonGrid(context: context, width: MediaQuery.sizeOf(context).width);
+                        //   },
+                        //   webAppAll: (context) {
+                        //     return ResponsiveLayout(
+                        //       desktop: (context) {
+                        //         return _buttonList(context: context, width: MediaQuery.sizeOf(context).width * 0.7);
+                        //       },
+                        //       mobile: (context) {
+                        //         return _buttonList(context: context, width: MediaQuery.sizeOf(context).width);
+                        //       }
+                        //     );
+                        //   }
+                        // )
+                      ],
+                    ),
+                  )
                 ),
-                SizedBox(height: 8.r),
-                _menuSection(
-                  context: context,
-                  title: "Authentication",
-                  menuList: authenticationMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 8.r),
-                _menuSection(
-                  context: context,
-                  title: "Cryptography",
-                  menuList: cryptographyMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 8.r),
-                _menuSection(
-                  context: context,
-                  title: "Channel",
-                  menuList: channelMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 8.r),
-                _menuSection(
-                  context: context,
-                  title: "Certificate",
-                  menuList: certificateMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 16.r),
-                _menuSection(
-                  context: context,
-                  title: "API Connection",
-                  menuList: apiConnectionMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 16.r),
-                _menuSection(
-                  context: context,
-                  title: "UI",
-                  menuList: uiMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 16.r),
-                _menuSection(
-                  context: context,
-                  title: "Isolate",
-                  menuList: isolateMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 16.r),
-                _menuSection(
-                  context: context,
-                  title: "Local storage",
-                  menuList: localStorageMenuList,
-                  width: MediaQuery.sizeOf(context).width
-                ),
-                SizedBox(height: 32.r),                
-                // ResponsiveLayoutBuilder(
-                //   mobileAll: (context) {
-                //     return _buttonGrid(context: context, width: MediaQuery.sizeOf(context).width);
-                //   },
-                //   webAppAll: (context) {
-                //     return ResponsiveLayout(
-                //       desktop: (context) {
-                //         return _buttonList(context: context, width: MediaQuery.sizeOf(context).width * 0.7);
-                //       },
-                //       mobile: (context) {
-                //         return _buttonList(context: context, width: MediaQuery.sizeOf(context).width);
-                //       }
-                //     );
-                //   }
-                // )
-              ],
-            ),
-          )
-        ),
+              );
+            
+            case 2:
+
+              return const UserWelcomeView();            
+
+            default:
+
+              return const EcdhView();
+          }
+        }
       )
     );
   }
@@ -360,5 +416,14 @@ class _HomeView  extends ConsumerState<HomeView> {
   //     ),
   //   );
   // }
+
+  Future<void> _delayedTab(Function() func) async {
+    if (loading) return;
+    loading = true;
+
+    func();
+
+    await Future.delayed(const Duration(milliseconds: 500)).then((v) {loading = false;});
+  }
 
 }

@@ -19,7 +19,10 @@ final GlobalKey<ScaffoldState> scaffoldBlankPageKey = GlobalKey();
 
 class UiDemoView extends ConsumerStatefulWidget {
 
+  final AutoDisposeStateProvider<bool>? buttonEnabledProvider;
+
   const UiDemoView({
+    this.buttonEnabledProvider,
     super.key
   });
 
@@ -65,7 +68,9 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
+
+    final bottomSpace = MediaQuery.of(context).systemGestureInsets.bottom;
 
     return BlankPageWidget(
       scaffoldBlankPageKey: scaffoldBlankPageKey,
@@ -145,9 +150,10 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
       ),
       bottomNavigationBar: SafeArea(
         top: false,
-        bottom: true,
+        bottom: false,
         child: Container(
           padding: EdgeInsets.all(8.r),
+          margin: _isAndroidGestureNavigationEnabled(bottomSpace) ? EdgeInsets.only(bottom: 8.r) : EdgeInsets.only(bottom: 44.r),
           color: Colors.transparent,
           child: ElevatedButton(
             onPressed: () async {
@@ -181,7 +187,7 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
               backgroundColor: Colors.brown.shade700,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(4),
+                  Radius.circular(32),
                 ),
               ),
               elevation: 0,
@@ -563,6 +569,11 @@ class _UiDemoView  extends ConsumerState<UiDemoView> with WidgetsBindingObserver
         ),
       ),
     );
+  }
+
+  bool _isAndroidGestureNavigationEnabled(double value) {   
+    print("_isAndroidGestureNavigationEnabled $value");
+    return value < 48.0 && value != 0.0;
   }
 
 }

@@ -37,7 +37,8 @@ final class AppTheme {
       // )
       foregroundColor: Colors.white,
       backgroundColor: Colors.blue.shade800,
-    )
+    ),
+    visualDensity: VisualDensity.adaptivePlatformDensity
   );
 
   static final ThemeData darkMode = ThemeData(
@@ -74,7 +75,8 @@ final class AppTheme {
       // )
       foregroundColor: Colors.white,
       backgroundColor: Colors.grey.shade900,
-    )
+    ),
+    visualDensity: VisualDensity.adaptivePlatformDensity
   );
 
   static ThemeData getTheme() {

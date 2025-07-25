@@ -24,8 +24,6 @@ class OnBoardingScreenButtonSectionView extends ConsumerStatefulWidget {
 
 class _OnBoardingScreenButtonSectionView  extends ConsumerState<OnBoardingScreenButtonSectionView> {
 
-  
-
   @override
   Widget build(BuildContext context) {
 
@@ -36,7 +34,6 @@ class _OnBoardingScreenButtonSectionView  extends ConsumerState<OnBoardingScreen
       height: 80.r,
       child: _build(showButton),
     );
-
   }
 
   Widget _build(bool showButton) {
