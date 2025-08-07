@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -7,24 +8,33 @@ import 'package:flutter_demo/config/route/route_name.dart';
 import 'package:flutter_demo/core/constant/api_end_point_constant.dart';
 import 'package:flutter_demo/data/app/api_base_url.dart';
 import 'package:flutter_demo/data/app/authentication.dart';
+import 'package:flutter_demo/data/app/key_exchange.dart';
 import 'package:flutter_demo/data/data_sources/local/data_storage_local.dart';
 import 'package:flutter_demo/data/data_sources/remote/authentication_remote.dart';
 import 'package:flutter_demo/data/repositories/authentication_repository_impl.dart';
 import 'package:flutter_demo/data/repositories/data_storage_repository_impl.dart';
 import 'package:flutter_demo/helper/authentication_helper.dart';
+import 'package:flutter_demo/helper/encryption_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/material_app_blank_widget/material_app_blank_widget.dart';
 import 'package:flutter_demo/presentation/common/modal_dialog/modal_dialog_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DioInterceptor extends Interceptor {
 
-  final ignoredPaths = [ApiEndPointConstant.refreshToken];
+  final authIgnoredPaths = [
+    ApiEndPointConstant.refreshToken
+  ];
+
+  final encryptionIgnoredPaths = [
+    ApiEndPointConstant.keyExchange
+  ];
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
 
-    debugPrint("--------------------- onRequest ======> [ ${options.path} ]");
-    debugPrint("--------------------- onRequest ======> [ ${options.baseUrl} ]");
+    debugPrint("--------------------- onRequest [path] ======> [ ${options.path} ]");
+    debugPrint("--------------------- onRequest [baseUrl] ======> [ ${options.baseUrl} ]");
+    debugPrint("--------------------- onRequest [method] ======> [ ${options.method} ]");
 
     if(Authentication.isLoggedIn) {      
       if(options.path == ApiEndPointConstant.refreshToken) {
@@ -34,9 +44,26 @@ class DioInterceptor extends Interceptor {
       }
     }
 
-    // include a key id
-
     // encryption
+    debugPrint("KeyExchange.isKeyExist: ${KeyExchange.isKeyExist}");
+
+    if(!encryptionIgnoredPaths.contains(options.path)) {      
+      if(KeyExchange.isKeyExist && KeyExchange.isKeyIdExist) {
+        options.headers['key-id'] = KeyExchange.keyId;
+        options.data = _transformRequestBody(options, KeyExchange.key ,KeyExchange.keyId);
+      } else {
+        return handler.reject(DioException(
+          requestOptions: options,
+          response: Response(
+            requestOptions: options,
+            statusCode: HttpStatus.badRequest,
+            statusMessage: "Bad request"
+          ),      
+          type: DioExceptionType.cancel, 
+          message: "Bad request"
+        ));
+      }
+    }
 
     super.onRequest(options, handler);
   }
@@ -52,7 +79,8 @@ class DioInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     
-    debugPrint("--------------------- onError [HttpStatus] ======> [ ${err.response?.statusCode} ]");
+    debugPrint("--------------------- onError [statusCode] ======> [ ${err.response?.statusCode} ]");
+    debugPrint("--------------------- onError [statusMessage] ======> [ ${err.response?.statusMessage} ]");
 
     switch (err.response?.statusCode) {
       case HttpStatus.badRequest:
@@ -61,10 +89,12 @@ class DioInterceptor extends Interceptor {
 
       case HttpStatus.unauthorized:
 
-        final isIgnoredPath = ignoredPaths.contains(err.requestOptions.path);
+        final isIgnoredPath = authIgnoredPaths.contains(err.requestOptions.path);
+
         final authenticationRepository = AuthenticationRepositoryImpl(
           authenticationRemoteDataSources: AuthenticationRemote(dio: DioOption().init(baseUrl: ApiBaseUrl.localhostApiBaseUrl))
         );
+
         final dataStorageRepository = DataStorageRepositoryImpl(
           dataStorageLocalDataSources: DataStorageLocal()
         );
@@ -155,6 +185,55 @@ class DioInterceptor extends Interceptor {
         if(Navigator.canPop(baseContext.currentContext!)) Navigator.popUntil(baseContext.currentContext!, (route) => route.settings.name == RouteName.home);
       }
     );
+  }
+
+  Future<String> _transformRequestBody(RequestOptions options, String key, String keyId) async {
+
+    String result = "";
+
+    if (
+      options.data != null && 
+        (
+          options.method == "POST" || options.method == "PUT" || options.method == "PATCH"
+        )
+      ) {
+
+      if (options.data is String) {
+
+        debugPrint("options.data is String");
+
+        result = EncryptionHelper.encryptAesGcm(key, options.data as String);
+
+      } else if (options.data is Map) { // JSON body
+
+        debugPrint("options.data is Map");
+
+        Map<String, dynamic> requestBody = Map.from(options.data);
+        // Modify the request body
+        // requestBody["keyId"] = keyId;
+        // requestBody["data"] = "";
+
+        String data = jsonEncode(requestBody);
+
+        Map<String, dynamic> json = {
+          "keyId": keyId,
+          "data": data
+        };
+
+        String jsonString = jsonEncode(json);
+
+        result = EncryptionHelper.encryptAesGcm(key, jsonString);
+
+        // options.data = requestBody;
+
+      } else if (options.data is FormData) {
+        debugPrint("options.data is FormData");
+      }
+    }
+
+    debugPrint("cipher text: $result");
+
+    return result;
   }
 
 }

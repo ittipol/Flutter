@@ -5,7 +5,9 @@ import 'package:elliptic/ecdh.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/data/app/key_exchange.dart';
 import 'package:flutter_demo/extension/loader_overlay_extension.dart';
+import 'package:flutter_demo/helper/encryption_helper.dart';
 import 'package:flutter_demo/presentation/common/blank_page/blank_page_widget/blank_page_widget.dart';
 import 'package:flutter_demo/presentation/views/cryptography/ecdh/ecdh_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -137,7 +139,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
                 context.showLoaderOverlay();
 
-                var cipherText = _encryptAesGcm(base64Encode(sharedSecretKey), plainText);
+                var cipherText = EncryptionHelper.encryptAesGcm(base64Encode(sharedSecretKey), plainText);
 
                 ref.read(ecdhProvider.notifier).updateData(
                   cipherText: cipherText
@@ -333,7 +335,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
         // print("cipherText last: ${cipherText.last}");
 
         // Test decrypt
-        var data = _decryptAesGcm(value.data.sharedKey ?? "", base64Encode(encryptedKeyData), base64Encode(iv));
+        var data = EncryptionHelper.decryptAesGcm(value.data.sharedKey ?? "", base64Encode(encryptedKeyData), base64Encode(iv));
 
         print("data: $data");
 
@@ -346,10 +348,14 @@ class _EcdhView extends ConsumerState<EcdhView> {
           keyId: valueMap["keyId"]
         );
 
+        KeyExchange.key = base64Encode(sharedSecretKey);
+        KeyExchange.keyId = valueMap["keyId"];
+
         return otherPartyPublicKey.toHex();
         
       }, 
       completeWithError: (error) {
+        debugPrint("Key exchange error");
         return "";
       }
     );
@@ -388,47 +394,47 @@ class _EcdhView extends ConsumerState<EcdhView> {
   //   return plainText;
   // }
 
-  String _encryptAesGcm(String base64Key, String plainText) {
+  // String _encryptAesGcm(String base64Key, String plainText) {
 
-    var cipherText = "";
+  //   var cipherText = "";
 
-    try {
-      final key = encrypt.Key.fromBase64(base64Key);
-      // final key = encrypt.Key.fromLength(32);
+  //   try {
+  //     final key = encrypt.Key.fromBase64(base64Key);
+  //     // final key = encrypt.Key.fromLength(32);
 
-      final nonce = encrypt.IV.fromLength(12);
+  //     final nonce = encrypt.IV.fromLength(12);
 
-      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+  //     final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
 
-      cipherText = encrypter.encrypt(plainText, iv: nonce).base64;
+  //     cipherText = encrypter.encrypt(plainText, iv: nonce).base64;
 
-    } catch (e) {
-      print(e.toString());
-    }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
 
-    return cipherText;
-  }
+  //   return cipherText;
+  // }
 
-  String _decryptAesGcm(String base64Key, String cipherText, String nonce) {
+  // String _decryptAesGcm(String base64Key, String cipherText, String nonce) {
 
-    var plainText = "";
+  //   var plainText = "";
     
-    try {
-      final key = encrypt.Key.fromBase64(base64Key);
-      // final key = encrypt.Key.fromLength(32);
+  //   try {
+  //     final key = encrypt.Key.fromBase64(base64Key);
+  //     // final key = encrypt.Key.fromLength(32);
 
-      final iv = encrypt.IV.fromBase64(nonce);
+  //     final iv = encrypt.IV.fromBase64(nonce);
 
-      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+  //     final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
 
-      plainText = encrypter.decrypt64(cipherText, iv: iv);
+  //     plainText = encrypter.decrypt64(cipherText, iv: iv);
 
-    } catch (e) {
-      print(e.toString());
-    }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
 
-    return plainText;
-  }
+  //   return plainText;
+  // }
 
   void _test() {
     print("ECDH");

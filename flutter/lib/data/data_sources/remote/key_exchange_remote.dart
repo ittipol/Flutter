@@ -21,7 +21,15 @@ class KeyExchangeRemote implements KeyExchangeRemoteDataSources {
       Map<String, dynamic> headers = {"public-key": publicKey};
       dio.options.headers.addAll(headers);
 
-      final dioResponse = await dio.post(ApiEndPointConstant.keyExchange);
+      // body
+      Map<String, dynamic> json = {
+        "data1": "aaa",
+        "data2": "bbb"
+      }; // send request body as json
+
+      String jsonString = jsonEncode(json); // send request body as string
+
+      final dioResponse = await dio.post(ApiEndPointConstant.keyExchange, data: json);
 
       // var response = jsonDecode(dioResponse.data.toString()) as Map<String, dynamic>;
       // var model = KeyExchangeModel.fromJson(response);

@@ -95,7 +95,7 @@ class _HomeView  extends ConsumerState<HomeView> {
           ),
         ],
       ),
-      body: PageView.builder(
+      body: PageView.builder(        
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         clipBehavior: Clip.antiAlias,
@@ -106,15 +106,17 @@ class _HomeView  extends ConsumerState<HomeView> {
         itemCount: 3,
         itemBuilder: (context, index) {
 
+          final localContext = context;
+
           switch (index) {
             case 1:
 
               return SizedBox(
                 // decoration: BoxDecoration(          
-                //   color: Theme.of(context).colorScheme.background
+                //   color: Theme.of(localContext).colorScheme.background
                 // ),
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(localContext).width,
+                height: MediaQuery.sizeOf(localContext).height,
                 child: SingleChildScrollView(
                   clipBehavior: Clip.antiAlias,
                   physics: const ClampingScrollPhysics(),
@@ -123,13 +125,13 @@ class _HomeView  extends ConsumerState<HomeView> {
                     child: Column(
                       children: [
                         // Container(
-                        //   width: MediaQuery.sizeOf(context).width,
+                        //   width: MediaQuery.sizeOf(localContext).width,
                         //   alignment: Alignment.center,
                         //   // decoration: BoxDecoration(
                         //   //   border: Border(
                         //   //     bottom: BorderSide(
                         //   //       width: 2.r,
-                        //   //       color: Theme.of(context).colorScheme.secondary
+                        //   //       color: Theme.of(localContext).colorScheme.secondary
                         //   //     )
                         //   //   )
                         //   // ),
@@ -137,13 +139,13 @@ class _HomeView  extends ConsumerState<HomeView> {
                         //     "Flutter",
                         //     style: TextStyle(
                         //       fontSize: 24.spMin
-                        //       // color: Theme.of(context)
+                        //       // color: Theme.of(localContext)
                         //     )
                         //   ),
                         // ),
                         const SelectingThemeSwitchView(),
                         Container(
-                          width: MediaQuery.sizeOf(context).width,
+                          width: MediaQuery.sizeOf(localContext).width,
                           alignment: Alignment.centerLeft,                  
                           child: Text(
                             "Menu",
@@ -155,24 +157,24 @@ class _HomeView  extends ConsumerState<HomeView> {
                         ),
                         // SizedBox(height: 8.r),
                         // _menuSection(
-                        //   context: context,
+                        //   context: localContext,
                         //   title: "Authentication",
                         //   menuList: authenticationMenuList,
-                        //   width: MediaQuery.sizeOf(context).width
+                        //   width: MediaQuery.sizeOf(localContext).width
                         // ),
                         // SizedBox(height: 8.r),
                         // _menuSection(
-                        //   context: context,
+                        //   context: localContext,
                         //   title: "Cryptography",
                         //   menuList: cryptographyMenuList,
-                        //   width: MediaQuery.sizeOf(context).width
+                        //   width: MediaQuery.sizeOf(localContext).width
                         // ),
                         SizedBox(height: 8.r),
                         _menuSection(
-                          context: context,
+                          context: localContext,
                           title: "Channel",
                           menuList: channelMenuList,
-                          width: MediaQuery.sizeOf(context).width
+                          width: MediaQuery.sizeOf(localContext).width
                         ),
                         SizedBox(height: 8.r),
                         _menuSection(
@@ -183,31 +185,31 @@ class _HomeView  extends ConsumerState<HomeView> {
                         ),
                         SizedBox(height: 16.r),
                         _menuSection(
-                          context: context,
+                          context: localContext,
                           title: "API Connection",
                           menuList: apiConnectionMenuList,
-                          width: MediaQuery.sizeOf(context).width
+                          width: MediaQuery.sizeOf(localContext).width
                         ),
                         SizedBox(height: 16.r),
                         _menuSection(
-                          context: context,
+                          context: localContext,
                           title: "UI",
                           menuList: uiMenuList,
-                          width: MediaQuery.sizeOf(context).width
+                          width: MediaQuery.sizeOf(localContext).width
                         ),
                         SizedBox(height: 16.r),
                         _menuSection(
-                          context: context,
+                          context: localContext,
                           title: "Isolate",
                           menuList: isolateMenuList,
-                          width: MediaQuery.sizeOf(context).width
+                          width: MediaQuery.sizeOf(localContext).width
                         ),
                         SizedBox(height: 16.r),
                         _menuSection(
-                          context: context,
+                          context: localContext,
                           title: "Local storage",
                           menuList: localStorageMenuList,
-                          width: MediaQuery.sizeOf(context).width
+                          width: MediaQuery.sizeOf(localContext).width
                         ),
                         SizedBox(height: 32.r),                
                         // ResponsiveLayoutBuilder(
@@ -417,13 +419,13 @@ class _HomeView  extends ConsumerState<HomeView> {
   //   );
   // }
 
-  Future<void> _delayedTab(Function() func) async {
-    if (loading) return;
-    loading = true;
+  // Future<void> _delayedTab(Function() func) async {
+  //   if (loading) return;
+  //   loading = true;
 
-    func();
+  //   func();
 
-    await Future.delayed(const Duration(milliseconds: 500)).then((v) {loading = false;});
-  }
+  //   await Future.delayed(const Duration(milliseconds: 200)).then((v) {loading = false;});
+  // }
 
 }

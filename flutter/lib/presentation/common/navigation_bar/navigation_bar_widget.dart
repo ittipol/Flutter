@@ -29,13 +29,11 @@ class _NavigationBarWidget  extends ConsumerState<NavigationBarWidget> {
 
     return NavigationBar(
       onDestinationSelected: (int index) {
-        tab(() {
-          ref.read(widget.tabIndexProvider.notifier).state = index;
+        ref.read(widget.tabIndexProvider.notifier).state = index;
 
-          if(widget.onDestinationSelected != null) {
-            widget.onDestinationSelected?.call(index);
-          }
-        });        
+        if(widget.onDestinationSelected != null) {
+          widget.onDestinationSelected?.call(index);
+        }
       },
       indicatorColor: Colors.amber,
       selectedIndex: selectedIndex,
@@ -44,12 +42,12 @@ class _NavigationBarWidget  extends ConsumerState<NavigationBarWidget> {
     );
   }
 
-  tab(Function() func) async {
-    if (loading) return;
-    loading = true;
+  // tab(Function() func) async {
+  //   if (loading) return;
+  //   loading = true;
 
-    await func();
+  //   await func();
 
-    await Future.delayed(const Duration(milliseconds: 1000)).then((v) {loading = false;});
-  }
+  //   await Future.delayed(const Duration(milliseconds: 100)).then((v) {loading = false;});
+  // }
 }
