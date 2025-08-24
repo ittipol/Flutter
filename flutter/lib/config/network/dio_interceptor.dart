@@ -47,10 +47,15 @@ class DioInterceptor extends Interceptor {
     // encryption
     debugPrint("KeyExchange.isKeyExist: ${KeyExchange.isKeyExist}");
 
-    if(!encryptionIgnoredPaths.contains(options.path)) {      
+    if(!encryptionIgnoredPaths.contains(options.path)) {
+
+      debugPrint("encryptionIgnoredPaths = true");
+
       if(KeyExchange.isKeyExist && KeyExchange.isKeyIdExist) {
         options.headers['key-id'] = KeyExchange.keyId;
-        options.data = _transformRequestBody(options, KeyExchange.key ,KeyExchange.keyId);
+        if(options.data != null) {
+          options.data = await _transformRequestBody(options, KeyExchange.key ,KeyExchange.keyId);
+        }        
       } else {
         return handler.reject(DioException(
           requestOptions: options,
@@ -58,12 +63,14 @@ class DioInterceptor extends Interceptor {
             requestOptions: options,
             statusCode: HttpStatus.badRequest,
             statusMessage: "Bad request"
-          ),      
+          ),
           type: DioExceptionType.cancel, 
           message: "Bad request"
         ));
       }
     }
+
+    debugPrint("------ onRequest...");
 
     super.onRequest(options, handler);
   }
@@ -81,6 +88,7 @@ class DioInterceptor extends Interceptor {
     
     debugPrint("--------------------- onError [statusCode] ======> [ ${err.response?.statusCode} ]");
     debugPrint("--------------------- onError [statusMessage] ======> [ ${err.response?.statusMessage} ]");
+    debugPrint("--------------------- onError [data] ======> [ ${err.response?.data} ]");
 
     switch (err.response?.statusCode) {
       case HttpStatus.badRequest:
@@ -191,12 +199,7 @@ class DioInterceptor extends Interceptor {
 
     String result = "";
 
-    if (
-      options.data != null && 
-        (
-          options.method == "POST" || options.method == "PUT" || options.method == "PATCH"
-        )
-      ) {
+    if (options.method == "POST" || options.method == "PUT" || options.method == "PATCH") {
 
       if (options.data is String) {
 

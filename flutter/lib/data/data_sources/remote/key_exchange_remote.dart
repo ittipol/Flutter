@@ -46,7 +46,7 @@ class KeyExchangeRemote implements KeyExchangeRemoteDataSources {
   }
 
   // @override
-  // Future<Result<TestEcdhEntity>> TestEcdh(String privateKey, String publicKey) async {
+  // Future<Result<TestEcdhEntity>> testEcdh(String privateKey, String publicKey) async {
   //   try {
   //     dio.options.baseUrl = "http://localhost:5026";
   //     Map<String, dynamic> headers = {"public-key": publicKey, "private-key": privateKey};
@@ -68,7 +68,7 @@ class KeyExchangeRemote implements KeyExchangeRemoteDataSources {
   // }
 
   @override
-  Future<Result<TestEcdhEntity>> TestEcdh(String privateKey, String publicKey) async {
+  Future<Result<TestEcdhEntity>> testEcdh(String privateKey, String publicKey) async {
     try {
       dio.options.baseUrl = "http://localhost:5026";
       Map<String, dynamic> headers = {"key-id": privateKey};
@@ -90,7 +90,7 @@ class KeyExchangeRemote implements KeyExchangeRemoteDataSources {
   }
 
   @override
-  Future<Result<TestEcdhEntity>> TestSendData(String keyId) async {
+  Future<Result<TestEcdhEntity>> testSendData(String keyId) async {
     try {
       dio.options.baseUrl = "http://localhost:5026";
       Map<String, dynamic> headers = {"key-id": keyId}; // key id --> use dio intercept

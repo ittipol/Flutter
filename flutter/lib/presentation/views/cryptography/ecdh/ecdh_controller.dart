@@ -29,8 +29,12 @@ class EcdhController extends StateNotifier<EcdhState> {
     return await keyExchangeRepository.exchange(publicKey);
   }
 
-  Future<Result<TestEcdhEntity>> TestEcdh(String privateKey, String publicKey) async {
-    return await keyExchangeRepository.TestEcdh(privateKey, publicKey);
+  Future<Result<TestEcdhEntity>> testEcdh(String privateKey, String publicKey) async {
+    return await keyExchangeRepository.testEcdh(privateKey, publicKey);
+  }
+
+  Future<Result<TestEcdhEntity>> testSendData(String keyId) async {
+    return await keyExchangeRepository.testSendData(keyId);
   }
 
 }

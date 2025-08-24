@@ -18,8 +18,13 @@ class KeyExchangeRepositoryImpl implements KeyExchangeRepository {
   }
 
   @override
-  Future<Result<TestEcdhEntity>> TestEcdh(String privateKey, String publicKey) {
-    return keyExchangeRemoteDataSources.TestEcdh(privateKey, publicKey);
+  Future<Result<TestEcdhEntity>> testEcdh(String privateKey, String publicKey) {
+    return keyExchangeRemoteDataSources.testEcdh(privateKey, publicKey);
+  }
+
+  @override
+  Future<Result<TestEcdhEntity>> testSendData(String keyId) {
+    return keyExchangeRemoteDataSources.testSendData(keyId);
   }
 
 }

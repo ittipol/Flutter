@@ -5,6 +5,6 @@ import 'package:flutter_demo/domain/entities/key_exchange/test_ecdh_entity.dart'
 abstract class KeyExchangeRepository {
 
   Future<Result<KeyExchangeEntity>> exchange(String publicKey);
-  Future<Result<TestEcdhEntity>> TestEcdh(String privateKey, String publicKey);
-  
+  Future<Result<TestEcdhEntity>> testEcdh(String privateKey, String publicKey);
+  Future<Result<TestEcdhEntity>> testSendData(String keyId);  
 }

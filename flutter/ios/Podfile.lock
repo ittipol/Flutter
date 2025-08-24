@@ -3,6 +3,8 @@ PODS:
   - alh_pdf_view_ios (0.0.1):
     - Flutter
   - CryptoSwift (1.8.2)
+  - device_info_plus (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_native_splash (0.0.1):
     - Flutter
@@ -23,6 +25,7 @@ PODS:
 
 DEPENDENCIES:
   - alh_pdf_view_ios (from `.symlinks/plugins/alh_pdf_view_ios/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
@@ -39,6 +42,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   alh_pdf_view_ios:
     :path: ".symlinks/plugins/alh_pdf_view_ios/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
     :path: Flutter
   flutter_native_splash:
@@ -58,6 +63,7 @@ SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   alh_pdf_view_ios: 783c3f58446704b8e394efbe43ee58bfd0fec074
   CryptoSwift: c63a805d8bb5e5538e88af4e44bb537776af11ea
+  device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12

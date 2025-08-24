@@ -47,7 +47,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
       // var clientPrivateKey = _genKeyPair();
       // var clientPublicKey = clientPrivateKey.publicKey;
 
-      // var result = await ref.read(ecdhProvider.notifier).TestEcdh(clientPrivateKey.toHex(), clientPublicKey.toHex());
+      // var result = await ref.read(ecdhProvider.notifier).testEcdh(clientPrivateKey.toHex(), clientPublicKey.toHex());
       // result.when(
       //   completeWithValue: (value) {
       //     // var ec = getP256();
@@ -88,12 +88,12 @@ class _EcdhView extends ConsumerState<EcdhView> {
           physics: const ClampingScrollPhysics(),
           child: Column(
             children: [          
-              Text(
-                "Elliptic Curve Diffie-Hellman (ECDH)",
-                style: TextStyle(
-                  fontSize: 24.spMin
-                ),
-              ),
+              // Text(
+              //   "Elliptic Curve Diffie-Hellman (ECDH)",
+              //   style: TextStyle(
+              //     fontSize: 24.spMin
+              //   ),
+              // ),
               SizedBox(height: 16.h),
               _text("Client private key", state.privateKey?.toHex() ?? ""),
               SizedBox(height: 8.h),
@@ -147,7 +147,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
                 var keyId = ref.read(ecdhProvider).keyId ?? "";
 
-                var result = await ref.read(ecdhProvider.notifier).TestEcdh(keyId, "");
+                var result = await ref.read(ecdhProvider.notifier).testSendData(keyId);
                 result.when(
                   completeWithValue: (value) {
                     
@@ -161,7 +161,8 @@ class _EcdhView extends ConsumerState<EcdhView> {
                   context.hideLoaderOverlay();
                 });
 
-              }),                      
+              }),
+              SizedBox(height: 24.h)
             ],
           ),
         ),
@@ -316,6 +317,8 @@ class _EcdhView extends ConsumerState<EcdhView> {
         print("sharedSecretKey: ${base64Encode(sharedSecretKey)}");
         print("sharedKey (from server): ${value.data.sharedKey}");
 
+        print("------ Secret key length: [${sharedSecretKey.length.toString()}] bytes | [${(sharedSecretKey.length * 8).toString()}] bits");
+
         // ref.read(ecdhProvider.notifier).updateData(
         //   otherPartyPublicKey: otherPartyPublicKey,
         //   sharedSecretKey: sharedSecretKey
@@ -337,6 +340,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
         // Test decrypt
         var data = EncryptionHelper.decryptAesGcm(value.data.sharedKey ?? "", base64Encode(encryptedKeyData), base64Encode(iv));
 
+        print("------ [Test decryption succeed]");
         print("data: $data");
 
         Map<String, dynamic> valueMap = jsonDecode(data);
