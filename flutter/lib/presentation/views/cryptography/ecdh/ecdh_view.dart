@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:cryptography/cryptography.dart' as cryptography;
 import 'package:elliptic/ecdh.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
@@ -30,6 +31,8 @@ class _EcdhView extends ConsumerState<EcdhView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+
+      context.showLoaderOverlay();
       
       var clientPrivateKey = _genKeyPair();
       var clientPublicKey = clientPrivateKey.publicKey;
@@ -39,7 +42,10 @@ class _EcdhView extends ConsumerState<EcdhView> {
         publicKey: clientPublicKey
       );
 
-      await Future.delayed(const Duration(seconds: 1), () {
+      await _exchangeKey();
+      // await _testRequest();
+
+      await Future.delayed(const Duration(seconds: 2), () {
         context.hideLoaderOverlay();
       });
 
@@ -105,18 +111,18 @@ class _EcdhView extends ConsumerState<EcdhView> {
               SizedBox(height: 8.h),
               _text("Key ID", state.keyId ?? ""),
               SizedBox(height: 8.h),
-              _text("Plain text", plainText),
-              SizedBox(height: 8.h),
-              _text("Cipher text (encrypted data)", state.cipherText ?? ""),
-              SizedBox(height: 8.h),
-              _text("Decrypted data", ""),              
+              // _text("Plain text", plainText),
+              // SizedBox(height: 8.h),
+              // _text("Cipher text (encrypted data)", state.cipherText ?? ""),
+              // SizedBox(height: 8.h),
+              // _text("Decrypted data", ""),
               SizedBox(height: 32.h),
               _button("Generate key pair", () {
                 var privateKey = _genKeyPair();
                 var publicKey = privateKey.publicKey;
 
-                print("privateKey length: [${privateKey.bytes.length}]");
-                print("publicKey length: [${privateKey.bytes.length}]");
+                print("privateKey length: [${privateKey.bytes.length} Bytes]");
+                print("publicKey length: [${privateKey.bytes.length} Bytes]");
 
                 ref.read(ecdhProvider.notifier).updateData(
                   privateKey: privateKey,
@@ -125,42 +131,20 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
               }),
               SizedBox(height: 24.h),
-              _button("Exchange public key", () async {              
+              _button("Exchange public key", () async {
+                context.showLoaderOverlay();            
                 await _exchangeKey();
-              }),
-              SizedBox(height: 24.h),
-              _button("AES encryption and send to server", () async {
-                
-                var sharedSecretKey = ref.read(ecdhProvider).sharedSecretKey;
-
-                if(sharedSecretKey == null) {
-                  return;
-                }
-
-                context.showLoaderOverlay();
-
-                var cipherText = EncryptionHelper.encryptAesGcm(base64Encode(sharedSecretKey), plainText);
-
-                ref.read(ecdhProvider.notifier).updateData(
-                  cipherText: cipherText
-                );
-
-                var keyId = ref.read(ecdhProvider).keyId ?? "";
-
-                var result = await ref.read(ecdhProvider.notifier).testSendData(keyId);
-                result.when(
-                  completeWithValue: (value) {
-                    
-                  }, 
-                  completeWithError: (error) {
-                    
-                  }
-                );
-
                 Future.delayed(const Duration(seconds: 1), () {
                   context.hideLoaderOverlay();
                 });
-
+              }),
+              SizedBox(height: 24.h),
+              _button("AES encryption and send to server", () async {
+                context.showLoaderOverlay();
+                await _testRequest();
+                Future.delayed(const Duration(seconds: 1), () {
+                  context.hideLoaderOverlay();
+                });
               }),
               SizedBox(height: 24.h)
             ],
@@ -300,11 +284,10 @@ class _EcdhView extends ConsumerState<EcdhView> {
       return "";
     }
 
-    context.showLoaderOverlay();
-    
     var result = await ref.read(ecdhProvider.notifier).keyExchange(publicKey.toHex());
+
     var otherPartyPublicKey = result.when(
-      completeWithValue: (value) {
+      completeWithValue: (value) async {
 
         List<int> sharedSecretKey = [];
         print("value.data.publicKey: ${value.data.publicKey}");
@@ -314,36 +297,55 @@ class _EcdhView extends ConsumerState<EcdhView> {
 
         sharedSecretKey = computeSecret(privateKey, otherPartyPublicKey);
 
-        print("sharedSecretKey: ${base64Encode(sharedSecretKey)}");
+        print("sharedSecretKey (local): ${base64Encode(sharedSecretKey)}");
+        print("sharedSecretKey (length): ${sharedSecretKey.length} bytes");
         print("sharedKey (from server): ${value.data.sharedKey}");
 
         print("------ Secret key length: [${sharedSecretKey.length.toString()}] bytes | [${(sharedSecretKey.length * 8).toString()}] bits");
 
-        // ref.read(ecdhProvider.notifier).updateData(
-        //   otherPartyPublicKey: otherPartyPublicKey,
-        //   sharedSecretKey: sharedSecretKey
-        // );
-
         // ============================================================
 
-        final base64Decoder = base64.decoder;
-        var cipherText = base64Decoder.convert(value.data.encryptedKeyData ?? "");
+        var encryptedKeyData = base64Decode(value.data.encryptedKeyData ?? "");
 
-        var iv = cipherText.getRange(0, 12).toList();
-        var encryptedKeyData = cipherText.getRange(12, cipherText.length).toList();
+        // Constructs a concatenation of [nonce], [cipherText] and [mac]
+        // var iv = encryptedKeyData.getRange(0, 12).toList();
+        // var cipherText = encryptedKeyData.getRange(12, encryptedKeyData.length).toList();
+        // var tag = encryptedKeyData.getRange(12, encryptedKeyData.length).toList();
+
+        var secretBox = cryptography.SecretBox.fromConcatenation(encryptedKeyData, nonceLength: cryptography.AesGcm.defaultNonceLength, macLength: 16);
 
         // print("nonce: ${iv.toString()}");
-        // print("cipherText: ${cipherText.toString()}");
-        // print("cipherText last-1: ${cipherText[cipherText.length-2]}");
-        // print("cipherText last: ${cipherText.last}");
+        // print("encryptedKeyData: ${encryptedKeyData.toString()}");
+        // print("encryptedKeyData last-1: ${encryptedKeyData[encryptedKeyData.length-2]}");
+        // print("encryptedKeyData last: ${encryptedKeyData.last}");
+
+        // separate ---> Nonce (12 Bytes) + Ciphertext (* Bytes) + Tag (16 Bytes)
+        debugPrint("secretBox.nonce: ${secretBox.nonce.length} Bytes");
+        debugPrint("secretBox.cipherText: ${secretBox.cipherText.length} Bytes");        
+        debugPrint("secretBox.mac: ${secretBox.mac.bytes.length} Bytes");
 
         // Test decrypt
-        var data = EncryptionHelper.decryptAesGcm(value.data.sharedKey ?? "", base64Encode(encryptedKeyData), base64Encode(iv));
+        // var data = EncryptionHelper.decryptAesGcm(value.data.sharedKey ?? "", base64Encode(cipherText), base64Encode(iv));
+
+        // Additional Authenticated Data
+        var aad = utf8.encode("Additional Authenticated Data");
+
+        // decrypt
+        var decryptedData = await EncryptionHelper.decryptData(
+            secretBox.cipherText, 
+            secretBox.nonce, 
+            secretBox.mac.bytes, 
+            base64Encode(sharedSecretKey),
+            aad
+          );
 
         print("------ [Test decryption succeed]");
-        print("data: $data");
+        print("decryptedData: $decryptedData");
 
-        Map<String, dynamic> valueMap = jsonDecode(data);
+        // Convert the byte array to a string using UTF-8 decoding
+        String decodedString = utf8.decode(decryptedData);
+
+        Map<String, dynamic> valueMap = jsonDecode(decodedString);
         print("KeyId: ${valueMap["keyId"]}");
 
         ref.read(ecdhProvider.notifier).updateData(
@@ -355,35 +357,59 @@ class _EcdhView extends ConsumerState<EcdhView> {
         KeyExchange.key = base64Encode(sharedSecretKey);
         KeyExchange.keyId = valueMap["keyId"];
 
-        return otherPartyPublicKey.toHex();
-        
+        return otherPartyPublicKey.toHex();        
       }, 
-      completeWithError: (error) {
+      completeWithError: (error) async {
         debugPrint("Key exchange error");
         return "";
       }
     );
 
-    await Future.delayed(const Duration(seconds: 1), () {
-      context.hideLoaderOverlay();
-    });
-
     return otherPartyPublicKey;
   }
 
-  String _encrypt(String base64Key, String plainText) {
-    final key = encrypt.Key.fromBase64(base64Key);
-    // final key = encrypt.Key.fromLength(32);
+  Future<void> _testRequest() async {
 
-    final iv = encrypt.IV.fromLength(12);
+    var sharedSecretKey = ref.read(ecdhProvider).sharedSecretKey;
 
-    final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+    if(sharedSecretKey == null) {
+      return;
+    }
 
-    final encrypted = encrypter.encrypt(plainText, iv: iv);
+    print("sharedSecretKey (local): ${base64Encode(sharedSecretKey)}");
 
-    // Encrypted data
-    return encrypted.base64;
+    // var cipherText = await EncryptionHelper.encryptData(plainText, base64Encode(sharedSecretKey), []);
+
+    // ref.read(ecdhProvider.notifier).updateData(
+    //   cipherText: cipherText
+    // );
+
+    var keyId = ref.read(ecdhProvider).keyId ?? "";
+
+    var result = await ref.read(ecdhProvider.notifier).testSendData(keyId);
+    result.when(
+      completeWithValue: (value) {
+        
+      }, 
+      completeWithError: (error) {
+        debugPrint(error.exception.toString());
+      }
+    );    
   }
+
+  // String _encrypt(String base64Key, String plainText) {
+  //   final key = encrypt.Key.fromBase64(base64Key);
+  //   // final key = encrypt.Key.fromLength(32);
+
+  //   final iv = encrypt.IV.fromLength(12);
+
+  //   final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+
+  //   final encrypted = encrypter.encrypt(plainText, iv: iv);
+
+  //   // Encrypted data
+  //   return encrypted.base64;
+  // }
 
   // String _decrypt(String base64Key, String cipherText) {
   //   final key = encrypt.Key.fromBase64(base64Key);
@@ -440,7 +466,7 @@ class _EcdhView extends ConsumerState<EcdhView> {
   //   return plainText;
   // }
 
-  void _test() {
+  void _testExchangeKey() {
     print("ECDH");
     var ec = getP256(); // elliptic curves, NIST P-256 (FIPS 186-3, section D.2.3), also known as secp256r1 or prime256v1
     // var priv = ec.generatePrivateKey();

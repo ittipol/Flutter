@@ -1,72 +1,109 @@
+import 'dart:convert';
+
 import 'package:cryptography/cryptography.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 
 class EncryptionHelper {
   
-  static String encryptAesGcm(String base64Key, String plainText) {
+  // static String encryptAesGcm(String base64Key, String plainText) {
 
-    var cipherText = "";
+  //   var cipherText = "";
 
-    try {
-      final key = encrypt.Key.fromBase64(base64Key);
-      // final key = encrypt.Key.fromLength(32);
+  //   try {
+  //     final key = encrypt.Key.fromBase64(base64Key);
+  //     // final key = encrypt.Key.fromLength(32);
 
-      final nonce = encrypt.IV.fromLength(12);
+  //     final nonce = encrypt.IV.fromLength(12);
 
-      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));      
+  //     final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));      
 
-      var encryptedData = encrypter.encrypt(plainText, iv: nonce);
+  //     var encryptedData = encrypter.encrypt(plainText, iv: nonce);
 
-      cipherText = encryptedData.base64;
+  //     cipherText = encryptedData.base64;
 
-      debugPrint("------ [Byte length]: ${encryptedData.bytes.length}");
+  //     debugPrint("------ [Byte length]: ${encryptedData.bytes.length}");
 
-    } catch (e) {
-      return "";
-    }
+  //   } catch (e) {
+  //     return "";
+  //   }
 
-    // Contains ciphertext, nonce, and MAC (tag)
-    return cipherText;
-  }
+  //   // Contains ciphertext, nonce, and MAC (tag)
+  //   return cipherText;
+  // }
 
-  static String decryptAesGcm(String base64Key, String cipherText, String nonce) {
+  // static String decryptAesGcm(String base64Key, String cipherText, String nonce) {
 
-    var plainText = "";
+  //   var plainText = "";
     
-    try {
-      final key = encrypt.Key.fromBase64(base64Key);
-      // final key = encrypt.Key.fromLength(32);
+  //   try {
+  //     final key = encrypt.Key.fromBase64(base64Key);
+  //     // final key = encrypt.Key.fromLength(32);
 
-      final iv = encrypt.IV.fromBase64(nonce);
+  //     final iv = encrypt.IV.fromBase64(nonce);
 
-      final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
+  //     final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.gcm));
 
-      plainText = encrypter.decrypt64(cipherText, iv: iv);
+  //     plainText = encrypter.decrypt64(cipherText, iv: iv);
 
-    } catch (e) {
-      return "";
-    }
+  //   } catch (e) {
+  //     return "";
+  //   }
 
-    return plainText;
-  }
+  //   return plainText;
+  // }
 
-  Future<SecretBox> encryptData(List<int> plaintext, SecretKey key) async {
+  static Future<String> encryptData(String plaintext, String key, List<int> aad) async {
+
+    List<int> plaintextBytes = utf8.encode(plaintext);
+    // List<int> keyBytes = utf8.encode(key);
+     List<int> keyBytes = base64Decode(key);
+
+    debugPrint("------ encryptData: [$key]");
+    debugPrint("------ encryptData [Key length]: [${keyBytes.length}] Bytes");
+
     final algorithm = AesGcm.with256bits();
+
+    final secretKey = await algorithm.newSecretKeyFromBytes(keyBytes);
+    // algorithm.newSecretKey();
+
     final nonce = algorithm.newNonce(); // Generate a new, random nonce
+
     final secretBox = await algorithm.encrypt(
-      plaintext,
-      secretKey: key,
+      plaintextBytes,
+      secretKey: secretKey,
       nonce: nonce,
+      aad: aad
     );
-    return secretBox; // Contains ciphertext, nonce, and MAC (tag)
+
+    debugPrint(secretBox.toString());
+
+    debugPrint("secretBox.nonce: ${secretBox.nonce.length} Bytes");
+    debugPrint("secretBox.cipherText: ${secretBox.cipherText.length} Bytes");        
+    debugPrint("secretBox.mac: ${secretBox.mac.bytes.length} Bytes");
+    
+
+     // Contains ciphertext, nonce, and MAC (tag)
+    return base64.encode(secretBox.concatenation());
   }
 
-  Future<List<int>> decryptData(SecretBox secretBox, SecretKey key) async {
+  static Future<List<int>> decryptData(List<int> cipherText, List<int> nonce, List<int> tag, String key, List<int> aad) async {
+
+    // List<int> keyBytes = utf8.encode(key);
+    List<int> keyBytes = base64Decode(key);
+
+    debugPrint("------ decryptData [Key length]: [${keyBytes.length}] Bytes");
+
     final algorithm = AesGcm.with256bits();
+    final secretKey = await algorithm.newSecretKeyFromBytes(keyBytes);
     final decryptedData = await algorithm.decrypt(
-      secretBox,
-      secretKey: key,
+      SecretBox(
+        cipherText,
+        nonce: nonce,
+        mac: Mac(tag)
+      ),
+      secretKey: secretKey,
+      aad: aad
     );
     return decryptedData;
   }

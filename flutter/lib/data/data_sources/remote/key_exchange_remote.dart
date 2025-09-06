@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/network/result.dart';
 import 'package:flutter_demo/core/constant/api_end_point_constant.dart';
 import 'package:flutter_demo/data/data_sources/remote/data_sources/key_exchange_remote_data_source.dart';
@@ -104,15 +105,21 @@ class KeyExchangeRemote implements KeyExchangeRemoteDataSources {
       // final dioResponse = await dio.get(ApiEndPointConstant.json);
       final dioResponse = await dio.post(ApiEndPointConstant.json, data: mapData); // encryption --> use dio intercept
 
+      debugPrint("testSendData ===> after POST request");
+
       var response = jsonDecode(dioResponse.data.toString()) as Map<String, dynamic>;
 
       var model = TestEcdhModel.fromJson(response);
       var data = TestEcdhEntity.fromModel(model);
 
+      debugPrint("testSendData ===> succeed");
+
       return ResultComplete(data: data);
     } on DioException catch (error) {
+      debugPrint("testSendData ===> DioException");
       return ResultError(exception: error, httpStatusCode: error.response?.statusCode);
     } on Exception catch (error) {
+      debugPrint("testSendData ===> Exception");
       return ResultError(exception: error);
     }
   }

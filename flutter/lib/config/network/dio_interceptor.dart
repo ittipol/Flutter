@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cryptography/cryptography.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/config/network/dio_option.dart';
@@ -55,7 +56,7 @@ class DioInterceptor extends Interceptor {
         options.headers['key-id'] = KeyExchange.keyId;
         if(options.data != null) {
           options.data = await _transformRequestBody(options, KeyExchange.key ,KeyExchange.keyId);
-        }        
+        }
       } else {
         return handler.reject(DioException(
           requestOptions: options,
@@ -70,7 +71,7 @@ class DioInterceptor extends Interceptor {
       }
     }
 
-    debugPrint("------ onRequest...");
+    debugPrint("------ Requesting...");
 
     super.onRequest(options, handler);
   }
@@ -79,6 +80,12 @@ class DioInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
 
     debugPrint("--------------------- onResponse ======>");
+
+    if(!encryptionIgnoredPaths.contains(response.requestOptions.path)) {
+      if(response.data != null) {
+        response.data = await _responseDecrypt(response, KeyExchange.key ,KeyExchange.keyId);
+      }
+    }
 
     super.onResponse(response, handler);
   }
@@ -197,6 +204,8 @@ class DioInterceptor extends Interceptor {
 
   Future<String> _transformRequestBody(RequestOptions options, String key, String keyId) async {
 
+    debugPrint("##### encrypt request body ############################");
+
     String result = "";
 
     if (options.method == "POST" || options.method == "PUT" || options.method == "PATCH") {
@@ -205,7 +214,7 @@ class DioInterceptor extends Interceptor {
 
         debugPrint("options.data is String");
 
-        result = EncryptionHelper.encryptAesGcm(key, options.data as String);
+        result = await EncryptionHelper.encryptData(options.data as String, key, []);
 
       } else if (options.data is Map) { // JSON body
 
@@ -225,8 +234,11 @@ class DioInterceptor extends Interceptor {
 
         String jsonString = jsonEncode(json);
 
-        result = EncryptionHelper.encryptAesGcm(key, jsonString);
+        debugPrint("Data before encrypt: $jsonString");
 
+        result = await EncryptionHelper.encryptData(jsonString, key, []);
+
+        // write to request body
         // options.data = requestBody;
 
       } else if (options.data is FormData) {
@@ -235,6 +247,43 @@ class DioInterceptor extends Interceptor {
     }
 
     debugPrint("cipher text: $result");
+
+    return result;
+  }
+
+  Future<String> _responseDecrypt(Response response, String key, String keyId) async {
+
+    debugPrint("##### decrypt response data ############################");
+
+    String result = "";
+
+    if (response.data is String) {
+
+      debugPrint("decryptedData: ${response.data}");
+
+      var encryptedData = base64Decode(response.data as String);
+
+      var secretBox = SecretBox.fromConcatenation(encryptedData, nonceLength: AesGcm.defaultNonceLength, macLength: 16);
+
+      debugPrint("secretBox.nonce: ${secretBox.nonce.length} Bytes");
+      debugPrint("secretBox.cipherText: ${secretBox.cipherText.length} Bytes");        
+      debugPrint("secretBox.mac: ${secretBox.mac.bytes.length} Bytes");
+
+      // decrypt
+      var decryptedData = await EncryptionHelper.decryptData(
+        secretBox.cipherText, 
+        secretBox.nonce, 
+        secretBox.mac.bytes, 
+        key,
+        []
+      );      
+
+      // Convert the byte array to a string using UTF-8 decoding
+      result = utf8.decode(decryptedData);
+
+      print("------ [Decryption succeed]");
+      print("decryptedData: $result");
+    }
 
     return result;
   }
